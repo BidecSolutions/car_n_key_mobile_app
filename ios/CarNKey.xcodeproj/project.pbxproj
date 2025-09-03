@@ -14,6 +14,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-CarNKey-CarNKeyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-CarNKey-CarNKeyTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E8EB6576FBF6418F98A89E12 /* rajdhani.bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13AD25F7BB2942BA8FC27B92 /* rajdhani.bold.ttf */; };
+		A0D2F0CD2CFE4A489A220DBF /* rajdhani.light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 79D47A2EF94E475D8A002F5E /* rajdhani.light.ttf */; };
+		C57448F1F31C41C1AF6CA833 /* rajdhani.medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 573FA5B4AC3849A8B6314BBF /* rajdhani.medium.ttf */; };
+		C55370F157A54817B5C9840E /* rajdhani.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 252634D32197464FBE232BE8 /* rajdhani.regular.ttf */; };
+		1201B0B49DF548A69944232E /* rajdhani.semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6300165B96D7479D9FB7D139 /* rajdhani.semibold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +41,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CarNKey/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CarNKey/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CarNKey/main.m; sourceTree = "<group>"; };
-	    13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = CarNKey/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = CarNKey/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-CarNKey-CarNKeyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CarNKey-CarNKeyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-CarNKey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarNKey.debug.xcconfig"; path = "Target Support Files/Pods-CarNKey/Pods-CarNKey.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-CarNKey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarNKey.release.xcconfig"; path = "Target Support Files/Pods-CarNKey/Pods-CarNKey.release.xcconfig"; sourceTree = "<group>"; };
@@ -45,6 +50,11 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CarNKey/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-CarNKey-CarNKeyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarNKey-CarNKeyTests.release.xcconfig"; path = "Target Support Files/Pods-CarNKey-CarNKeyTests/Pods-CarNKey-CarNKeyTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		13AD25F7BB2942BA8FC27B92 /* rajdhani.bold.ttf */ = {isa = PBXFileReference; name = "rajdhani.bold.ttf"; path = "../src/assets/Fonts/rajdhani/rajdhani.bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		79D47A2EF94E475D8A002F5E /* rajdhani.light.ttf */ = {isa = PBXFileReference; name = "rajdhani.light.ttf"; path = "../src/assets/Fonts/rajdhani/rajdhani.light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		573FA5B4AC3849A8B6314BBF /* rajdhani.medium.ttf */ = {isa = PBXFileReference; name = "rajdhani.medium.ttf"; path = "../src/assets/Fonts/rajdhani/rajdhani.medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		252634D32197464FBE232BE8 /* rajdhani.regular.ttf */ = {isa = PBXFileReference; name = "rajdhani.regular.ttf"; path = "../src/assets/Fonts/rajdhani/rajdhani.regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6300165B96D7479D9FB7D139 /* rajdhani.semibold.ttf */ = {isa = PBXFileReference; name = "rajdhani.semibold.ttf"; path = "../src/assets/Fonts/rajdhani/rajdhani.semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +134,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				37B227BB94044D2CB7446F2E /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -149,6 +160,19 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		37B227BB94044D2CB7446F2E /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				13AD25F7BB2942BA8FC27B92 /* rajdhani.bold.ttf */,
+				79D47A2EF94E475D8A002F5E /* rajdhani.light.ttf */,
+				573FA5B4AC3849A8B6314BBF /* rajdhani.medium.ttf */,
+				252634D32197464FBE232BE8 /* rajdhani.regular.ttf */,
+				6300165B96D7479D9FB7D139 /* rajdhani.semibold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -245,6 +269,11 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E8EB6576FBF6418F98A89E12 /* rajdhani.bold.ttf in Resources */,
+				A0D2F0CD2CFE4A489A220DBF /* rajdhani.light.ttf in Resources */,
+				C57448F1F31C41C1AF6CA833 /* rajdhani.medium.ttf in Resources */,
+				C55370F157A54817B5C9840E /* rajdhani.regular.ttf in Resources */,
+				1201B0B49DF548A69944232E /* rajdhani.semibold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

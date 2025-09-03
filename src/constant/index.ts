@@ -1,0 +1,1 @@
+export const ASSET_URL = 'http://ridenshare.stylor.pk/uploads/'

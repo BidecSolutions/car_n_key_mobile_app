@@ -1,118 +1,186 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import {NavigationContainer, TabRouter} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, {Profiler, useEffect, useState} from 'react';
+import 'react-native-gesture-handler';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
+  ActivityIndicator,
+  Alert,
+  Appearance,
   StyleSheet,
-  Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
+  StatusBar,
+  TextInput,
 } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  AnimatedTabBarNavigator,
+  DotSize,
+  TabElementDisplayOptions,
+  IAppearanceOptions,
+  TabButtonLayout,
+} from 'react-native-animated-nav-tab-bar';
+import {BottomTabBarButtonProps} from '@react-navigation/bottom-tabs';
+import {ParamListBase} from '@react-navigation/native';
+import {TransitionSpecs, CardStyleInterpolators} from '@react-navigation/stack';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import messaging from '@react-native-firebase/messaging';
+import {
+  Provider as PaperProvider,
+  MD3LightTheme,
+  MD3DarkTheme,
+} from 'react-native-paper';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {Text} from 'react-native';
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import CustomDrawer from './constant/CustomDrawer';
+import {colors} from './constant/colors';
+import {UserProvider, useUser} from './context/UserContext';
+import {
+  NotificationsService,
+  requestUserPermission,
+} from './firebase/NotificationListener';
+import { Loader } from './Components/loader/Loader';
+
+
+//Screens Imports
+import Home from './Screen/Home';
+
+
+
+export type RootStackParamList = {
+  BottomTabs: undefined;
+  Home:undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = AnimatedTabBarNavigator<RootStackParamList>();
+const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
+const Drawer = createDrawerNavigator();
+
+export const HomeDrawer = () => (
+  <Drawer.Navigator
+    initialRouteName="Tabs"
+    drawerContent={props => <CustomDrawer {...props} />}
+    screenOptions={{
+      headerShown: false,
+      drawerActiveTintColor: colors.backgroundColor,
+      drawerInactiveTintColor: colors.black,
+      drawerActiveBackgroundColor: colors.black,
+      drawerLabelStyle: {
+        fontSize: moderateScale(14),
+        fontFamily: 'Poppins-Medium',
+      },
+      drawerStyle: {
+        backgroundColor: colors.backgroundColor,
+        borderTopRightRadius: moderateScale(70),
+        overflow: 'hidden',
+      },
+    }}>
+    <Drawer.Screen
+      name="Tabs"
+      component={Home} // Your bottom tab navigator here
+      options={{
+        drawerLabel: ({color}) => (
+          <Text
+            style={{
+              color,
+              fontFamily: 'Poppins-Regular',
+              fontSize: moderateScale(14),
+            }}>
+            Home
+          </Text>
+        ),
+        drawerIcon: ({focused}) => (
+          <FontAwesome
+            name="home"
+            size={moderateScale(24)}
+            color={focused ? colors.backgroundColor : colors.black}
+          />
+        ),
+      }}
+    />
+  </Drawer.Navigator>
+);
+
+const AppContent = () => {
+  const {user, loading} = useUser();
+  if ((Text as any).defaultProps == null) {
+    (Text as any).defaultProps = {};
+  }
+  if ((TextInput as any).defaultProps == null) {
+    (TextInput as any).defaultProps = {};
+  }
+
+  (Text as any).defaultProps.allowFontScaling = false;
+  (TextInput as any).defaultProps.allowFontScaling = false;
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName={'Home'}
+        screenOptions={{
+          animation: 'slide_from_right',
+        }}>
+        <Stack.Screen
+          name="Home"
+          component={HomeDrawer}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  const [notification, setNotification] = useState(null);
+  const colorScheme = Appearance.getColorScheme();
+  const theme = colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme;
+  const barStyle = colorScheme === 'dark' ? 'light-content' : 'dark-content';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //   //  console.log('FCM message received:', remoteMessage);
+  //     setNotification(remoteMessage); // Set the notification state
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
+
+  // useEffect(() => {
+  //   requestUserPermission();
+  //   NotificationsService();
+  // });
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <StatusBar
+          translucent={true}
+          backgroundColor="transparent"
+          barStyle={barStyle}
+        />
+      <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
+        <UserProvider>
+          <AppContent />
+          {/* <NotificationHandler/> */}
+        </UserProvider>
+      </SafeAreaView>
+      </View>
+    </GestureHandlerRootView>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;

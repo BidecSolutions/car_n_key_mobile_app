@@ -1,0 +1,25 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/Fonts/rajdhani/rajdhani.bold.ttf",
+      "sha1": "7ec3a048af69fe97c335cdbac69e86f803593d9c"
+    },
+    {
+      "path": "src/assets/Fonts/rajdhani/rajdhani.light.ttf",
+      "sha1": "66360a84cbb0c79e716ddff79b3f99d6c001f7c6"
+    },
+    {
+      "path": "src/assets/Fonts/rajdhani/rajdhani.medium.ttf",
+      "sha1": "737aceaad0905bc151d17f5b51260bc6fd7d04d9"
+    },
+    {
+      "path": "src/assets/Fonts/rajdhani/rajdhani.regular.ttf",
+      "sha1": "530313b85985bd7ddfbe4e3e6440288ce1866bc3"
+    },
+    {
+      "path": "src/assets/Fonts/rajdhani/rajdhani.semibold.ttf",
+      "sha1": "5a963e607970692a93cebb32f43baf3b5a0b417c"
+    }
+  ]
+}
