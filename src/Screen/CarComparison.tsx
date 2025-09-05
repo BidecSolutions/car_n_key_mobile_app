@@ -15,6 +15,7 @@ import {colors} from '../constant/colors'; // adjust import path to your project
 import {Header} from '../Components/Header/Header';
 import {useNavigation} from '@react-navigation/native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 
 const makes = [
   {label: 'Toyota', value: 'toyota'},
@@ -45,11 +46,14 @@ const CarComparison: React.FC = () => {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
-      keyboardShouldPersistTaps="handled">
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}>
       {/* Header */}
       <Header
+        title="Car Comparison"
         showBack={true}
         showDrawer={true}
+        showTitle={true}
         onDrawerPress={() => navigation.openDrawer()}
         backgroundColor={colors.backgroundColor}
         iconColor={colors.black}
@@ -83,91 +87,98 @@ const CarComparison: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Dropdowns */}
-      <Dropdown
-        style={styles.dropdown}
-        containerStyle={styles.dropdownContainer}
-        data={makes}
-        labelField="label"
-        valueField="value"
-        placeholder="Choose a Make"
-        value={make}
-        onChange={item => setMake(item.value)}
-      />
-
-      <Dropdown
-        style={styles.dropdown}
-        containerStyle={styles.dropdownContainer}
-        data={models}
-        labelField="label"
-        valueField="value"
-        placeholder="Choose a Model"
-        value={model}
-        onChange={item => setModel(item.value)}
-      />
-
-      <Dropdown
-        style={styles.dropdown}
-        containerStyle={styles.dropdownContainer}
-        data={years}
-        labelField="label"
-        valueField="value"
-        placeholder="Choose a Year"
-        value={year}
-        onChange={item => setYear(item.value)}
-      />
-
-      <TouchableOpacity style={styles.continueBtn} activeOpacity={0.85}>
-        <Text style={styles.continueText}>Continue</Text>
-      </TouchableOpacity>
-
-      {/* Background hero/car image */}
+      {/* Background image section (wraps dropdown + continue + texts) */}
+      <View style={styles.bgWrapper}>
       <ImageBackground
-        source={require('../assets/Images/Car.png')} 
+        source={require('../assets/Images/CarComparisonBG.png')}
         style={styles.bgImage}
         imageStyle={styles.bgImageStyle}>
-        {/* optional overlay content */}
+        {/* Dropdowns */}
+        <View style={styles.dropdownWrapper}>
+          <Dropdown
+            style={styles.dropdown}
+            containerStyle={styles.dropdownContainer}
+            data={makes}
+            labelField="label"
+            valueField="value"
+            placeholder="Choose a Make"
+            value={make}
+            onChange={item => setMake(item.value)}
+          />
+
+          <Dropdown
+            style={styles.dropdown}
+            containerStyle={styles.dropdownContainer}
+            data={models}
+            labelField="label"
+            valueField="value"
+            placeholder="Choose a Model"
+            value={model}
+            onChange={item => setModel(item.value)}
+          />
+
+          <Dropdown
+            style={styles.dropdown}
+            containerStyle={styles.dropdownContainer}
+            data={years}
+            labelField="label"
+            valueField="value"
+            placeholder="Choose a Year"
+            value={year}
+            onChange={item => setYear(item.value)}
+          />
+
+          {/* Continue Button */}
+          <TouchableOpacity style={styles.continueButton}>
+            <Text style={styles.continueText}>Continue</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Section texts */}
+        <Text style={styles.sectionTitle}>
+          Compare Cars & Make{'\n'}the Right Choice
+        </Text>
+        <Text style={styles.sectionDesc}>
+          Find answers to the most common questions about buying, selling, and
+          renting cars. If you need more help, feel free to reach out!
+        </Text>
       </ImageBackground>
-
-      {/* Section */}
-      <Text style={styles.sectionTitle}>
-        Compare Cars & Make the Right Choice
-      </Text>
-      <Text style={styles.sectionDesc}>
-        Find answers to the most common questions about buying, selling, and
-        renting cars. If you need more help, feel free to reach out!
-      </Text>
-
-      {/* Comparison Card */}
-      <View style={styles.compareCard}>
-        <View style={styles.carBox}>
-          <Image
-            source={require('../assets/Images/Car.png')} // replace
-            style={styles.carImage}
-            resizeMode="contain"
-          />
-          <Text style={styles.carName}>Camry</Text>
-          <Text style={styles.carPrice}>Rs. 10,000</Text>
-        </View>
-
-        <View style={styles.vsCircle}>
-          <Text style={styles.vsText}>VS</Text>
-        </View>
-
-        <View style={styles.carBox}>
-          <Image
-            source={require('../assets/Images/Car.png')} // replace
-            style={styles.carImage}
-            resizeMode="contain"
-          />
-          <Text style={styles.carName}>Kylad</Text>
-          <Text style={styles.carPrice}>Rs. 11,000</Text>
-        </View>
       </View>
 
-      <TouchableOpacity style={styles.viewBtn} activeOpacity={0.85}>
-        <Text style={styles.viewText}>View Comparison</Text>
-      </TouchableOpacity>
+      {/* Comparison Card */}
+      <View style={styles.cardContainer}>
+        {/* Cars + VS */}
+        <View style={styles.compareCard}>
+          <View style={styles.carBox}>
+            <Image
+              source={require('../assets/Images/left_car.png')}
+              style={styles.carImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.carName}>Camry</Text>
+            <Text style={styles.carPrice}>Rs. 10,000</Text>
+          </View>
+
+          <View style={styles.vsCircle}>
+            <Text style={styles.vsText}>VS</Text>
+          </View>
+
+          <View style={styles.carBox}>
+            <Image
+              source={require('../assets/Images/right_car.png')}
+              style={styles.carImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.carName}>Kylad</Text>
+            <Text style={styles.carPrice}>Rs. 11,000</Text>
+          </View>
+        </View>
+
+        {/* View Comparison button inside card */}
+        <TouchableOpacity style={styles.viewBtn} activeOpacity={0.85}>
+          <Text style={styles.viewText}>View Comparison</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* small pager / arrows (like screenshot) */}
       <View style={styles.pagerRow}>
@@ -175,7 +186,7 @@ const CarComparison: React.FC = () => {
           <Icon name="chevron-left" size={14} color={colors.backgroundColor} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.pagerBtn}>
-          <Icon name="chevron-right" size={14} color="#fff" />
+          <Icon name="chevron-right" size={14} color={colors.white} />
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -187,7 +198,7 @@ export default CarComparison;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   contentContainer: {
     padding: '16@ms',
@@ -196,18 +207,18 @@ const styles = ScaledSheet.create({
 
   title: {
     fontSize: '20@ms',
-    fontFamily: 'Poppins-Bold',
+    fontFamily: Primaryfonts.semibold,
     textAlign: 'center',
     marginTop: '8@vs',
     color: '#111',
   },
   subtitle: {
     fontSize: '12@ms',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: Primaryfonts.medium,
     textAlign: 'center',
     marginTop: '8@vs',
     marginBottom: '14@vs',
-    color: '#666',
+    color: colors.hind,
     paddingHorizontal: '8@s',
   },
 
@@ -231,96 +242,125 @@ const styles = ScaledSheet.create({
   },
   toggleText: {
     fontSize: '12@ms',
-    color: '#222',
-    fontFamily: 'Poppins-Regular',
+    color: colors.hind,
+    fontFamily: Secondaryfonts.medium,
   },
   activeText: {
-    color: '#fff',
-    fontFamily: 'Poppins-SemiBold',
+    color: colors.white,
+    fontFamily: Secondaryfonts.medium,
   },
+  bgWrapper: {
+  marginHorizontal: -18, // cancels padding so image can stretch full width
+},
 
+  dropdownWrapper: {
+    width: '90%',
+    alignItems: 'center',
+    marginTop: '20@vs',
+    marginBottom: '55@vs',
+    backgroundColor: colors.white,
+    borderRadius: '12@ms',
+    paddingVertical: '20@vs',
+    alignSelf: 'center',
+  },
   dropdown: {
-    height: '40@vs',
-    borderRadius: '22@ms',
-    borderWidth: '1@s',
-    borderColor: '#E6E6E6',
-    paddingHorizontal: '12@s',
-    marginTop: '10@vs',
-    backgroundColor: '#fff',
-    padding:'16@s',
+    width: '80%',
+    height: '45@vs',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: '8@ms',
+    paddingHorizontal: '10@s',
+    marginBottom: '15@vs',
+    backgroundColor: colors.white,
   },
   dropdownContainer: {
-    borderRadius: '12@ms',
-    backgroundColor: '#fff',
+    width: '80%',
+    borderRadius: '8@ms',
   },
-
-  continueBtn: {
-    marginTop: '12@vs',
+  continueButton: {
+    width: '40%',
+    height: '30@vs',
+    borderRadius: '25@ms',
     backgroundColor: colors.blue,
-    paddingVertical: '10@vs',
-    borderRadius: '22@ms',
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '10@vs',
   },
   continueText: {
-    color: '#fff',
-    fontFamily: 'Poppins-Medium',
-    fontSize: '13@ms',
+    color: colors.white,
+    fontSize: '16@ms',
+    fontFamily: Secondaryfonts.medium,
   },
 
   bgImage: {
-    height: '160@vs',
-    marginTop: '18@vs',
-    borderRadius: '12@ms',
-    overflow: 'hidden',
-    justifyContent: 'center',
+    width: '100%', // full width
+    marginTop: '20@vs', // pushes it lower on the screen
+    paddingVertical: '20@vs',
+    alignItems: 'center',
   },
+
   bgImageStyle: {
-    borderRadius: '12@ms',
+    resizeMode: 'cover',
+    marginTop: '170@vs',
   },
 
   sectionTitle: {
     marginTop: '16@vs',
-    fontSize: '16@ms',
-    fontFamily: 'Poppins-Bold',
-    textAlign: 'center',
-    color: '#111',
+    fontSize: '30@ms',
+    fontFamily: Primaryfonts.medium,
+    textAlign: 'left',
+    color: colors.black,
   },
   sectionDesc: {
-    fontSize: '12@ms',
-    textAlign: 'center',
-    color: '#444',
+    fontSize: '14@ms',
+    fontFamily:Secondaryfonts.medium,
+    textAlign: 'left',
+    color: colors.black,
     marginTop: '8@vs',
     paddingHorizontal: '10@s',
+  },
+
+  cardContainer: {
+    backgroundColor: colors.white,
+    borderRadius: '14@ms',
+    borderWidth: '1@s',
+    borderColor: colors.black,
+    paddingVertical: '14@vs',
+    paddingHorizontal: '10@s',
+    marginHorizontal: '12@s',
+    marginTop: '16@vs',
+    alignItems: 'center',
   },
 
   compareCard: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: '16@vs',
-    marginHorizontal: '8@s',
+    width: '100%',
+    marginBottom: '12@vs',
   },
+
   carBox: {
     alignItems: 'center',
     flex: 1,
-    backgroundColor: '#fff',
-    paddingVertical: '12@vs',
-    borderRadius: '12@ms',
   },
+
   carImage: {
-    width: '110@ms',
-    height: '70@vs',
+    width: '140@ms', // bigger car images
+    height: '90@vs',
     marginBottom: '8@vs',
   },
+
   carName: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: Secondaryfonts.semibold,
     fontSize: '13@ms',
     marginBottom: '4@vs',
-    color: '#111',
+    color: colors.black,
   },
   carPrice: {
     fontSize: '12@ms',
-    color: '#666',
+    color: colors.hind,
+    fontFamily: Secondaryfonts.medium,
   },
 
   vsCircle: {
@@ -333,7 +373,7 @@ const styles = ScaledSheet.create({
     marginHorizontal: '10@s',
   },
   vsText: {
-    color: '#fff',
+    color: colors.white,
     fontWeight: '700',
     fontSize: '14@ms',
   },
@@ -342,14 +382,12 @@ const styles = ScaledSheet.create({
     borderWidth: '1@s',
     borderColor: colors.blue,
     borderRadius: '22@ms',
-    paddingVertical: '10@vs',
-    alignItems: 'center',
-    marginHorizontal: '20@s',
-    marginTop: '8@vs',
+    paddingVertical: '7@vs',
+    paddingHorizontal: '74@s',
   },
   viewText: {
     color: colors.blue,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: Secondaryfonts.medium,
     fontSize: '13@ms',
   },
 
@@ -359,8 +397,8 @@ const styles = ScaledSheet.create({
     marginTop: '12@vs',
   },
   pagerBtn: {
-    width: '36@ms',
-    height: '36@ms',
+    width: '86@ms',
+    height: '26@ms',
     borderRadius: '18@ms',
     backgroundColor: colors.blue,
     alignItems: 'center',
