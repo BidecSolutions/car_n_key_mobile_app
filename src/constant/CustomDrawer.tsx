@@ -118,18 +118,18 @@ const CustomDrawer = (props: any) => {
           onPress={() => navigation.navigate('Wallet')}
         /> */}
         <DrawerButton
-          label="Booking"
+          label="My Garage"
           icon={
             <Icon name="calendar-check" size={moderateScale(20)} color="#000" />
           }
-          onPress={() => navigation.navigate('History')}
+          onPress={() => navigation.navigate('MyGarage')}
         />
         <DrawerButton
-          label="Saved Places"
+          label="Car Detail"
           icon={
             <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
           }
-          onPress={() => navigation.navigate('SavedPlaces')}
+          onPress={() => navigation.navigate('CarDetail')}
         />
         <DrawerButton
           label="Car Listing"
