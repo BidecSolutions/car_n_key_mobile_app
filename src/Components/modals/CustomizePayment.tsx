@@ -4,8 +4,8 @@ import Modal from 'react-native-modal';
 import {scale, ScaledSheet} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Dropdown} from 'react-native-element-dropdown';
-import {fonts} from '../../constant/fonts';
 import {colors} from '../../constant/colors';
+import { Primaryfonts, Secondaryfonts } from '../../constant/fonts';
 
 const creditRatings = [
   {label: 'Excellent (780-750)', value: 'excellent'},
@@ -148,7 +148,7 @@ const styles = ScaledSheet.create({
   },
   headerText: {
     fontSize: '19@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Primaryfonts.semibold,
     textAlign: 'center',
     color: colors.black,
   },
@@ -161,14 +161,14 @@ const styles = ScaledSheet.create({
   },
   price: {
     fontSize: '23@ms',
-    fontFamily: fonts.bold,
+    fontFamily: Secondaryfonts.bold,
     color: colors.black,
   },
   priceDetail: {
     fontSize: '13@ms',
     color: colors.black,
     marginTop: '4@vs',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   grid: {
     width: '100%',
@@ -188,23 +188,23 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '12@s',
     fontSize: '14@ms',
     color: colors.black,
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
 
   placeholder: {
     fontSize: '14@ms',
     color: colors.black,
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
   },
 
   text: {
     fontSize: '14@ms',
     color: colors.black,
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
   },
   tradeInLabel: {
     fontSize: '15@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     marginTop: '40@vs',
     color: colors.black,
     alignItems: 'center',
@@ -213,7 +213,7 @@ const styles = ScaledSheet.create({
   subLabel: {
     fontSize: '13@ms',
     color: colors.black,
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     marginBottom: '8@vs',
     textAlign: 'center',
   },
@@ -256,7 +256,7 @@ const styles = ScaledSheet.create({
   calculateText: {
     fontSize: '16@ms',
     color: colors.white,
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
   },
 });
 

@@ -11,7 +11,7 @@ import {ScaledSheet, s, vs} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Dropdown} from 'react-native-element-dropdown';
 import {colors} from '../../constant/colors';
-import {fonts} from '../../constant/fonts';
+import { Primaryfonts, Secondaryfonts } from '../../constant/fonts';
 
 interface Props {
   isVisible: boolean;
@@ -144,7 +144,7 @@ const ContactDealer: React.FC<Props> = ({isVisible, onClose}) => {
                   valueField="value"
                   placeholder="Choose a Make"
                   value={selectedMake}
-                  itemTextStyle={{color: '#000', fontFamily: fonts.medium}}
+                  itemTextStyle={{color: '#000', fontFamily: Secondaryfonts.medium}}
                   onChange={item => setSelectedMake(item.value)}
                 />
                 <Dropdown
@@ -156,7 +156,7 @@ const ContactDealer: React.FC<Props> = ({isVisible, onClose}) => {
                   valueField="value"
                   placeholder="Choose a Model"
                   value={selectedModel}
-                  itemTextStyle={{color: '#000', fontFamily: fonts.medium}}
+                  itemTextStyle={{color: '#000', fontFamily: Secondaryfonts.medium}}
                   onChange={item => setSelectedModel(item.value)}
                 />
               </View>
@@ -170,7 +170,7 @@ const ContactDealer: React.FC<Props> = ({isVisible, onClose}) => {
                   valueField="value"
                   placeholder="Choose a Year"
                   value={selectedYear}
-                  itemTextStyle={{color: '#000', fontFamily: fonts.medium}}
+                  itemTextStyle={{color: '#000', fontFamily: Secondaryfonts.medium}}
                   onChange={item => setSelectedYear(item.value)}
                 />
                 <Dropdown
@@ -182,7 +182,7 @@ const ContactDealer: React.FC<Props> = ({isVisible, onClose}) => {
                   valueField="value"
                   placeholder="Exterior Color"
                   value={selectedColor}
-                  itemTextStyle={{color: '#000', fontFamily: fonts.medium}}
+                  itemTextStyle={{color: '#000', fontFamily: Secondaryfonts.medium}}
                   onChange={item => setSelectedColor(item.value)}
                 />
               </View>
@@ -191,7 +191,7 @@ const ContactDealer: React.FC<Props> = ({isVisible, onClose}) => {
                   style={styles.dropdown}
                   placeholderStyle={styles.dropdownPlaceholder}
                   selectedTextStyle={styles.dropdownText}
-                  itemTextStyle={{color: '#000', fontFamily: fonts.medium}}
+                  itemTextStyle={{color: '#000', fontFamily: Secondaryfonts.medium}}
                   data={mileages}
                   labelField="label"
                   valueField="value"
@@ -256,7 +256,7 @@ const styles = ScaledSheet.create({
   },
   headerText: {
     fontSize: '19@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Primaryfonts.semibold,
     textAlign: 'center',
     color: colors.black,
   },
@@ -268,7 +268,7 @@ const styles = ScaledSheet.create({
   },
   dealerName: {
     fontSize: '17@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
   },
   phoneRow: {
@@ -278,7 +278,7 @@ const styles = ScaledSheet.create({
   phoneText: {
     fontSize: '16@ms',
     color: colors.blue,
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     marginLeft: '4@s',
   },
   row: {
@@ -293,7 +293,7 @@ const styles = ScaledSheet.create({
     borderRadius: '8@ms',
     paddingHorizontal: '10@s',
     fontSize: '14@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
     marginHorizontal: '4@s',
   },
@@ -312,7 +312,7 @@ const styles = ScaledSheet.create({
   dropdownText: {
     fontSize: '14@ms',
     color: colors.black,
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   checkboxRow: {
     flexDirection: 'row',
@@ -342,7 +342,7 @@ const styles = ScaledSheet.create({
   },
   checkboxText: {
     marginLeft: '8@s',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     fontSize: '15@ms',
     color: colors.black,
   },
@@ -363,14 +363,14 @@ const styles = ScaledSheet.create({
   checkboxTermText: {
     marginLeft: '8@s',
     fontSize: '15@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
     marginVertical: '15@vs',
     width: '90%',
   },
   disclaimer: {
     fontSize: '13@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
     marginVertical: '15@vs',
   },

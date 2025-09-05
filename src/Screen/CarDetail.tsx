@@ -19,10 +19,10 @@ import {
 } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../constant/colors';
-import {fonts} from '../constant/fonts';
 import {Review, Salesperson, VehicleInfoItem} from '../types';
 import CustomizePayment from '../Components/modals/CustomizePayment';
 import ContactDealer from '../Components/modals/ContactDealer';
+import { Primaryfonts, Secondaryfonts } from '../constant/fonts';
 
 const {width} = Dimensions.get('window');
 
@@ -557,7 +557,7 @@ const styles = ScaledSheet.create({
   },
   headerTitle: {
     fontSize: '19@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Primaryfonts.semibold,
     color: colors.black,
   },
   carImage: {
@@ -589,37 +589,37 @@ const styles = ScaledSheet.create({
   },
   carName: {
     fontSize: '18@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
   },
   carSub: {
     fontSize: '15@ms',
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
     color: colors.black,
     marginTop: '2@vs',
   },
   price: {
     fontSize: '17@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.blue,
     textAlign: 'right',
   },
   priceDrop: {
     fontSize: '14@ms',
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
     color: colors.black,
     textAlign: 'right',
   },
   vin: {
     marginTop: '10@vs',
     fontSize: '15@ms',
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
     color: colors.black,
   },
   vinValue: {
     marginTop: '10@ms',
     fontSize: '14@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
   },
   buttonRow: {
@@ -638,7 +638,7 @@ const styles = ScaledSheet.create({
   contactText: {
     color: colors.white,
     fontSize: '14@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
   },
   customizeBtn: {
     flex: 1,
@@ -652,7 +652,7 @@ const styles = ScaledSheet.create({
   customizeText: {
     color: colors.blue,
     fontSize: '14@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   section: {
     marginBottom: '12@vs',
@@ -674,7 +674,7 @@ const styles = ScaledSheet.create({
   },
   sectionTitle: {
     fontSize: '14@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
   },
   sectionBody: {
@@ -697,14 +697,14 @@ const styles = ScaledSheet.create({
   },
   gridLabel: {
     fontSize: '10@ms',
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
     color: colors.black,
     marginTop: '4@vs',
   },
   gridValue: {
     fontSize: '12@ms',
-    fontFamily: fonts.medium,
-    color: '#000',
+    fontFamily: Secondaryfonts.medium,
+    color: colors.black,
     marginTop: '1@vs',
   },
   engineBox: {
@@ -728,7 +728,7 @@ const styles = ScaledSheet.create({
   },
   featureText: {
     fontSize: '13@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
     marginVertical: '7@vs',
     flex: 1,
@@ -756,13 +756,13 @@ const styles = ScaledSheet.create({
 
   valueText: {
     fontSize: moderateScale(12),
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
     color: colors.black,
   },
   listingText: {
     marginTop: '10@vs',
     fontSize: '14@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
     textAlign: 'center',
   },
@@ -776,7 +776,7 @@ const styles = ScaledSheet.create({
   },
   cardTitle: {
     fontSize: moderateScale(17),
-    fontFamily: fonts.bold,
+    fontFamily: Secondaryfonts.bold,
     marginBottom: verticalScale(6),
     color: colors.black,
   },
@@ -784,10 +784,10 @@ const styles = ScaledSheet.create({
     fontSize: moderateScale(13),
     color: colors.black,
     marginBottom: verticalScale(10),
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
   },
   link: {
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.blue,
     textDecorationLine: 'underline',
     fontSize: '14@ms',
@@ -811,7 +811,7 @@ const styles = ScaledSheet.create({
   currentBar: {
     flex: 1,
     height: verticalScale(6),
-    backgroundColor: '#5a3fff',
+    backgroundColor: colors.blue,
     borderRadius: scale(4),
     justifyContent: 'center',
     alignItems: 'flex-end',
@@ -819,13 +819,13 @@ const styles = ScaledSheet.create({
   },
   carPrice: {
     fontSize: moderateScale(18),
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.blue,
     marginTop: verticalScale(12),
   },
   greatDeal: {
     fontSize: moderateScale(13),
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
     color: colors.black,
     marginTop: verticalScale(4),
   },
@@ -842,7 +842,7 @@ const styles = ScaledSheet.create({
   dealerTitle: {
     fontSize: '15@ms',
     color: colors.black,
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     alignSelf: 'flex-start',
     marginBottom: '10@vs',
   },
@@ -854,7 +854,7 @@ const styles = ScaledSheet.create({
   },
   dealerName: {
     fontSize: '17@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
     marginBottom: '15@vs',
   },
@@ -866,7 +866,7 @@ const styles = ScaledSheet.create({
   },
   dealerRowText: {
     fontSize: '14@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
     marginLeft: '8@s',
     flexShrink: 1,
@@ -883,7 +883,7 @@ const styles = ScaledSheet.create({
   directionButtonText: {
     color: colors.white,
     fontSize: '13@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   salesPersonSection: {
     padding: '15@ms',
@@ -891,7 +891,7 @@ const styles = ScaledSheet.create({
   },
   heading: {
     fontSize: '17@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     marginBottom: '10@vs',
     color: colors.black,
   },
@@ -922,14 +922,14 @@ const styles = ScaledSheet.create({
   },
   name: {
     fontSize: '15@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
     textAlign: 'left',
   },
   role: {
     fontSize: '13@ms',
     color: colors.black,
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     textAlign: 'left',
     marginBottom: '8@vs',
   },
@@ -941,7 +941,7 @@ const styles = ScaledSheet.create({
   },
   rating: {
     fontSize: '13@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     marginRight: '4@s',
     color: colors.black,
   },
@@ -952,7 +952,7 @@ const styles = ScaledSheet.create({
     fontSize: '12@ms',
     color: colors.black,
     marginLeft: '4@s',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   reviewRow: {
     flexDirection: 'row',
@@ -960,7 +960,7 @@ const styles = ScaledSheet.create({
   },
   showReviews: {
     fontSize: '13@ms',
-    fontFamily: fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
     
   },
@@ -976,13 +976,13 @@ const styles = ScaledSheet.create({
   },
   ratingNumber: {
     fontSize: '18@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
   },
   reviewCount: {
     fontSize: '14@ms',
     color: colors.black,
-    fontFamily: fonts.medium
+    fontFamily: Secondaryfonts.medium
   },
   reviewsScrollContainer: {
     paddingRight: '10@s',
@@ -1002,7 +1002,7 @@ const styles = ScaledSheet.create({
   },
   author: {
     fontSize: '13@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
   },
   starRow: {
@@ -1012,7 +1012,7 @@ const styles = ScaledSheet.create({
     fontSize: '13@ms',
     color: colors.black,
     lineHeight: '18@vs',
-    fontFamily: fonts.regular,
+    fontFamily: Secondaryfonts.regular,
   },
   outlineButton: {
     marginTop: '15@vs',
@@ -1033,7 +1033,7 @@ const styles = ScaledSheet.create({
   },
   outlineButtonText: {
     fontSize: '13@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
   },
   solidButton: {
@@ -1045,7 +1045,7 @@ const styles = ScaledSheet.create({
   },
   solidButtonText: {
     fontSize: '14@ms',
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.white,
   },
 });
