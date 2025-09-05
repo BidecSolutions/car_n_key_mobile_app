@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,8 +9,11 @@ import {
 } from 'react-native';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { colors } from '../../constant/colors';
-import { fonts } from '../../constant/fonts';
+import {colors} from '../../constant/colors';
+import {Dropdown} from 'react-native-element-dropdown';
+import FilterModal from './FilterModal';
+import { Primaryfonts, Secondaryfonts } from '../../constant/fonts';
+import { ScreenContainer } from 'react-native-screens';
 
 type Car = {
   id: string;
@@ -33,6 +36,12 @@ type Props = {
   onFilterPress?: () => void;
   onViewDeal?: (car: Car) => void;
   onLoadMore?: () => void;
+
+  // new props 👇
+  showPriceFilter?: boolean;
+  showCarLabel?: boolean;
+  carLabelText?: string;
+  onPriceFilterChange?: (value: string) => void;
 };
 
 const CarListSection: React.FC<Props> = ({
@@ -43,7 +52,19 @@ const CarListSection: React.FC<Props> = ({
   onFilterPress,
   onViewDeal,
   onLoadMore,
+
+  showPriceFilter = false,
+  showCarLabel = false,
+  carLabelText = 'Cars',
+  onPriceFilterChange,
 }) => {
+  const [priceFilter, setPriceFilter] = useState<string | null>(null);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+
+  const priceOptions = [
+    {label: 'Price: Low to High', value: 'low'},
+    {label: 'Price: High to Low', value: 'high'},
+  ];
   const renderItem = ({item}: {item: Car}) => (
     <View style={styles.card}>
       <Image source={item.image} style={styles.carImage} resizeMode="cover" />
@@ -106,17 +127,75 @@ const CarListSection: React.FC<Props> = ({
           style={styles.searchInput}
           onChangeText={onSearch}
         />
-        <TouchableOpacity style={styles.filterBtn} onPress={onFilterPress}>
-          <Icon name="options-outline" size={moderateScale(18)} color="#fff" />
+        <TouchableOpacity
+          style={styles.searchIcon}
+          onPress={() => setIsFilterVisible(true)}>
+          <Image
+            source={require('../../assets/Images/FilterIcon.png')} // 👈 put your filter image here
+            style={styles.filterIcon}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
       </View>
+
+      {/* Filters Row */}
+      {(showPriceFilter || showCarLabel) && (
+        <View style={styles.filtersRowContainer}>
+          {showPriceFilter && (
+            <View style={styles.dropdownWrapper}>
+              <Dropdown
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                itemTextStyle={styles.itemTextStyle}
+                data={[
+                  {label: 'Price: Low to High', value: 'low'},
+                  {label: 'Price: High to Low', value: 'high'},
+                ]}
+                labelField="label"
+                valueField="value"
+                placeholder="Sort"
+                value={priceFilter}
+                onChange={item => {
+                  setPriceFilter(item.value);
+                  onPriceFilterChange?.(item.value);
+                }}
+                // critical bits 👇
+                containerStyle={styles.dropdownContainer}
+                dropdownPosition="auto"
+                maxHeight={220}
+                renderRightIcon={() => (
+                  <Icon
+                    name="chevron-down"
+                    size={16}
+                    color="#555"
+                    style={{marginRight: 8}}
+                  />
+                )}
+              />
+            </View>
+          )}
+
+          {showCarLabel && <Text style={styles.carLabel}>{carLabelText}</Text>}
+        </View>
+      )}
 
       {/* Cars List */}
       <FlatList
         data={cars}
-        renderItem={renderItem}
+        renderItem={({item}) => renderItem({item})}
         keyExtractor={item => item.id}
         contentContainerStyle={{paddingBottom: moderateScale(20)}}
+        keyboardShouldPersistTaps="handled"
+      />
+
+      <FilterModal
+        visible={isFilterVisible}
+        onClose={() => setIsFilterVisible(false)}
+        onApply={() => {
+          console.log('Filters applied!');
+          setIsFilterVisible(false);
+        }}
       />
 
       {/* Bottom Button */}
@@ -138,7 +217,7 @@ const styles = ScaledSheet.create({
   },
   sectionTitle: {
     fontSize: '16@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Primaryfonts.semibold,
     textAlign: 'center',
     marginBottom: '15@vs',
     color: colors.black,
@@ -151,20 +230,110 @@ const styles = ScaledSheet.create({
     borderRadius: '25@ms',
     paddingHorizontal: '10@s',
     marginBottom: '20@vs',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   searchInput: {
     flex: 1,
     fontSize: '13@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     marginLeft: '6@s',
     color: colors.black,
+  },
+  searchIcon: {
+    backgroundColor: colors.blue,
+    padding: '6@s',
+    borderRadius: '20@s',
+    height: '30@ms',
+    width: '30@ms',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  filterIcon: {
+    width: '18@ms',
+    height: '18@ms',
+    tintColor: colors.white, // 👈 keeps it white like your vector icon
   },
   filterBtn: {
     backgroundColor: colors.blue,
     padding: '8@ms',
     borderRadius: '20@ms',
   },
+  filtersRowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: '10@s',
+    marginBottom: '10@vs',
+    // make sure this sits above the list
+    position: 'relative',
+    zIndex: 100, // iOS
+    elevation: 100, // Android
+  },
+
+  dropdownWrapper: {
+    width: '48%',
+    position: 'relative',
+    zIndex: 110,
+    elevation: 110,
+    overflow: 'visible',
+  },
+
+  dropdown: {
+    height: '40@vs',
+    borderRadius: '8@ms',
+    paddingHorizontal: '10@s',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    backgroundColor: colors.white,
+    justifyContent: 'center',
+  },
+
+  // this styles the floating menu list
+  dropdownContainer: {
+    position: 'absolute',
+    top: '235@vs', // just below the input
+    left: 30,
+    right: 0,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: '8@ms',
+    backgroundColor: '#FFF',
+    zIndex: 9999,
+    elevation: 9999,
+    overflow: 'hidden',
+  },
+
+  placeholderStyle: {
+    fontSize: '12@ms',
+    fontFamily: Secondaryfonts.medium,
+    color: '#999',
+  },
+  selectedTextStyle: {
+    fontSize: '12@ms',
+    fontFamily: Secondaryfonts.medium,
+    color: '#000',
+  },
+  itemTextStyle: {
+    fontSize: '12@ms',
+    fontFamily: Secondaryfonts.medium,
+    color: '#333',
+    paddingVertical: '8@vs',
+    paddingHorizontal: '10@s',
+  },
+
+  carLabel: {
+    fontSize: '14@ms',
+    fontFamily: Secondaryfonts.medium,
+    color: colors.black,
+  },
+
+  // keep the list *under* the dropdown
+  listWrapper: {
+    position: 'relative',
+    zIndex: 1,
+    elevation: 1,
+  },
+
   card: {
     flexDirection: 'row',
     backgroundColor: '#E9E8E899',
@@ -183,12 +352,12 @@ const styles = ScaledSheet.create({
   },
   carName: {
     fontSize: '13@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.black,
   },
   carPrice: {
     fontSize: '12@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.hind,
     marginTop: '4@vs',
   },
@@ -201,7 +370,7 @@ const styles = ScaledSheet.create({
   infoText: {
     fontSize: '10@ms',
     color: '#555',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   dot: {
     marginHorizontal: '4@s',
@@ -221,16 +390,16 @@ const styles = ScaledSheet.create({
     fontSize: '10@ms',
     color: '#444',
     marginRight: '10@s',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   reportText: {
     fontSize: '10@ms',
     color: '#444',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   viewDealBtn: {
     borderWidth: 1,
-    borderColor: '#4C3BCF',
+    borderColor: colors.blue,
     borderRadius: '20@ms',
     paddingVertical: '5@vs',
     paddingHorizontal: '15@s',
@@ -240,7 +409,7 @@ const styles = ScaledSheet.create({
   viewDealText: {
     fontSize: '11@ms',
     color: colors.blue,
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
   },
   resultsBtn: {
     backgroundColor: colors.blue,
@@ -252,7 +421,7 @@ const styles = ScaledSheet.create({
   },
   resultsText: {
     fontSize: '12@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.white,
   },
 });

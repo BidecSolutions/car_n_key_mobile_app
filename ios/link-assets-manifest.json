@@ -20,6 +20,26 @@
     {
       "path": "src/assets/Fonts/rajdhani/rajdhani.semibold.ttf",
       "sha1": "5a963e607970692a93cebb32f43baf3b5a0b417c"
+    },
+    {
+      "path": "src/assets/Fonts/hk-grotesk/hk-grotesk.bold.ttf",
+      "sha1": "951559435bb109a422da130121235b79c0aa7b03"
+    },
+    {
+      "path": "src/assets/Fonts/hk-grotesk/hk-grotesk.light.ttf",
+      "sha1": "fd2a6395e0d5c49fdcbf61b5aa5ee8ddc8f4536a"
+    },
+    {
+      "path": "src/assets/Fonts/hk-grotesk/hk-grotesk.medium.ttf",
+      "sha1": "6928596e3f9076de99564862afa3702785d60d6f"
+    },
+    {
+      "path": "src/assets/Fonts/hk-grotesk/hk-grotesk.regular.ttf",
+      "sha1": "b35653d34f64a128da4d4bd291bd56bb8974da00"
+    },
+    {
+      "path": "src/assets/Fonts/hk-grotesk/hk-grotesk.semibold.ttf",
+      "sha1": "c77d172ec4be1a9953f30405f074b3f2f235f71f"
     }
   ]
 }

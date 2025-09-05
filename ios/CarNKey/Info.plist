@@ -54,6 +54,11 @@
 		<string>rajdhani.medium.ttf</string>
 		<string>rajdhani.regular.ttf</string>
 		<string>rajdhani.semibold.ttf</string>
+		<string>hk-grotesk.bold.ttf</string>
+		<string>hk-grotesk.light.ttf</string>
+		<string>hk-grotesk.medium.ttf</string>
+		<string>hk-grotesk.regular.ttf</string>
+		<string>hk-grotesk.semibold.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -23,8 +23,8 @@ import {colors} from './colors';
 import {useUser} from '../context/UserContext';
 import api from '../api';
 import {ASSET_URL} from '.';
-import { UserProfile } from '../types';
-import { Loader } from '../Components/loader/Loader';
+import {UserProfile} from '../types';
+import {Loader} from '../Components/loader/Loader';
 
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
@@ -32,10 +32,6 @@ const CustomDrawer = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-  
-
-  
 
   if (loading) {
     return <Loader />;
@@ -89,10 +85,10 @@ const CustomDrawer = (props: any) => {
           label="Profile"
           icon={<Feather name="user" size={moderateScale(20)} color="#000" />}
           onPress={() =>
-        navigation.navigate('BottomTabs', {
-          screen: 'Profile',
-        })
-      }
+            navigation.navigate('BottomTabs', {
+              screen: 'Profile',
+            })
+          }
         />
         {/* <DrawerButton
           label="Promo Code"
@@ -136,16 +132,20 @@ const CustomDrawer = (props: any) => {
           onPress={() => navigation.navigate('SavedPlaces')}
         />
         <DrawerButton
-          label="Complains"
+          label="Car Listing"
           icon={
-            <Icon
-              name="exclamation-circle"
-              size={moderateScale(20)}
-              color="#000"
-            />
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
           }
-          onPress={() => navigation.navigate('Complains')}
+          onPress={() => navigation.navigate('CarListing')}
         />
+        <DrawerButton
+          label="Car Comparison"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('CarComparison')}
+        />
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.logoutButton}>
             <Text style={styles.logoutText}>Logout</Text>

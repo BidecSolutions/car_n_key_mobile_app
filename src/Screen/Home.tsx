@@ -15,9 +15,9 @@ import {ScaledSheet, ms, s, vs} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Header} from '../Components/Header/Header';
 import {colors} from '../constant/colors';
-import {fonts} from '../constant/fonts';
 import CarListSection from './DynamicSections/CarListSection';
 import {BlurView} from '@react-native-community/blur';
+import { Primaryfonts, Secondaryfonts } from '../constant/fonts';
 
 const topBrands = [
   {id: '1', name: 'Tesla', icon: require('../assets/Images/Car.png')},
@@ -82,7 +82,11 @@ const Home = () => {
         <View style={styles.searchContainer}>
           <TextInput placeholder="search" style={styles.searchInput} />
           <TouchableOpacity style={styles.searchIcon}>
-            <Icon name="options-outline" size={ms(18)} color="#fff" />
+            <Image
+              source={require('../assets/Images/FilterIcon.png')} // 👈 put your filter image here
+              style={styles.filterIcon}
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -245,45 +249,44 @@ const Home = () => {
 
       {/* Compare Card */}
       {/* Compare Section */}
-<Text style={styles.compareTitle}>
-  Compare Cars & Make the Right Choice
-</Text>
+      <Text style={styles.compareTitle}>
+        Compare Cars & Make the Right Choice
+      </Text>
 
-<View style={styles.compareCard}>
-  {/* Left Car */}
-  <View style={styles.carBox}>
-    <Image
-      source={require('../assets/Images/Car.png')}
-      style={[styles.compareCarImage, { transform: [{ scaleX: -1 }] }]} // Flip to face right
-      resizeMode="contain"
-    />
-    <Text style={styles.carBrand}>Toyota</Text>
-    <Text style={styles.carModel}>Camry</Text>
-    <Text style={styles.carPrice}>Rs. 10,000</Text>
-  </View>
+      <View style={styles.compareCard}>
+        {/* Left Car */}
+        <View style={styles.carBox}>
+          <Image
+            source={require('../assets/Images/Car.png')}
+            style={[styles.compareCarImage, {transform: [{scaleX: -1}]}]} // Flip to face right
+            resizeMode="contain"
+          />
+          <Text style={styles.carBrand}>Toyota</Text>
+          <Text style={styles.carModel}>Camry</Text>
+          <Text style={styles.carPrice}>Rs. 10,000</Text>
+        </View>
 
-  {/* VS Circle in Middle */}
-  <View style={styles.vsCircle}>
-    <Text style={styles.vsText}>VS</Text>
-  </View>
+        {/* VS Circle in Middle */}
+        <View style={styles.vsCircle}>
+          <Text style={styles.vsText}>VS</Text>
+        </View>
 
-  {/* Right Car */}
-  <View style={styles.carBox}>
-    <Image
-      source={require('../assets/Images/Car.png')}
-      style={styles.compareCarImage} // Normal (facing left by default)
-      resizeMode="contain"
-    />
-    <Text style={styles.carBrand}>Skoda</Text>
-    <Text style={styles.carModel}>Kylad</Text>
-    <Text style={styles.carPrice}>Rs. 11,000</Text>
-  </View>
-</View>
+        {/* Right Car */}
+        <View style={styles.carBox}>
+          <Image
+            source={require('../assets/Images/Car.png')}
+            style={styles.compareCarImage} // Normal (facing left by default)
+            resizeMode="contain"
+          />
+          <Text style={styles.carBrand}>Skoda</Text>
+          <Text style={styles.carModel}>Kylad</Text>
+          <Text style={styles.carPrice}>Rs. 11,000</Text>
+        </View>
+      </View>
 
-<TouchableOpacity style={styles.compareBtn}>
-  <Text style={styles.compareBtnText}>View Comparison</Text>
-</TouchableOpacity>
-
+      <TouchableOpacity style={styles.compareBtn}>
+        <Text style={styles.compareBtnText}>View Comparison</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -306,7 +309,7 @@ const styles = ScaledSheet.create({
     color: colors.white,
     fontSize: '18@ms',
     marginBottom: '5@vs',
-    fontFamily: fonts.semibold,
+    fontFamily: Primaryfonts.semibold,
   },
 
   searchContainer: {
@@ -321,7 +324,7 @@ const styles = ScaledSheet.create({
   searchInput: {
     flex: 1,
     fontSize: '14@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
   },
   searchIcon: {
@@ -332,6 +335,11 @@ const styles = ScaledSheet.create({
     width: '30@ms',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  filterIcon: {
+    width: '18@ms',
+    height: '18@ms',
+    tintColor: colors.white, // 👈 keeps it white like your vector icon
   },
   dealCard: {
     marginTop: '-30@vs', // 👈 overlaps into banner background
@@ -352,17 +360,17 @@ const styles = ScaledSheet.create({
   dealTitle: {
     color: colors.white,
     fontSize: '16@ms',
-    fontFamily:fonts.semibold
+    fontFamily: Secondaryfonts.semibold,
   },
   dealSubtitle: {
     color: colors.hind,
     fontSize: '12@ms',
-    fontFamily:fonts.medium
+    fontFamily: Secondaryfonts.medium,
   },
 
   sectionTitle: {
     fontSize: '14@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     marginTop: '16@vs',
     marginLeft: '16@s',
     color: colors.black,
@@ -370,7 +378,7 @@ const styles = ScaledSheet.create({
   subTitle: {
     fontSize: '12@ms',
     color: colors.hind,
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     marginLeft: '15@s',
     marginBottom: '10@vs',
   },
@@ -391,7 +399,7 @@ const styles = ScaledSheet.create({
   brandName: {
     fontSize: '10@ms',
     marginTop: '4@vs',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.hind,
   },
 
@@ -416,7 +424,7 @@ const styles = ScaledSheet.create({
     fontSize: '10@ms',
     textAlign: 'center',
     marginVertical: '6@vs',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.hind,
   },
   carCategoryCard: {
@@ -434,7 +442,7 @@ const styles = ScaledSheet.create({
   },
   carCategoryText: {
     fontSize: '12@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     marginTop: '5@vs',
   },
   carValueContainer: {
@@ -446,12 +454,12 @@ const styles = ScaledSheet.create({
   },
   valueTitle: {
     fontSize: '16@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
   },
   valueDesc: {
     fontSize: '12@ms',
     color: colors.hind,
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     marginVertical: '5@vs',
   },
   valueButton: {
@@ -464,7 +472,7 @@ const styles = ScaledSheet.create({
   },
   valueButtonText: {
     color: colors.white,
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     fontSize: '12@ms',
   },
   valueBox: {
@@ -479,17 +487,17 @@ const styles = ScaledSheet.create({
   },
   valueBoxTitle: {
     fontSize: '10@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
   },
   valueRange: {
     fontSize: '14@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     marginVertical: '5@vs',
   },
   valueBoxSub: {
     fontSize: '10@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: colors.hind,
   },
   bigCarImage: {
@@ -531,24 +539,24 @@ const styles = ScaledSheet.create({
 
   sellingPrice: {
     fontSize: '12@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.blue,
     marginBottom: '4@vs',
   },
   sellingTitle: {
     fontSize: '15@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.hind,
   },
   sellingSubtitle: {
     fontSize: '14@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.hind,
     marginBottom: '6@vs',
   },
   sellingDesc: {
     fontSize: '11@ms',
-    fontFamily:fonts.medium,
+    fontFamily: Secondaryfonts.medium,
     color: '#666',
     marginBottom: '10@vs',
   },
@@ -561,83 +569,82 @@ const styles = ScaledSheet.create({
   },
   sellingBtnText: {
     fontSize: '11@ms',
-    fontFamily:fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.white,
   },
 
   compareTitle: {
-  fontSize: '15@ms',
-  fontFamily: fonts.semibold,
-  textAlign: 'center',
-  marginBottom: '14@vs',
-  color: colors.hind,
-},
-compareCard: {
-  flexDirection: 'row',
-  alignItems: 'flex-end',
-  justifyContent: 'space-between',
-  borderRadius: '18@ms',
-  backgroundColor: colors.white,
-  padding: '16@ms',
-  marginHorizontal: '10@s',
-  shadowColor: '#000',
-  shadowOpacity: 0.08,
-  shadowRadius: 6,
-  elevation: 3,
-},
-carBox: {
-  flex: 1,
-  alignItems: 'center',
-},
-compareCarImage: {
-  width: '140@ms',
-  height: '100@vs',
-  marginBottom: '6@vs',
-},
-carBrand: {
-  fontSize: '11@ms',
-  color: '#888',
-  fontFamily: fonts.medium,
-},
-carModel: {
-  fontSize: '15@ms',
-  fontFamily: fonts.semibold,
-  color: colors.hind,
-},
-carPrice: {
-  fontSize: '12@ms',
-  fontFamily: fonts.semibold,
-  color: colors.hind,
-  marginTop: '3@vs',
-},
-vsCircle: {
-  width: '50@ms',
-  height: '50@ms',
-  borderRadius: '25@ms',
-  backgroundColor: colors.blue,
-  justifyContent: 'center',
-  alignItems: 'center',
-  alignSelf: 'center',
-  marginHorizontal: '10@s',
-},
-vsText: {
-  color: colors.white,
-  fontSize: '14@ms',
-  fontFamily: fonts.semibold,
-},
-compareBtn: {
-  borderWidth: 1,
-  borderColor: colors.blue,
-  borderRadius: '22@ms',
-  paddingVertical: '10@vs',
-  paddingHorizontal: '30@s',
-  alignSelf: 'center',
-  marginTop: '15@vs',
-},
-compareBtnText: {
-  fontSize: '13@ms',
-  fontFamily: fonts.semibold,
-  color: colors.blue,
-},
-
+    fontSize: '15@ms',
+    fontFamily: Secondaryfonts.semibold,
+    textAlign: 'center',
+    marginBottom: '14@vs',
+    color: colors.hind,
+  },
+  compareCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    borderRadius: '18@ms',
+    backgroundColor: colors.white,
+    padding: '16@ms',
+    marginHorizontal: '10@s',
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  carBox: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  compareCarImage: {
+    width: '140@ms',
+    height: '100@vs',
+    marginBottom: '6@vs',
+  },
+  carBrand: {
+    fontSize: '11@ms',
+    color: '#888',
+    fontFamily: Secondaryfonts.medium,
+  },
+  carModel: {
+    fontSize: '15@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.hind,
+  },
+  carPrice: {
+    fontSize: '12@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.hind,
+    marginTop: '3@vs',
+  },
+  vsCircle: {
+    width: '50@ms',
+    height: '50@ms',
+    borderRadius: '25@ms',
+    backgroundColor: colors.blue,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginHorizontal: '10@s',
+  },
+  vsText: {
+    color: colors.white,
+    fontSize: '14@ms',
+    fontFamily: Secondaryfonts.semibold,
+  },
+  compareBtn: {
+    borderWidth: 1,
+    borderColor: colors.blue,
+    borderRadius: '22@ms',
+    paddingVertical: '10@vs',
+    paddingHorizontal: '30@s',
+    alignSelf: 'center',
+    marginTop: '15@vs',
+  },
+  compareBtnText: {
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.blue,
+  },
 });

@@ -53,12 +53,17 @@ import { Loader } from './Components/loader/Loader';
 
 //Screens Imports
 import Home from './Screen/Home';
+import CarListing from './Screen/CarListing';
+import CarComparison from './Screen/CarComparison';
+
 
 
 
 export type RootStackParamList = {
   BottomTabs: undefined;
   Home:undefined;
+  CarListing:undefined;
+  CarComparison:undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -102,6 +107,52 @@ export const HomeDrawer = () => (
         drawerIcon: ({focused}) => (
           <FontAwesome
             name="home"
+            size={moderateScale(24)}
+            color={focused ? colors.backgroundColor : colors.black}
+          />
+        ),
+      }}
+    />
+    <Drawer.Screen
+      name="CarListing"
+      component={CarListing}
+      options={{
+        drawerLabel: ({color}) => (
+          <Text
+            style={{
+              color,
+              fontFamily: 'Poppins-Regular',
+              fontSize: moderateScale(14),
+            }}>
+            Home
+          </Text>
+        ),
+        drawerIcon: ({focused}) => (
+          <FontAwesome
+            name="home"
+            size={moderateScale(24)}
+            color={focused ? colors.backgroundColor : colors.black}
+          />
+        ),
+      }}
+    />
+    <Drawer.Screen
+      name="CarComparison"
+      component={CarComparison}
+      options={{
+        drawerLabel: ({color}) => (
+          <Text
+            style={{
+              color,
+              fontFamily: 'Poppins-Regular',
+              fontSize: moderateScale(14),
+            }}>
+            Home
+          </Text>
+        ),
+        drawerIcon: ({focused}) => (
+          <FontAwesome
+            name="Car Comparison"
             size={moderateScale(24)}
             color={focused ? colors.backgroundColor : colors.black}
           />
