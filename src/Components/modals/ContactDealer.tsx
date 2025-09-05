@@ -245,7 +245,7 @@ const styles = ScaledSheet.create({
     borderRadius: '16@ms',
     padding: '16@ms',
     width: '90%', // give it a fixed width for center look
-    maxHeight: '90%',
+    maxHeight: '92%',
   },
   header: {
     flexDirection: 'row',
@@ -332,7 +332,6 @@ const styles = ScaledSheet.create({
   checkboxTermRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: '3@vs',
     justifyContent: 'space-between',
 
   },
