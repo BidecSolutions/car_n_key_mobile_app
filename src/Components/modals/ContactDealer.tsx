@@ -385,7 +385,7 @@ const styles = ScaledSheet.create({
   checkText: {
     fontSize: '15@ms',
     color: colors.white,
-    fontFamily: fonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
   },
 });
 
