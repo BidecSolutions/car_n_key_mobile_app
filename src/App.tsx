@@ -48,8 +48,7 @@ import {
   NotificationsService,
   requestUserPermission,
 } from './firebase/NotificationListener';
-import { Loader } from './Components/loader/Loader';
-
+import {Loader} from './Components/loader/Loader';
 
 //Screens Imports
 import Home from './Screen/Home';
@@ -58,15 +57,17 @@ import CarComparison from './Screen/CarComparison';
 import CarDetail from './Screen/CarDetail';
 import MyGarage from './Screen/MyGarage';
 import Valuation from './Screen/Valulation';
+import CarComparisonDetail from './Screen/CarComparisonDetail';
 
 export type RootStackParamList = {
   BottomTabs: undefined;
-  Home:undefined;
-  CarListing:undefined;
-  CarComparison:undefined;
+  Home: undefined;
+  CarListing: undefined;
+  CarComparison: undefined;
   MyGarage: undefined;
   CarDetail: undefined;
   Valuation: undefined;
+  CarComparisonDetail: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -162,6 +163,29 @@ export const HomeDrawer = () => (
         ),
       }}
     />
+    <Drawer.Screen
+      name="CarComparisonDetail"
+      component={CarComparisonDetail}
+      options={{
+        drawerLabel: ({color}) => (
+          <Text
+            style={{
+              color,
+              fontFamily: 'Poppins-Regular',
+              fontSize: moderateScale(14),
+            }}>
+            Home
+          </Text>
+        ),
+        drawerIcon: ({focused}) => (
+          <FontAwesome
+            name="Car Comparison Detail"
+            size={moderateScale(24)}
+            color={focused ? colors.backgroundColor : colors.black}
+          />
+        ),
+      }}
+    />
   </Drawer.Navigator>
 );
 
@@ -193,19 +217,24 @@ const AppContent = () => {
           component={HomeDrawer}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="CarDetail"
           component={CarDetail}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="MyGarage"
           component={MyGarage}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Valuation"
           component={Valuation}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CarComparisonDetail"
+          component={CarComparisonDetail}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
@@ -235,18 +264,19 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <StatusBar
           translucent={true}
           backgroundColor="transparent"
           barStyle={barStyle}
         />
-      <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
-        <UserProvider>
-          <AppContent />
-          {/* <NotificationHandler/> */}
-        </UserProvider>
-      </SafeAreaView>
+        <SafeAreaView
+          style={{flex: 1, backgroundColor: colors.backgroundColor}}>
+          <UserProvider>
+            <AppContent />
+            {/* <NotificationHandler/> */}
+          </UserProvider>
+        </SafeAreaView>
       </View>
     </GestureHandlerRootView>
   );

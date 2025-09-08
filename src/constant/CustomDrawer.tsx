@@ -145,6 +145,7 @@ const CustomDrawer = (props: any) => {
           }
           onPress={() => navigation.navigate('CarComparison')}
         />
+        
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.logoutButton}>

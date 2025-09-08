@@ -89,60 +89,80 @@ const CarComparison: React.FC = () => {
 
       {/* Background image section (wraps dropdown + continue + texts) */}
       <View style={styles.bgWrapper}>
-      <ImageBackground
-        source={require('../assets/Images/CarComparisonBG.png')}
-        style={styles.bgImage}
-        imageStyle={styles.bgImageStyle}>
-        {/* Dropdowns */}
-        <View style={styles.dropdownWrapper}>
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.dropdownContainer}
-            data={makes}
-            labelField="label"
-            valueField="value"
-            placeholder="Choose a Make"
-            value={make}
-            onChange={item => setMake(item.value)}
-          />
+        <ImageBackground
+          source={require('../assets/Images/CarComparisonBG.png')}
+          style={styles.bgImage}
+          imageStyle={styles.bgImageStyle}>
+          {/* Dropdowns */}
+          <View style={styles.dropdownWrapper}>
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.dropdownContainer}
+              data={makes}
+              labelField="label"
+              valueField="value"
+              placeholder="Choose a Make"
+              value={make}
+              onChange={item => setMake(item.value)}
+            />
 
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.dropdownContainer}
-            data={models}
-            labelField="label"
-            valueField="value"
-            placeholder="Choose a Model"
-            value={model}
-            onChange={item => setModel(item.value)}
-          />
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.dropdownContainer}
+              data={models}
+              labelField="label"
+              valueField="value"
+              placeholder="Choose a Model"
+              value={model}
+              onChange={item => setModel(item.value)}
+            />
 
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.dropdownContainer}
-            data={years}
-            labelField="label"
-            valueField="value"
-            placeholder="Choose a Year"
-            value={year}
-            onChange={item => setYear(item.value)}
-          />
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.dropdownContainer}
+              data={years}
+              labelField="label"
+              valueField="value"
+              placeholder="Choose a Year"
+              value={year}
+              onChange={item => setYear(item.value)}
+            />
 
-          {/* Continue Button */}
-          <TouchableOpacity style={styles.continueButton}>
-            <Text style={styles.continueText}>Continue</Text>
-          </TouchableOpacity>
-        </View>
+            {selectedCar === 1 ? (
+              // Continue for Car 1
+              <TouchableOpacity
+                style={styles.continueButton}
+                onPress={() => setSelectedCar(2)}>
+                <Text style={styles.continueText}>Continue</Text>
+              </TouchableOpacity>
+            ) : (
+              // Back + See Comparison for Car 2
+              <View style={styles.buttonRow}>
+                <TouchableOpacity
+                  style={styles.equalButtonBack}
+                  onPress={() => setSelectedCar(1)}>
+                  <Text style={styles.continueTextBack}>Back</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.equalButton}
+                  onPress={() => {
+                    navigation.navigate('CarComparisonDetail');
+                  }}>
+                  <Text style={styles.continueText}>See Comparison</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
 
-        {/* Section texts */}
-        <Text style={styles.sectionTitle}>
-          Compare Cars & Make{'\n'}the Right Choice
-        </Text>
-        <Text style={styles.sectionDesc}>
-          Find answers to the most common questions about buying, selling, and
-          renting cars. If you need more help, feel free to reach out!
-        </Text>
-      </ImageBackground>
+          {/* Section texts */}
+          <Text style={styles.sectionTitle}>
+            Compare Cars & Make{'\n'}the Right Choice
+          </Text>
+          <Text style={styles.sectionDesc}>
+            Find answers to the most common questions about buying, selling, and
+            renting cars. If you need more help, feel free to reach out!
+          </Text>
+        </ImageBackground>
       </View>
 
       {/* Comparison Card */}
@@ -250,8 +270,8 @@ const styles = ScaledSheet.create({
     fontFamily: Secondaryfonts.medium,
   },
   bgWrapper: {
-  marginHorizontal: -18, // cancels padding so image can stretch full width
-},
+    marginHorizontal: -18, // cancels padding so image can stretch full width
+  },
 
   dropdownWrapper: {
     width: '90%',
@@ -277,18 +297,60 @@ const styles = ScaledSheet.create({
     width: '80%',
     borderRadius: '8@ms',
   },
-  continueButton: {
-    width: '40%',
-    height: '30@vs',
-    borderRadius: '25@ms',
-    backgroundColor: colors.blue,
-    alignItems: 'center',
+  buttonRow: {
+    flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: '10@vs',
+    alignItems: 'center',
+    marginTop: '12@vs',
+    gap: '12@s', // spacing between buttons (RN 0.71+)
   },
+
+  equalButton: {
+    flex: 1, // makes both equal width
+    maxWidth: '130@ms', // keeps them compact and equal
+    backgroundColor: colors.blue,
+    paddingVertical: '5@vs',
+    borderRadius: '18@ms',
+    alignItems: 'center',
+  },
+  equalButtonBack: {
+    flex: 1, // makes both equal width
+    maxWidth: '130@ms', // keeps them compact and equal
+    backgroundColor: colors.white,
+    paddingVertical: '5@vs',
+    borderWidth: 1,
+    borderColor: colors.blue,
+    borderRadius: '18@ms',
+    alignItems: 'center',
+  },
+
+  continueButton: {
+    backgroundColor: colors.blue,
+    paddingVertical: '5@vs',
+    paddingHorizontal: '24@ms',
+    borderRadius: '18@ms',
+    alignItems: 'center',
+    alignSelf: 'center', // keeps Continue centered
+    marginTop: '12@vs',
+  },
+
+  continueButtonSmall: {
+    backgroundColor: '#000',
+    paddingVertical: '10@vs',
+    paddingHorizontal: '20@ms',
+    borderRadius: '8@ms',
+    alignItems: 'center',
+    marginHorizontal: '8@ms', // spacing between Back & See Comparison
+  },
+
   continueText: {
     color: colors.white,
-    fontSize: '16@ms',
+    fontSize: '12@ms',
+    fontFamily: Secondaryfonts.medium,
+  },
+  continueTextBack: {
+    color: colors.black,
+    fontSize: '12@ms',
     fontFamily: Secondaryfonts.medium,
   },
 
@@ -313,7 +375,7 @@ const styles = ScaledSheet.create({
   },
   sectionDesc: {
     fontSize: '14@ms',
-    fontFamily:Secondaryfonts.medium,
+    fontFamily: Secondaryfonts.medium,
     textAlign: 'left',
     color: colors.black,
     marginTop: '8@vs',
