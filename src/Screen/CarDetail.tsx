@@ -759,13 +759,7 @@ const styles = ScaledSheet.create({
     fontFamily: Secondaryfonts.regular,
     color: colors.black,
   },
-  listingText: {
-    marginTop: '10@vs',
-    fontSize: '14@ms',
-    fontFamily: Secondaryfonts.semibold,
-    color: colors.black,
-    textAlign: 'center',
-  },
+  
   card: {
     marginTop: verticalScale(14),
     borderWidth: 1,

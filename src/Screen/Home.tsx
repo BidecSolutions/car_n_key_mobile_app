@@ -18,6 +18,7 @@ import {colors} from '../constant/colors';
 import CarListSection from './DynamicSections/CarListSection';
 import {BlurView} from '@react-native-community/blur';
 import { Primaryfonts, Secondaryfonts } from '../constant/fonts';
+import { DrawerParamList } from '../types';
 
 const topBrands = [
   {id: '1', name: 'Tesla', icon: require('../assets/Images/Car.png')},
@@ -46,16 +47,7 @@ const carCategories = [
   {id: '6', name: 'Electric', image: require('../assets/Images/Car.png')},
 ];
 
-type DrawerParamList = {
-  Tabs: undefined;
-  Wallet: undefined;
-  Offers: undefined;
-  History: undefined;
-  Complains: undefined;
-  Settings: undefined;
-  Refferals: undefined;
-  RideDetails: undefined;
-};
+
 
 const Home = () => {
   const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();

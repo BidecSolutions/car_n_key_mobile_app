@@ -1,5 +1,16 @@
 import { ImageSourcePropType } from "react-native";
 
+export type DrawerParamList = {
+  Tabs: undefined;
+  Wallet: undefined;
+  Offers: undefined;
+  History: undefined;
+  Complains: undefined;
+  Settings: undefined;
+  Refferals: undefined;
+  RideDetails: undefined;
+};
+
 export interface UserProfile {
   id: number;
   name: string;

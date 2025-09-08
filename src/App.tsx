@@ -57,6 +57,7 @@ import CarListing from './Screen/CarListing';
 import CarComparison from './Screen/CarComparison';
 import CarDetail from './Screen/CarDetail';
 import MyGarage from './Screen/MyGarage';
+import Valuation from './Screen/Valulation';
 
 export type RootStackParamList = {
   BottomTabs: undefined;
@@ -65,6 +66,7 @@ export type RootStackParamList = {
   CarComparison:undefined;
   MyGarage: undefined;
   CarDetail: undefined;
+  Valuation: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -199,6 +201,11 @@ const AppContent = () => {
          <Stack.Screen
           name="MyGarage"
           component={MyGarage}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name="Valuation"
+          component={Valuation}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

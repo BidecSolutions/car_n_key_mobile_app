@@ -1,4 +1,4 @@
-import React, {version} from 'react';
+import React, {useState, version} from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,13 @@ import {useNavigation} from '@react-navigation/native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 import {ScrollView} from 'react-native-gesture-handler';
+import {Dropdown} from 'react-native-element-dropdown';
+import {DrawerParamList} from '../types';
+import LicensePlate from '../Components/modals/LicensePlate';
+
+interface Props {
+  valuationCar: boolean;
+}
 
 const cars = [
   {
@@ -43,8 +50,11 @@ const cars = [
   },
 ];
 
-const MyGarage = () => {
-  const navigation = useNavigation<DrawerNavigationProp<any>>();
+const MyGarage: React.FC<Props> = ({valuationCar}) => {
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [licensePlateModal, setLicensePlateModal] = useState(false);
+
+  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
 
   const renderItem = ({item}: {item: (typeof cars)[0]}) => (
     <View style={styles.carCard}>
@@ -94,6 +104,63 @@ const MyGarage = () => {
         <Text style={styles.title}>My Garage</Text>
 
         {/* Wrapper so card & image overlap */}
+
+        <View style={styles.dealerReviewingSection}>
+          {/* Dropdown Header */}
+          <TouchableOpacity
+            style={styles.dropdownWrapper}
+            onPress={() => setIsExpanded(!isExpanded)}
+            activeOpacity={0.7}>
+            <Text style={styles.dropdownText}>
+              2020 Mercedes-Benz S-Class S 560
+            </Text>
+            <Icon
+              name={isExpanded ? 'chevron-up' : 'chevron-down'}
+              size={22}
+              color={colors.black}
+            />
+          </TouchableOpacity>
+
+          {/* Expandable Card Content */}
+          {isExpanded && (
+            <View style={styles.valuatedCard}>
+              {/* Car Image */}
+              <View style={styles.imageBox}>
+                <Image
+                  source={require('../assets/Images/ValuationCar.png')}
+                  style={styles.image}
+                  resizeMode="contain"
+                />
+              </View>
+
+              {/* VIN */}
+              <View style={styles.infoRow}>
+                <Text style={styles.label}>VIN</Text>
+                <Text style={styles.value}>DFKSJDFHS12341526</Text>
+              </View>
+
+              {/* Carnkey Market Value */}
+              <View style={styles.infoRow}>
+                <Text style={styles.label}>Carnkey Market Value</Text>
+                <Text style={styles.value}>$47,885 - $53,472</Text>
+              </View>
+
+              {/* Instant Offer */}
+              <View style={styles.infoRow}>
+                <Text style={styles.label}>Get Instant Offer</Text>
+                <Text style={styles.reviewing}>Dealer Reviewing</Text>
+              </View>
+
+              {/* Button */}
+              <TouchableOpacity
+                style={styles.detailButton}
+                onPress={() => navigation.navigate('Valuation')}>
+                <Text style={styles.detailButtonText}>View Details</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+
         <View style={styles.cardWrapper}>
           {/* Card */}
           <View style={styles.card}>
@@ -104,9 +171,16 @@ const MyGarage = () => {
             </Text>
 
             {/* Button */}
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setLicensePlateModal(true)}>
               <Text style={styles.buttonText}>Get Started</Text>
             </TouchableOpacity>
+
+            <LicensePlate
+              isVisible={licensePlateModal}
+              onClose={() => setLicensePlateModal(false)}
+            />
 
             {/* Sign In Text */}
             <Text style={styles.signInText}>
@@ -202,11 +276,92 @@ const styles = ScaledSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  dealerReviewingSection: {
+    padding: '18@ms',
+    backgroundColor: colors.cardsBackgroundColor,
+    borderRadius: '12@ms',
+    marginHorizontal: '16@ms',
+    marginBottom: '15@s',
+  },
+  dropdownWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '40@s',
+  },
+  dropdown: {
+    borderWidth: 0,
+    paddingHorizontal: '0@s',
+  },
+  dropdownText: {
+    fontSize: '16@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
+  },
+  dropdownItem: {
+    fontSize: '14@ms',
+    color: '#000',
+  },
+  valuatedCard: {
+    borderRadius: '12@ms',
+    padding: '12@ms',
+    marginTop: '14@vs',
+  },
+  imageBox: {
+    alignItems: 'center',
+    marginVertical: '12@vs',
+    backgroundColor: colors.white,
+    borderRadius: '12@s',
+  },
+  image: {
+    width: '100%',
+    height: '150@vs',
+    borderRadius: '12@ms',
+  },
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: colors.white,
+    borderRadius: '30@ms',
+    paddingVertical: '10@vs',
+    paddingHorizontal: '16@s',
+    marginBottom: '10@vs',
+  },
+  label: {
+    fontSize: '13@ms',
+    color: colors.black,
+    fontFamily: Secondaryfonts.medium,
+  },
+  value: {
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
+  },
+  reviewing: {
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
+  },
+  detailButton: {
+    borderWidth: 1,
+    borderColor: colors.blue,
+    borderRadius: '30@ms',
+    paddingVertical: '7@vs',
+    alignItems: 'center',
+    marginTop: '10@vs',
+    width: '50%',
+    alignSelf: 'center',
+  },
+  detailButtonText: {
+    fontSize: '14@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
+  },
   title: {
     fontSize: '25@ms',
     fontFamily: Primaryfonts.semibold,
     textAlign: 'center',
-    color: '#000',
+    color: colors.black,
     marginBottom: '20@vs',
     padding: '16@ms',
   },
@@ -232,9 +387,9 @@ const styles = ScaledSheet.create({
 
   fullImage: {
     position: 'absolute',
-    top: '170@vs', // 👈 overlap card bottom
+    top: '170@vs',
     left: 0,
-    width: '100%', // 👈 full screen width
+    width: '100%',
     height: '220@vs',
     resizeMode: 'cover',
   },
