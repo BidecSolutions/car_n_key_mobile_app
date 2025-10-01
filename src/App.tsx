@@ -58,6 +58,16 @@ import CarDetail from './Screen/CarDetail';
 import MyGarage from './Screen/MyGarage';
 import Valuation from './Screen/Valulation';
 import CarComparisonDetail from './Screen/CarComparisonDetail';
+import VehicleInspection from './Screen/VehicleInspection';
+import Financing from './Screen/Financing';
+import SellYourCar from './Screen/SellYourCar/SellYourCar';
+import SellYourCar2 from './Screen/SellYourCar/SellYourCar2';
+import ListedSuccess from './Screen/SellYourCar/ListedSuccess';
+import MyCarListing from './Screen/MyCarListing';
+import CarListingDetail from './Screen/CarListingDetail';
+import FindADealer from './Screen/FindADealer';
+import DealersDetail from './Screen/DealersDetail';
+import DealersInventory from './Screen/DealersInventory';
 
 export type RootStackParamList = {
   BottomTabs: undefined;
@@ -68,6 +78,16 @@ export type RootStackParamList = {
   CarDetail: undefined;
   Valuation: undefined;
   CarComparisonDetail: undefined;
+  VehicleInspection: undefined;
+  Financing: undefined;
+  SellYourCar: undefined;
+  SellYourCar2: undefined;
+  ListedSuccess: undefined;
+  MyCarListing: undefined;
+  CarListingDetail: undefined;
+  FindADealer: undefined;
+  DealersInventory: undefined;
+  DealersDetail: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -237,7 +257,59 @@ const AppContent = () => {
           component={CarComparisonDetail}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="VehicleInspection"
+          component={VehicleInspection}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Financing"
+          component={Financing}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SellYourCar"
+          component={SellYourCar}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="SellYourCar2"
+          component={SellYourCar2}
+          options={{headerShown: false}}
+        />
+        
+        <Stack.Screen
+          name="ListedSuccess"
+          component={ListedSuccess}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MyCarListing"
+          component={MyCarListing}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CarListingDetail"
+          component={CarListingDetail}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FindADealer"
+          component={FindADealer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DealersDetail"
+          component={DealersDetail}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DealersInventory"
+          component={DealersInventory}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 };

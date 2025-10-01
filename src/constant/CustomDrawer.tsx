@@ -145,6 +145,35 @@ const CustomDrawer = (props: any) => {
           }
           onPress={() => navigation.navigate('CarComparison')}
         />
+        <DrawerButton
+          label="Financing"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('Financing')}
+        />
+        <DrawerButton
+          label="Sell Your Car"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('SellYourCar')}
+        />
+        <DrawerButton
+          label="Sell Your Car 2"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('SellYourCar2')}
+        />
+        <DrawerButton
+          label="Car Dealers"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('FindADealer')}
+        />
+        
         
 
         <View style={styles.buttonContainer}>

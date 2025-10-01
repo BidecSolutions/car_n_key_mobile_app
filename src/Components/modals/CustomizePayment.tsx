@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import {scale, ScaledSheet} from 'react-native-size-matters';
+import {moderateScale, scale, ScaledSheet} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Dropdown} from 'react-native-element-dropdown';
 import {colors} from '../../constant/colors';
-import { Primaryfonts, Secondaryfonts } from '../../constant/fonts';
+import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
 
 const creditRatings = [
   {label: 'Excellent (780-750)', value: 'excellent'},
@@ -62,6 +62,12 @@ const CustomizePayment: React.FC<Props> = ({isVisible, onClose}) => {
               valueField="value"
               value={creditRating}
               onChange={item => setCreditRating(item.value)}
+              iconColor={colors.black}
+              itemTextStyle={{
+                fontFamily: Secondaryfonts.medium,
+                fontSize: moderateScale(14),
+                color: colors.black,
+              }}
             />
             <TextInput
               style={styles.box}

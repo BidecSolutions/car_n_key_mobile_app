@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Platform,
+  UIManager,
+  LayoutAnimation,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {
@@ -23,7 +26,7 @@ import {colors} from '../constant/colors';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 import {Header} from '../Components/Header/Header';
-import {DrawerParamList} from '../types';
+import {Dealer, DrawerParamList} from '../types';
 
 const priceHistory = [
   {id: '1', date: 'VIN', value: 'DKHSDJKHAS12312903'},
@@ -39,10 +42,61 @@ const priceHistory = [
   {id: '11', date: 'Clear history report', value: 'Verified'},
 ];
 
+const dealers: Dealer[] = [
+  {
+    id: '1',
+    name: 'Auto Hub',
+    offerRange: '$33k - $35K',
+    distance: '5mi',
+    inspection: 'No',
+    pickup: 'No',
+  },
+  {
+    id: '2',
+    name: 'Fast Motors',
+    offerRange: '$31k - $34K',
+    distance: '7mi',
+    inspection: 'Yes',
+    pickup: 'Yes',
+  },
+  {
+    id: '3',
+    name: 'Auto Hub',
+    offerRange: '$32k - $34K',
+    distance: '10mi',
+    inspection: 'No',
+    pickup: 'Yes',
+  },
+  {
+    id: '4',
+    name: 'Fast Motors',
+    offerRange: '$30k - $33K',
+    distance: '15mi',
+    inspection: 'Yes',
+    pickup: 'No',
+  },
+];
+
 const Valuation = () => {
   const [miles, setMiles] = useState('');
   const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
   const [showPriceHistory, setShowPriceHistory] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+  const [showDealersCard, setShowDealersCard] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>('1');
+  const [selectedId, setSelectedId] = useState<string | null>('1');
+
+  const toggleExpand = (id: string) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpandedId(expandedId === id ? null : id);
+  };
+
+  if (
+    Platform.OS === 'android' &&
+    UIManager.setLayoutAnimationEnabledExperimental
+  ) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
 
   const data = [
     {label: 'Option 1', value: '1'},
@@ -67,9 +121,98 @@ const Valuation = () => {
       />
 
       {/* Title */}
-      <Text style={styles.title}>Ask For Valuation</Text>
+      <Text style={styles.title}>
+        {!showCard
+          ? 'Ask For Valuation'
+          : showDealersCard
+          ? 'Choose the Best Offer from Our Verified Dealers'
+          : "Your Car's Valuation"}
+      </Text>
+
+      {showDealersCard && (
+        <Text style={styles.headerText}>
+          We've received offers from trusted dealers near you. Select the one
+          that works best for you.
+        </Text>
+      )}
+
+      {showDealersCard && (
+        <>
+          {dealers.map(dealer => {
+            const isExpanded = expandedId === dealer.id;
+            const isSelected = selectedId === dealer.id;
+
+            return (
+              <View
+                key={dealer.id}
+                style={[
+                  styles.dealerCardWrapper,
+                  !isExpanded && styles.dealerCardCollapsed,
+                ]}>
+                {/* Header */}
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.cardHeader}
+                  onPress={() => toggleExpand(dealer.id)}>
+                  <Text
+                    style={[
+                      styles.dealersCardTitle,
+                      isExpanded && {color: colors.blue}, // purple when expanded
+                    ]}>
+                    {dealer.name}
+                  </Text>
+                  <Icon
+                    name={isExpanded ? 'chevron-down' : 'chevron-up'}
+                    size={moderateScale(20)}
+                    color={isExpanded ? colors.blue : '#333'}
+                  />
+                </TouchableOpacity>
+
+                {/* Expanded Content */}
+                {isExpanded && (
+                  <View style={styles.detailsWrapper}>
+                    <View style={styles.row}>
+                      <Text style={styles.label}>Offer Range</Text>
+                      <Text style={styles.value}>{dealer.offerRange}</Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={styles.label}>Distance</Text>
+                      <Text style={styles.value}>{dealer.distance}</Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={styles.label}>Inspection Required</Text>
+                      <Text style={styles.value}>{dealer.inspection}</Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={styles.label}>Pickup Option</Text>
+                      <Text style={styles.value}>{dealer.pickup}</Text>
+                    </View>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.selectButton,
+                        isSelected && styles.selectedButton,
+                      ]}
+                      onPress={() => {
+                        setSelectedId(dealer.id);
+                        navigation.navigate('VehicleInspection', {
+                          dealerId: dealer.id,
+                        });
+                      }}>
+                      <Text style={styles.selectButtonText}>
+                        {isSelected ? 'Selected' : 'Select'}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+            );
+          })}
+        </>
+      )}
 
       {/* Car Image */}
+
       <View style={styles.imageWrapper}>
         <Image
           source={require('../assets/Images/ValuationCar.png')}
@@ -143,37 +286,62 @@ const Valuation = () => {
       </View>
 
       {/* Button */}
-      <TouchableOpacity style={styles.valuationButton}>
-        <Text style={styles.valuationButtonText}>Ask For Valuation</Text>
-      </TouchableOpacity>
+      {!showCard ? (
+        <TouchableOpacity style={styles.valuationButton}>
+          <Text style={styles.valuationButtonText}>Ask For Valuation</Text>
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.getInstantOfferCard}>
+          <Text style={styles.getInstantRange}>$47,885 - $53,472</Text>
+          <Text style={styles.getInstantSubtitle}>Get Instant Offer</Text>
+        </View>
+      )}
 
-      <View style={styles.cardWrapper}>
-        {/* Card */}
-        <View style={styles.card}>
-          <Text style={styles.cardSubtitle}>Instant Offer</Text>
-          <Text style={styles.cardTitle}>Ready to Sale</Text>
-          <Text style={styles.valuationTitle}>Ask for Valuation</Text>
-          <Text style={styles.cardSubtitle}>Expected Cash Offer Range.</Text>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => console.log('Navigate to vehicle details')}>
-              <Text style={styles.linkText}>Complete your Vehicle details</Text>
-            </TouchableOpacity>
-            <Text style={styles.normalText}> To get exact valuation</Text>
+      {!showDealersCard && (
+        <View style={styles.cardWrapper}>
+          {/* Card */}
+          <View style={styles.card}>
+            <Text style={styles.cardSubtitle}>Instant Offer</Text>
+            <Text style={styles.cardTitle}>Ready to Sale</Text>
+            {!showCard ? (
+              <Text style={styles.valuationTitle}>Ask for Valuation</Text>
+            ) : (
+              <Text style={styles.valuationTitle}>$32,450 - $38,472</Text>
+            )}
+            <Text style={styles.cardSubtitle}>Expected Cash Offer Range.</Text>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                onPress={() => console.log('Navigate to vehicle details')}>
+                <Text style={styles.linkText}>
+                  Complete your Vehicle details
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.normalText}> To get exact valuation</Text>
+            </View>
+
+            {/* Button */}
+            {!showCard ? (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setShowCard(true)}>
+                <Text style={styles.buttonText}>Submit</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setShowDealersCard(true)}>
+                <Text style={styles.buttonText}>Get Instant Offer</Text>
+              </TouchableOpacity>
+            )}
           </View>
 
-          {/* Button */}
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Get Instant Offer</Text>
-          </TouchableOpacity>
+          {/* Full-width Car Image */}
+          <Image
+            source={require('../assets/Images/GreenCar.png')}
+            style={styles.fullImage}
+          />
         </View>
-
-        {/* Full-width Car Image */}
-        <Image
-          source={require('../assets/Images/GreenCar.png')}
-          style={styles.fullImage}
-        />
-      </View>
+      )}
     </ScrollView>
   );
 };
@@ -194,7 +362,7 @@ const styles = ScaledSheet.create({
   },
   title: {
     fontSize: '25@ms',
-    fontFamily: Primaryfonts.semibold,
+    fontFamily: Primaryfonts.medium,
     textAlign: 'center',
     color: '#000',
     marginBottom: '20@vs',
@@ -206,6 +374,75 @@ const styles = ScaledSheet.create({
   },
   iconSpacing: {
     marginRight: s(12),
+  },
+  headerText: {
+    fontSize: '13@ms',
+    textAlign: 'center',
+    color: colors.black,
+    marginBottom: '16@vs',
+    marginHorizontal: '16@s',
+    fontFamily: Secondaryfonts.medium,
+  },
+  dealerCardWrapper: {
+    borderRadius: '8@s',
+    marginBottom: '10@vs',
+    backgroundColor: colors.cardsBackgroundColor,
+    overflow: 'hidden',
+    margin: '16@ms',
+    padding: '16@ms',
+  },
+
+  dealerCardCollapsed: {
+    paddingVertical: '3@vs', // 👈 smaller vertical padding
+    paddingHorizontal: '12@s', // 👈 lighter padding
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: '2@vs',
+    paddingHorizontal: '12@s',
+  },
+  dealersCardTitle: {
+    fontSize: '14@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
+  },
+  detailsWrapper: {
+    padding: '12@ms',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: '6@vs',
+    borderBottomWidth: 0.2,
+    borderBottomColor: colors.black,
+  },
+  label: {
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.medium,
+    color: colors.black,
+  },
+  value: {
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.medium,
+    color: colors.black,
+  },
+  selectButton: {
+    marginTop: '14@vs',
+    paddingVertical: '5@vs',
+    borderRadius: '20@s',
+    backgroundColor: colors.blue,
+    alignItems: 'center',
+  },
+  selectedButton: {
+    backgroundColor: colors.blue,
+    paddingVertical: '5@vs',
+  },
+  selectButtonText: {
+    color: colors.white,
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.semibold,
   },
   imageWrapper: {
     borderRadius: ms(10),
@@ -243,7 +480,7 @@ const styles = ScaledSheet.create({
   inputRow: {
     backgroundColor: colors.cardsBackgroundColor,
     borderRadius: ms(25),
-    paddingVertical: vs(10),
+    paddingVertical: vs(5),
     paddingHorizontal: s(16),
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -253,7 +490,7 @@ const styles = ScaledSheet.create({
     fontSize: ms(13),
     fontFamily: Secondaryfonts.medium,
     color: colors.black,
-    marginBottom: vs(5),
+    marginTop: '4@vs',
   },
   input: {
     fontSize: ms(13),
@@ -307,6 +544,7 @@ const styles = ScaledSheet.create({
     fontSize: '14@ms',
     fontFamily: Secondaryfonts.semibold,
     color: colors.black,
+    marginHorizontal: '10@s',
   },
   sectionBody: {
     backgroundColor: colors.backgroundColor,
@@ -356,6 +594,27 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     marginHorizontal: '20@s',
     marginTop: '20@vs',
+  },
+  getInstantOfferCard: {
+    backgroundColor: colors.blue,
+    borderRadius: '12@ms',
+    paddingVertical: '16@vs',
+    paddingHorizontal: '12@s',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: '20@s',
+    marginTop: '20@vs',
+  },
+  getInstantSubtitle: {
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.medium,
+    color: colors.white,
+  },
+  getInstantRange: {
+    fontSize: '21@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.white,
+    marginBottom: '6@vs',
   },
   marketTitle: {
     fontSize: '15@ms',

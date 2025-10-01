@@ -56,7 +56,6 @@ const Home = () => {
       {/* Header Banner */}
 
       <Header
-        title="Home"
         showBack={false}
         showDrawer={true}
         onDrawerPress={() => navigation.openDrawer()}
@@ -90,12 +89,7 @@ const Home = () => {
           style={styles.dealImage}
           resizeMode="cover"
         />
-        <View style={styles.dealTextContainer}>
-          <Text style={styles.dealTitle}>20% Week Deals</Text>
-          <Text style={styles.dealSubtitle}>
-            We’re offering exciting deals every week!
-          </Text>
-        </View>
+       
       </View>
 
       {/* Top Brands */}
@@ -136,7 +130,7 @@ const Home = () => {
         renderItem={({item}) => (
           <View style={styles.carCategoryCard}>
             <Image source={item.image} style={styles.carCategoryImage} />
-            <Text style={styles.carCategoryText}>{item.title}</Text>
+            <Text style={styles.carCategoryText}>{item.name}</Text>
           </View>
         )}
         scrollEnabled={false}

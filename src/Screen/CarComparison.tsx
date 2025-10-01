@@ -50,7 +50,6 @@ const CarComparison: React.FC = () => {
       showsVerticalScrollIndicator={false}>
       {/* Header */}
       <Header
-        title="Car Comparison"
         showBack={true}
         showDrawer={true}
         showTitle={true}

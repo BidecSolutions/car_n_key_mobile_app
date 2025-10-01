@@ -50,3 +50,12 @@ export interface Review {
   text: string;
   rating: number;
 }
+
+export type Dealer = {
+  id: string;
+  name: string;
+  offerRange: string;
+  distance: string;
+  inspection: string;
+  pickup: string;
+};

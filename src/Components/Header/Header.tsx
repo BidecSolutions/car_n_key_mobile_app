@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, ScaledSheet, verticalScale } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { colors } from '../../constant/colors';
+import { Primaryfonts } from '../../constant/fonts';
 
 type HeaderProps = {
   onBackPress?: () => void;
@@ -34,8 +35,8 @@ export const Header = ({
   showProfile = false,
   showDrawer = true,
   backgroundColor = colors.backgroundColor,
-  iconColor = '#000',
-  titleColor = '#000',
+  iconColor = colors.black,
+  titleColor = colors.black,
 }: HeaderProps) => {
   return (
     <View style={[styles.headerContainer, { backgroundColor }]}>
@@ -43,7 +44,6 @@ export const Header = ({
       {showBack ? (
         <TouchableOpacity style={styles.backButton} onPress={onBackPress}>
           <Icon name="chevron-left" size={moderateScale(28)} color={iconColor} />
-          <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
       ) : showLogo ? (
         <Image
@@ -93,18 +93,17 @@ const styles = ScaledSheet.create({
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    minWidth: scale(60),
+    minWidth: moderateScale(40),
   },
   backText: {
     fontSize: moderateScale(16),
     fontFamily: 'Poppins-Regular',
-    color: '#000',
+    color: colors.black,
   },
   title: {
-    fontSize: moderateScale(16),
-    fontFamily: 'Poppins-Medium',
-    color: '#000',
-    textAlign: 'center',
+    fontSize: moderateScale(19),
+    fontFamily: Primaryfonts.medium,
+    color: colors.black,
     flex: 1,
     marginHorizontal: scale(10),
   },
