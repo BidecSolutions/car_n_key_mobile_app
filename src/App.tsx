@@ -69,6 +69,10 @@ import FindADealer from './Screen/FindADealer';
 import DealersDetail from './Screen/DealersDetail';
 import DealersInventory from './Screen/DealersInventory';
 import TradeInToday from './Screen/TradeInScreens/TradeInToday';
+import Login from './Screen/SignUpScreens/Login';
+import SignUp from './Screen/SignUpScreens/SignUp';
+import ForgetPassword from './Screen/SignUpScreens/ForgetPassword';
+
 
 
 export type RootStackParamList = {
@@ -91,6 +95,9 @@ export type RootStackParamList = {
   DealersInventory: undefined;
   DealersDetail: undefined;
   TradeInToday:undefined;
+  Login:undefined;
+  SignUp:undefined;
+  ForgetPassword:undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -254,7 +261,7 @@ const AppContent = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={'Home'}
+        initialRouteName={'SignUp'}
         screenOptions={{
           animation: 'slide_from_right',
         }}>
@@ -337,6 +344,21 @@ const AppContent = () => {
         <Stack.Screen
           name="TradeInToday"
           component={TradeInToday}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ForgetPassword"
+          component={ForgetPassword}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -17,15 +17,17 @@ import {Header} from '../Components/Header/Header';
 import {colors} from '../constant/colors';
 import CarListSection from './DynamicSections/CarListSection';
 import {BlurView} from '@react-native-community/blur';
-import { Primaryfonts, Secondaryfonts } from '../constant/fonts';
-import { DrawerParamList } from '../types';
+import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
+import {DrawerParamList} from '../types';
 
 const topBrands = [
-  {id: '1', name: 'Tesla', icon: require('../assets/Images/Car.png')},
-  {id: '2', name: 'Mercedes', icon: require('../assets/Images/Car.png')},
-  {id: '3', name: 'BMW', icon: require('../assets/Images/Car.png')},
-  {id: '4', name: 'Audi', icon: require('../assets/Images/Car.png')},
-  {id: '5', name: 'Nissan', icon: require('../assets/Images/Car.png')},
+  {id: '1', name: 'Tesla', icon: require('../assets/Images/TeslaIcon.png')},
+  {id: '2', name: 'Mercedes', icon: require('../assets/Images/MercedesIcon.png')},
+  {id: '3', name: 'BMW', icon: require('../assets/Images/BMWIcon.png')},
+  {id: '4', name: 'Audi', icon: require('../assets/Images/AudiIcon.png')},
+  {id: '5', name: 'Nissan', icon: require('../assets/Images/NissanIcon.png')},
+  {id: '6', name: 'Nissan', icon: require('../assets/Images/NissanIcon.png')},
+  {id: '7', name: 'Nissan', icon: require('../assets/Images/NissanIcon.png')},
 ];
 
 const features = [
@@ -46,8 +48,6 @@ const carCategories = [
   {id: '5', name: 'Pickup Truck', image: require('../assets/Images/Car.png')},
   {id: '6', name: 'Electric', image: require('../assets/Images/Car.png')},
 ];
-
-
 
 const Home = () => {
   const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
@@ -89,7 +89,6 @@ const Home = () => {
           style={styles.dealImage}
           resizeMode="cover"
         />
-       
       </View>
 
       {/* Top Brands */}
@@ -229,50 +228,49 @@ const Home = () => {
       </View>
 
       {/* --- Compare Cars Section --- */}
-      <Text style={styles.sectionTitle}>
-        Compare Cars & Make the Right Choice
-      </Text>
 
-      {/* Compare Card */}
-      {/* Compare Section */}
       <Text style={styles.compareTitle}>
         Compare Cars & Make the Right Choice
       </Text>
 
-      <View style={styles.compareCard}>
-        {/* Left Car */}
-        <View style={styles.carBox}>
-          <Image
-            source={require('../assets/Images/Car.png')}
-            style={[styles.compareCarImage, {transform: [{scaleX: -1}]}]} // Flip to face right
-            resizeMode="contain"
-          />
-          <Text style={styles.carBrand}>Toyota</Text>
-          <Text style={styles.carModel}>Camry</Text>
-          <Text style={styles.carPrice}>Rs. 10,000</Text>
+      <View style={styles.compareContainer}>
+        {/* Cars Row */}
+        <View style={styles.compareCard}>
+          {/* Left Car */}
+          <View style={styles.carBox}>
+            <Image
+              source={require('../assets/Images/Car.png')}
+              style={[styles.compareCarImage, {transform: [{scaleX: -1}]}]}
+              resizeMode="contain"
+            />
+            <Text style={styles.carBrand}>Toyota</Text>
+            <Text style={styles.carModel}>Camry</Text>
+            <Text style={styles.carPrice}>Rs. 10,000</Text>
+          </View>
+
+          {/* VS Circle */}
+          <View style={styles.vsCircle}>
+            <Text style={styles.vsText}>VS</Text>
+          </View>
+
+          {/* Right Car */}
+          <View style={styles.carBox}>
+            <Image
+              source={require('../assets/Images/Car.png')}
+              style={styles.compareCarImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.carBrand}>Skoda</Text>
+            <Text style={styles.carModel}>Kylad</Text>
+            <Text style={styles.carPrice}>Rs. 11,000</Text>
+          </View>
         </View>
 
-        {/* VS Circle in Middle */}
-        <View style={styles.vsCircle}>
-          <Text style={styles.vsText}>VS</Text>
-        </View>
-
-        {/* Right Car */}
-        <View style={styles.carBox}>
-          <Image
-            source={require('../assets/Images/Car.png')}
-            style={styles.compareCarImage} // Normal (facing left by default)
-            resizeMode="contain"
-          />
-          <Text style={styles.carBrand}>Skoda</Text>
-          <Text style={styles.carModel}>Kylad</Text>
-          <Text style={styles.carPrice}>Rs. 11,000</Text>
-        </View>
+        {/* Button inside same container */}
+        <TouchableOpacity style={styles.compareBtn}>
+          <Text style={styles.compareBtnText}>View Comparison</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity style={styles.compareBtn}>
-        <Text style={styles.compareBtnText}>View Comparison</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -378,8 +376,8 @@ const styles = ScaledSheet.create({
     marginRight: '16@s',
   },
   brandIcon: {
-    width: '70@ms',
-    height: '70@ms',
+    width: '35@ms',
+    height: '35@ms',
     resizeMode: 'contain',
   },
   brandName: {
@@ -566,44 +564,52 @@ const styles = ScaledSheet.create({
     marginBottom: '14@vs',
     color: colors.hind,
   },
-  compareCard: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
+  compareContainer: {
+    borderWidth: 1,
+    borderColor: colors.hind,
     borderRadius: '18@ms',
     backgroundColor: colors.white,
-    padding: '16@ms',
+    marginBottom:'16@vs',
+    padding:'16@ms',
     marginHorizontal: '10@s',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 3,
   },
+
+  compareCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start', // push VS down
+    justifyContent: 'space-between',
+  },
+
   carBox: {
     flex: 1,
     alignItems: 'center',
   },
+
   compareCarImage: {
     width: '140@ms',
     height: '100@vs',
     marginBottom: '6@vs',
   },
+
   carBrand: {
     fontSize: '11@ms',
     color: '#888',
     fontFamily: Secondaryfonts.medium,
   },
+
   carModel: {
     fontSize: '15@ms',
     fontFamily: Secondaryfonts.semibold,
     color: colors.hind,
   },
+
   carPrice: {
     fontSize: '12@ms',
     fontFamily: Secondaryfonts.semibold,
     color: colors.hind,
     marginTop: '3@vs',
   },
+
   vsCircle: {
     width: '50@ms',
     height: '50@ms',
@@ -611,23 +617,26 @@ const styles = ScaledSheet.create({
     backgroundColor: colors.blue,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
     marginHorizontal: '10@s',
+    marginTop: '100@vs', // push it a little lower
   },
+
   vsText: {
     color: colors.white,
     fontSize: '14@ms',
     fontFamily: Secondaryfonts.semibold,
   },
+
   compareBtn: {
     borderWidth: 1,
     borderColor: colors.blue,
     borderRadius: '22@ms',
     paddingVertical: '10@vs',
-    paddingHorizontal: '30@s',
+    paddingHorizontal: '80@s',
     alignSelf: 'center',
     marginTop: '15@vs',
   },
+
   compareBtnText: {
     fontSize: '13@ms',
     fontFamily: Secondaryfonts.semibold,
