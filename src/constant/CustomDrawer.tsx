@@ -173,6 +173,13 @@ const CustomDrawer = (props: any) => {
           }
           onPress={() => navigation.navigate('FindADealer')}
         />
+        <DrawerButton
+          label="Trade In Today"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('TradeInToday')}
+        />
         
         
 

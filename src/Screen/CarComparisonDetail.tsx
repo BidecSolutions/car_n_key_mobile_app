@@ -7,6 +7,8 @@ import {colors} from '../constant/colors';
 import {ms, s, ScaledSheet, vs} from 'react-native-size-matters';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
+import {useState} from 'react';
+import ContactDealer from './../Components/modals/ContactDealer';
 
 type RootStackParamList = {
   Home: undefined;
@@ -28,17 +30,23 @@ type CarComparisonDetailNavProp = CompositeNavigationProp<
 
 const CarComparisonDetail = () => {
   const navigation = useNavigation<CarComparisonDetailNavProp>();
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+
+  const handleCategoryPress = (index: number) => {
+    setSelectedCategory(index);
+  };
+
   const categories = [
-    {label: 'Pricing', icon: require('../assets/Images/Car.png')},
-    {label: 'Electrical', icon: require('../assets/Images/Car.png')},
-    {label: 'Wheel', icon: require('../assets/Images/Car.png')},
-    {label: 'Suspension', icon: require('../assets/Images/Car.png')},
-    {label: 'Steering', icon: require('../assets/Images/Car.png')},
-    {label: 'Brakes', icon: require('../assets/Images/Car.png')},
-    {label: 'Capacity', icon: require('../assets/Images/Car.png')},
-    {label: 'Safety', icon: require('../assets/Images/Car.png')},
-    {label: 'Dimensions', icon: require('../assets/Images/Car.png')},
-    {label: 'Engine', icon: require('../assets/Images/Car.png')},
+    {label: 'Pricing', icon: require('../assets/Images/pricingIcon.png')},
+    {label: 'Electrical', icon: require('../assets/Images/electricalIcon.png')},
+    {label: 'Wheel', icon: require('../assets/Images/wheelIcon.png')},
+    {label: 'Suspension', icon: require('../assets/Images/suspensionIcon.png')},
+    {label: 'Steering', icon: require('../assets/Images/steeringIcon.png')},
+    {label: 'Brakes', icon: require('../assets/Images/brakesIcon.png')},
+    {label: 'Capacity', icon: require('../assets/Images/capacityIcon.png')},
+    {label: 'Safety', icon: require('../assets/Images/safetyIcon.png')},
+    {label: 'Dimensions', icon: require('../assets/Images/dimensionIcon.png')},
+    {label: 'Engine', icon: require('../assets/Images/engineIcon.png')},
   ];
 
   const categoryDetails = [
@@ -86,65 +94,83 @@ const CarComparisonDetail = () => {
         titleColor={colors.black}
         onBackPress={navigation.goBack}
       />
-      <Text style={styles.title}>Compare Cars Side-by-Side</Text>
-      <Text style={styles.subtitle}>
-        Choose the better ride. View features, specs, and performance at a
-        glance.
-      </Text>
+      <View style={styles.contentContainer}>
+        <Text style={styles.title}>Compare Cars Side-by-Side</Text>
+        <Text style={styles.subtitle}>
+          Choose the better ride. View features, specs, and performance at a
+          glance.
+        </Text>
 
-      {/* Category Icons */}
-      <View style={styles.categoryGrid}>
-        {categories.map((cat, index) => (
-          <TouchableOpacity key={index} style={styles.categoryItem}>
-            <Image source={cat.icon} style={styles.icon} resizeMode="contain" />
-            <Text style={styles.categoryLabel}>{cat.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Car Comparison */}
-      <View style={styles.carRow}>
-        <View style={styles.carBox}>
-          <Image
-            source={require('../assets/Images/Car.png')}
-            style={styles.carImage}
-          />
-          <Text style={styles.carName}>2020 Alfa Romeo 4C</Text>
+        {/* Category Icons */}
+        <View style={styles.categoryGrid}>
+          {categories.map((cat, index) => {
+            const isSelected = selectedCategory === index;
+            return (
+              <TouchableOpacity
+                key={index}
+                style={styles.categoryItem}
+                onPress={() => handleCategoryPress(index)}
+                activeOpacity={0.8}>
+                <View
+                  style={[
+                    styles.iconCircle,
+                    isSelected && styles.iconCircleSelected,
+                  ]}>
+                  <Image
+                    source={cat.icon}
+                    style={[styles.icon, isSelected && styles.iconSelected]}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text style={styles.categoryLabel}>{cat.label}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
-        <Text style={styles.vs}>VS</Text>
-        <View style={styles.carBox}>
-          <Image
-            source={require('../assets/Images/Car.png')}
-            style={styles.carImage}
-          />
-          <Text style={styles.carName}>2020 Alfa Romeo 4C</Text>
-        </View>
-      </View>
 
-      {/* Highlights Rows */}
-      <View style={styles.highlightBox}>
-        {categoryDetails.map((section, sectionIdx) => (
-          <View key={sectionIdx} style={styles.sectionWrapper}>
-            {/* Header */}
-            <View style={styles.highlightHeader}>
-              <Text style={styles.highlightTitle}>{section.title}</Text>
-            </View>
-
-            {/* Rows */}
-            {section.data.map((item, idx) => (
-              <View key={idx} style={styles.row}>
-                <Text style={styles.value}>{item.left}</Text>
-                <View style={styles.separator} />
-                <Text style={styles.label}>{item.label}</Text>
-                <View style={styles.separator} />
-                <Text style={styles.value}>{item.right}</Text>
-              </View>
-            ))}
+        {/* Car Comparison */}
+        <View style={styles.carRow}>
+          <View style={styles.carBox}>
+            <Image
+              source={require('../assets/Images/leftSilverCar.png')}
+              style={styles.carImage}
+            />
+            <Text style={styles.carName}>2021 Alfa Romeo 4C</Text>
           </View>
-        ))}
-      </View>
+          <Text style={styles.vs}>VS</Text>
+          <View style={styles.carBox}>
+            <Image
+              source={require('../assets/Images/rightSilverCar.png')}
+              style={styles.carImage}
+            />
+            <Text style={styles.carName}>2020 Alfa Romeo 4C</Text>
+          </View>
+        </View>
 
-      <Text style={styles.sectionTitle}>
+        {/* Highlights Rows */}
+        <View style={styles.highlightBox}>
+          {categoryDetails.map((section, sectionIdx) => (
+            <View key={sectionIdx} style={styles.sectionWrapper}>
+              {/* Header */}
+              <View style={styles.highlightHeader}>
+                <Text style={styles.highlightTitle}>{section.title}</Text>
+              </View>
+
+              {/* Rows */}
+              {section.data.map((item, idx) => (
+                <View key={idx} style={styles.row}>
+                  <Text style={styles.value}>{item.left}</Text>
+                  <View style={styles.separator} />
+                  <Text style={styles.label}>{item.label}</Text>
+                  <View style={styles.separator} />
+                  <Text style={styles.value}>{item.right}</Text>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
+
+        <Text style={styles.sectionTitle}>
           Compare Cars & Make{'\n'}the Right Choice
         </Text>
         <Text style={styles.sectionDesc}>
@@ -152,39 +178,39 @@ const CarComparisonDetail = () => {
           renting cars. If you need more help, feel free to reach out!
         </Text>
 
-      <View style={styles.cardContainer}>
-        
-        {/* Cars + VS */}
-        <View style={styles.compareCard}>
-          <View style={styles.compareCarBox}>
-            <Image
-              source={require('../assets/Images/left_car.png')}
-              style={styles.carImage}
-              resizeMode="contain"
-            />
-            <Text style={styles.compareCarName}>Camry</Text>
-            <Text style={styles.carPrice}>Rs. 10,000</Text>
+        <View style={styles.cardContainer}>
+          {/* Cars + VS */}
+          <View style={styles.compareCard}>
+            <View style={styles.compareCarBox}>
+              <Image
+                source={require('../assets/Images/left_car.png')}
+                style={styles.carImage}
+                resizeMode="contain"
+              />
+              <Text style={styles.compareCarName}>Camry</Text>
+              <Text style={styles.carPrice}>Rs. 10,000</Text>
+            </View>
+
+            <View style={styles.vsCircle}>
+              <Text style={styles.vsText}>VS</Text>
+            </View>
+
+            <View style={styles.compareCarBox}>
+              <Image
+                source={require('../assets/Images/right_car.png')}
+                style={styles.compareCarImage}
+                resizeMode="contain"
+              />
+              <Text style={styles.compareCarName}>Kylad</Text>
+              <Text style={styles.carPrice}>Rs. 11,000</Text>
+            </View>
           </View>
 
-          <View style={styles.vsCircle}>
-            <Text style={styles.vsText}>VS</Text>
-          </View>
-
-          <View style={styles.compareCarBox}>
-            <Image
-              source={require('../assets/Images/right_car.png')}
-              style={styles.compareCarImage}
-              resizeMode="contain"
-            />
-            <Text style={styles.compareCarName}>Kylad</Text>
-            <Text style={styles.carPrice}>Rs. 11,000</Text>
-          </View>
+          {/* View Comparison button inside card */}
+          <TouchableOpacity style={styles.viewBtn} activeOpacity={0.85}>
+            <Text style={styles.viewText}>View Comparison</Text>
+          </TouchableOpacity>
         </View>
-
-        {/* View Comparison button inside card */}
-        <TouchableOpacity style={styles.viewBtn} activeOpacity={0.85}>
-          <Text style={styles.viewText}>View Comparison</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -202,8 +228,8 @@ const styles = ScaledSheet.create({
     paddingBottom: '40@vs',
   },
   title: {
-    fontSize: '18@ms',
-    fontFamily: 'Poppins-SemiBold',
+    fontSize: '28@ms',
+    fontFamily: Primaryfonts.semibold,
     textAlign: 'center',
     color: colors.black,
   },
@@ -221,16 +247,38 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     marginBottom: '20@vs',
   },
+
   categoryItem: {
     width: '20%',
     alignItems: 'center',
     marginBottom: '16@vs',
   },
-  icon: {
-    width: '40@ms',
-    height: '40@ms',
+
+  iconCircle: {
+    width: '50@ms',
+    height: '50@ms',
+    borderRadius: '25@ms',
+    borderWidth: 1,
+    borderColor: colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: '6@vs',
   },
+
+  iconCircleSelected: {
+    backgroundColor: colors.blue, // blue when selected
+  },
+
+  icon: {
+    width: '25@ms',
+    height: '25@ms',
+    tintColor: colors.black, // default black
+  },
+
+  iconSelected: {
+    tintColor: colors.white,
+  },
+
   categoryLabel: {
     fontSize: '11@ms',
     fontFamily: Secondaryfonts.regular,
@@ -294,7 +342,7 @@ const styles = ScaledSheet.create({
   },
   separator: {
     width: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: colors.hind,
     marginHorizontal: '6@s',
     alignSelf: 'stretch', // makes it full row height
   },

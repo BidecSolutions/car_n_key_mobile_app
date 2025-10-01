@@ -68,6 +68,8 @@ import CarListingDetail from './Screen/CarListingDetail';
 import FindADealer from './Screen/FindADealer';
 import DealersDetail from './Screen/DealersDetail';
 import DealersInventory from './Screen/DealersInventory';
+import TradeInToday from './Screen/TradeInScreens/TradeInToday';
+
 
 export type RootStackParamList = {
   BottomTabs: undefined;
@@ -88,6 +90,7 @@ export type RootStackParamList = {
   FindADealer: undefined;
   DealersInventory: undefined;
   DealersDetail: undefined;
+  TradeInToday:undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -206,6 +209,29 @@ export const HomeDrawer = () => (
         ),
       }}
     />
+    <Drawer.Screen
+      name="TradeInToday"
+      component={TradeInToday}
+      options={{
+        drawerLabel: ({color}) => (
+          <Text
+            style={{
+              color,
+              fontFamily: 'Poppins-Regular',
+              fontSize: moderateScale(14),
+            }}>
+            Trade In Today
+          </Text>
+        ),
+        drawerIcon: ({focused}) => (
+          <FontAwesome
+            name="Trade In Today"
+            size={moderateScale(24)}
+            color={focused ? colors.backgroundColor : colors.black}
+          />
+        ),
+      }}
+    />
   </Drawer.Navigator>
 );
 
@@ -306,6 +332,11 @@ const AppContent = () => {
         <Stack.Screen
           name="DealersInventory"
           component={DealersInventory}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TradeInToday"
+          component={TradeInToday}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
