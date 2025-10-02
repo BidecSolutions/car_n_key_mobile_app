@@ -180,6 +180,17 @@ const MyGarage: React.FC<Props> = ({valuationCar}) => {
             <LicensePlate
               isVisible={licensePlateModal}
               onClose={() => setLicensePlateModal(false)}
+              onAction={(tab, values) => {
+                console.log('Pressed:', tab, values);
+
+                if (tab === 'LICENSE') {
+                  // Do license plate lookup API
+                } else if (tab === 'VIN') {
+                  // Do VIN lookup
+                } else {
+                  // Do make/model/year/style lookup
+                }
+              }}
             />
 
             {/* Sign In Text */}
@@ -258,7 +269,7 @@ const MyGarage: React.FC<Props> = ({valuationCar}) => {
             keyExtractor={item => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{paddingHorizontal: ms(10)}}
+            contentContainerStyle={{paddingHorizontal: s(10)}}
           />
 
           {/* More Button */}

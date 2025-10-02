@@ -72,7 +72,8 @@ import TradeInToday from './Screen/TradeInScreens/TradeInToday';
 import Login from './Screen/SignUpScreens/Login';
 import SignUp from './Screen/SignUpScreens/SignUp';
 import ForgetPassword from './Screen/SignUpScreens/ForgetPassword';
-
+import CarValuation from './Screen/TradeInScreens/CarValuation';
+import TradeInProcess from './Screen/TradeInScreens/TradeInProcess';
 
 
 export type RootStackParamList = {
@@ -98,6 +99,8 @@ export type RootStackParamList = {
   Login:undefined;
   SignUp:undefined;
   ForgetPassword:undefined;
+  CarValuation: undefined;
+  TradeInProcess: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -361,6 +364,17 @@ const AppContent = () => {
           component={ForgetPassword}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="CarValuation"
+          component={CarValuation}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TradeInProcess"
+          component={TradeInProcess}
+          options={{headerShown: false}}
+        />
+
       </Stack.Navigator>
       
     </NavigationContainer>

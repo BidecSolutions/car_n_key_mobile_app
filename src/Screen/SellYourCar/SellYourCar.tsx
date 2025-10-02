@@ -172,6 +172,7 @@ const SellYourCar: React.FC = () => {
     'exterior' | 'interior' | null
   >(null);
   const [stillPaying, setStillPaying] = useState<string | null>(null);
+  const [originalOwner, setOriginalOwner] = useState<string | null>(null);
   const [accident, setAccident] = useState<string | null>(null);
   const [loanType, setLoanType] = useState<'loan' | 'lease' | null>(null);
   const [carAccident, setCarAccident] = useState<string | null>(null);
@@ -406,20 +407,18 @@ const SellYourCar: React.FC = () => {
               ]}
             />
             <View style={styles.content}>
-              <Text style={styles.question}>
-                Are you still making payments on your car? *
-              </Text>
+              <Text style={styles.question}>Are you the original owner? *</Text>
               <View style={styles.row}>
                 <TouchableOpacity
                   style={[
                     styles.option,
-                    stillPaying === 'yes' && styles.optionSelectedGreen,
+                    originalOwner === 'yes' && styles.optionSelectedGreen,
                   ]}
-                  onPress={() => setStillPaying('yes')}>
+                  onPress={() => setOriginalOwner('yes')}>
                   <Text
                     style={[
                       styles.optionText,
-                      stillPaying === 'yes' && styles.optionTextSelectedGreen,
+                      originalOwner === 'yes' && styles.optionTextSelectedGreen,
                     ]}>
                     Yes
                   </Text>
@@ -427,13 +426,13 @@ const SellYourCar: React.FC = () => {
                 <TouchableOpacity
                   style={[
                     styles.option,
-                    stillPaying === 'no' && styles.optionSelected,
+                    originalOwner === 'no' && styles.optionSelected,
                   ]}
-                  onPress={() => setStillPaying('no')}>
+                  onPress={() => setOriginalOwner('no')}>
                   <Text
                     style={[
                       styles.optionText,
-                      stillPaying === 'no' && styles.optionTextSelectedText,
+                      originalOwner === 'no' && styles.optionTextSelectedText,
                     ]}>
                     No
                   </Text>
@@ -533,41 +532,45 @@ const SellYourCar: React.FC = () => {
           </View>
 
           {/* Loan / Lease */}
-          <Text style={styles.label}>What type of payments? *</Text>
-          <View style={styles.row}>
-            <TouchableOpacity
-              style={[
-                styles.loanOption,
-                loanType === 'loan' && styles.loanSelected,
-              ]}
-              onPress={() => setLoanType('loan')}>
-              <Text
-                style={[
-                  styles.loanText,
-                  loanType === 'loan' && styles.loanTextSelected,
-                ]}>
-                Loan
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.loanOption,
-                loanType === 'lease' && styles.loanSelected,
-              ]}
-              onPress={() => setLoanType('lease')}>
-              <Text
-                style={[
-                  styles.loanText,
-                  loanType === 'lease' && styles.loanTextSelected,
-                ]}>
-                Lease
-              </Text>
-            </TouchableOpacity>
-          </View>
+          {stillPaying === 'yes' && (
+            <>
+              <Text style={styles.label}>What type of payments? *</Text>
+              <View style={styles.row}>
+                <TouchableOpacity
+                  style={[
+                    styles.loanOption,
+                    loanType === 'loan' && styles.loanSelected,
+                  ]}
+                  onPress={() => setLoanType('loan')}>
+                  <Text
+                    style={[
+                      styles.loanText,
+                      loanType === 'loan' && styles.loanTextSelected,
+                    ]}>
+                    Loan
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.loanOption,
+                    loanType === 'lease' && styles.loanSelected,
+                  ]}
+                  onPress={() => setLoanType('lease')}>
+                  <Text
+                    style={[
+                      styles.loanText,
+                      loanType === 'lease' && styles.loanTextSelected,
+                    ]}>
+                    Lease
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
 
           {/* Conditional Inputs */}
 
-          {loanType === 'loan' && (
+          {loanType === 'loan' && stillPaying === 'yes' && (
             <>
               <Text style={styles.label}>What type of payments? *</Text>
               <View style={styles.row}>
@@ -590,7 +593,7 @@ const SellYourCar: React.FC = () => {
             </>
           )}
 
-          {loanType === 'lease' && (
+          {loanType === 'lease' && stillPaying === 'yes' && (
             <>
               <Text style={styles.label}>What type of payments? *</Text>
               <TextInput

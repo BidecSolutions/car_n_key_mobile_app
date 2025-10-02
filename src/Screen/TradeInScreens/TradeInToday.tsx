@@ -72,27 +72,37 @@ const TradeInToday = () => {
         onBackPress={navigation.goBack}
       />
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>My Garage</Text>
+        <Text style={styles.title}>Upgrade Your Ride – Trade In Today</Text>
 
         <View style={styles.cardWrapper}>
           {/* Card */}
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>Add your car. Track its value.</Text>
+            <Text style={styles.cardTitle}>Trade In Your Car and Drive {'\n'}Something New</Text>
             <Text style={styles.cardSubtitle}>
-              Add your car to Your Garage to track its market value and cash in
-              when the time is right to sell.
+              Get your car’s value instantly and upgrade in minutes.
             </Text>
 
             {/* Button */}
             <TouchableOpacity
               style={styles.button}
               onPress={() => setLicensePlateModal(true)}>
-              <Text style={styles.buttonText}>Get Started</Text>
+              <Text style={styles.buttonText}>Start your Trade-in</Text>
             </TouchableOpacity>
 
-            <LicensePlate
+             <LicensePlate
               isVisible={licensePlateModal}
               onClose={() => setLicensePlateModal(false)}
+              onAction={(tab, values) => {
+                console.log('Pressed:', tab, values);
+
+                if (tab === 'LICENSE') {
+                  // Do license plate lookup API
+                } else if (tab === 'VIN') {
+                  // Do VIN lookup
+                } else {
+                  // Do make/model/year/style lookup
+                }
+              }}
             />
 
             {/* Sign In Text */}
@@ -144,7 +154,6 @@ const styles = ScaledSheet.create({
     backgroundColor: colors.backgroundColor,
   },
   contentContainer: {
-    padding: '16@ms',
     paddingBottom: '40@vs',
   },
   title: {
@@ -215,19 +224,19 @@ const styles = ScaledSheet.create({
     fontSize: '13@ms',
     fontFamily: Secondaryfonts.medium,
     color: colors.hind,
-    marginBottom: '16@vs',
+    bottom: '6@vs',
   },
   signInLink: {
     fontFamily: Secondaryfonts.medium,
     color: colors.black,
   },
   howItWorksContainer: {
-    marginTop: '85@vs',
+    marginTop: '95@vs',
     paddingHorizontal: '18@s',
   },
   howItWorksTitle: {
-    fontSize: '16@ms',
-    fontFamily: Secondaryfonts.semibold,
+    fontSize: '17@ms',
+    fontFamily: Secondaryfonts.medium,
     textAlign: 'center',
     marginBottom: '20@vs',
     color: colors.black,
@@ -237,6 +246,7 @@ const styles = ScaledSheet.create({
     alignItems: 'flex-start',
     marginBottom: '18@vs',
     minHeight: '50@vs', // ensures vertical line is visible
+    padding: '7@ms',
   },
 
   stepLine: {

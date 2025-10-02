@@ -17,22 +17,51 @@ import {Secondaryfonts} from '../../constant/fonts';
 interface CarLookupModalProps {
   isVisible: boolean;
   onClose: () => void;
+  onAction?: (tab: 'LICENSE' | 'VIN' | 'MAKE', values: Record<string, string | null>) => void;
 }
+
 
 const {width} = Dimensions.get('window');
 
-const LicensePlate: React.FC<CarLookupModalProps> = ({isVisible, onClose}) => {
-  const [activeTab, setActiveTab] = useState<'LICENSE' | 'VIN' | 'MAKE'>(
-    'LICENSE',
-  );
+const LicensePlate: React.FC<CarLookupModalProps> = ({isVisible, onClose, onAction}) => {
+  const [activeTab, setActiveTab] = useState<'LICENSE' | 'VIN' | 'MAKE'>('LICENSE');
   const fadeAnim = useState(new Animated.Value(1))[0];
 
-  // Dropdown values
+  // form state
+  const [licensePlate, setLicensePlate] = useState<string | null>(null);
+  const [vin, setVin] = useState<string | null>(null);
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [selectedMake, setSelectedMake] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+
+  const handleAction = () => {
+    if (!onAction) return;
+
+    switch (activeTab) {
+      case 'LICENSE':
+        onAction('LICENSE', {
+          licensePlate,
+          state: selectedState,
+        });
+        break;
+      case 'VIN':
+        onAction('VIN', {
+          vin,
+        });
+        break;
+      case 'MAKE':
+        onAction('MAKE', {
+          make: selectedMake,
+          model: selectedModel,
+          year: selectedYear,
+          style: selectedStyle,
+        });
+        break;
+    }
+  };
+
 
   // Dropdown data
   const states = [

@@ -180,6 +180,20 @@ const CustomDrawer = (props: any) => {
           }
           onPress={() => navigation.navigate('TradeInToday')}
         />
+        <DrawerButton
+          label="Car Valuation"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('CarValuation')}
+        />
+        <DrawerButton
+          label="Trade-In Process"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('TradeInProcess')}
+        />
         
         
 

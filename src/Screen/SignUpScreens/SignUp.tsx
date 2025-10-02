@@ -110,6 +110,7 @@ const styles = ScaledSheet.create({
   tagline: {
     fontSize: '11@ms',
     color: colors.white,
+    fontFamily: Secondaryfonts.medium,
     marginTop: '4@vs',
   },
   card: {
@@ -123,19 +124,21 @@ const styles = ScaledSheet.create({
   },
   title: {
     fontSize: '20@ms',
-    fontWeight: '600',
-    color: '#2E2A85',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.blue,
     marginBottom: '20@vs',
   },
   input: {
     width: '100%',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.hind,
+    fontFamily: Secondaryfonts.medium,
     borderRadius: '8@ms',
     paddingVertical: '10@vs',
     paddingHorizontal: '12@s',
     fontSize: '13@ms',
     marginBottom: '12@vs',
+    color: colors.black,
   },
   checkboxRow: {
     flexDirection: 'row',
@@ -145,22 +148,24 @@ const styles = ScaledSheet.create({
   },
   checkbox: {
     width: '16@ms',
-    height: '16@ms',
+    height: '14@vs',
     borderWidth: 1,
-    borderColor: '#555',
+    borderColor: colors.black,
     marginRight: '8@s',
   },
   checkboxText: {
     fontSize: '12@ms',
-    color: '#444',
+    color: colors.black,
+    fontFamily: Secondaryfonts.medium,
   },
   link: {
-    color: '#2E2A85',
-    fontWeight: '600',
+    color: colors.blue,
+    fontFamily: Secondaryfonts.medium,
+    top: '2@vs'
   },
   signupBtn: {
     width: '100%',
-    backgroundColor: '#2E2A85',
+    backgroundColor: colors.blue,
     borderRadius: '30@ms',
     paddingVertical: '12@vs',
     alignItems: 'center',
@@ -168,12 +173,13 @@ const styles = ScaledSheet.create({
   },
   signupText: {
     fontSize: '14@ms',
-    fontWeight: '600',
-    color: '#fff',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.white,
   },
   footerText: {
     marginTop: '15@vs',
     fontSize: '12@ms',
-    color: '#444',
+    color: colors.black,
+    fontFamily: Secondaryfonts.medium,
   },
 });

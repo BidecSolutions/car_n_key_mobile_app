@@ -70,13 +70,13 @@ const Login = () => {
         </View>
 
         {/* Sign Up Button */}
-        <TouchableOpacity style={styles.signupBtn}>
+        <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Home')}>
           <Text style={styles.signupText}>Login</Text>
         </TouchableOpacity>
 
         {/* Footer */}
         <Text style={styles.footerText}>
-          Dont have an Account? <Text style={styles.link}>Sign In</Text>
+          Don't have an account? <Text style={styles.link}>Sign Up</Text>
         </Text>
       </View>
     </ImageBackground>
@@ -105,8 +105,8 @@ const styles = ScaledSheet.create({
   },
   appName: {
     fontSize: '22@ms',
-    fontWeight: 'bold',
-    color: '#fff',
+   fontFamily: Secondaryfonts.semibold,
+    color: colors.white,
   },
   tagline: {
     fontSize: '11@ms',
@@ -119,24 +119,26 @@ const styles = ScaledSheet.create({
     backgroundColor: colors.white,
     borderTopLeftRadius: '30@ms',
     borderTopRightRadius: '30@ms',
-    padding: '20@s',
+    padding: '20@ms',
     alignItems: 'center',
   },
   title: {
     fontSize: '20@ms',
-    fontWeight: '600',
-    color: '#2E2A85',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.blue,
     marginBottom: '20@vs',
   },
   input: {
     width: '100%',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.hind,
+    fontFamily: Secondaryfonts.medium,
     borderRadius: '8@ms',
     paddingVertical: '10@vs',
     paddingHorizontal: '12@s',
     fontSize: '13@ms',
     marginBottom: '12@vs',
+    color: colors.black,
   },
   checkboxRow: {
     flexDirection: 'row',
@@ -152,23 +154,25 @@ const styles = ScaledSheet.create({
 
   checkboxText: {
     fontSize: '12@ms',
-    color: '#444',
-    textDecorationLine: 'none', // remove default underline
+    color: colors.black,
+    textDecorationLine: 'none', 
+    fontFamily: Secondaryfonts.medium,
+    right: '7@s'
   },
 
   forgotText: {
     fontSize: '12@ms',
-    color: '#2E2A85',
-    fontWeight: '600',
+    color: colors.blue,
+    fontFamily: Secondaryfonts.medium,
   },
 
   link: {
-    color: '#2E2A85',
-    fontWeight: '600',
+    color: colors.blue,
+    fontFamily: Secondaryfonts.medium,
   },
   signupBtn: {
     width: '100%',
-    backgroundColor: '#2E2A85',
+    backgroundColor: colors.blue,
     borderRadius: '30@ms',
     paddingVertical: '12@vs',
     alignItems: 'center',
@@ -176,12 +180,13 @@ const styles = ScaledSheet.create({
   },
   signupText: {
     fontSize: '14@ms',
-    fontWeight: '600',
-    color: '#fff',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.white,
   },
   footerText: {
     marginTop: '15@vs',
     fontSize: '12@ms',
-    color: '#444',
+    color: colors.black,
+    fontFamily: Secondaryfonts.medium,
   },
 });

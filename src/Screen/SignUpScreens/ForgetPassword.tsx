@@ -45,7 +45,7 @@ const ForgetPassword = () => {
         <TouchableOpacity style={styles.signupBtn}>
           <Text style={styles.signupText}>Send Reset Link</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.backtologinBtn}>
+        <TouchableOpacity style={styles.backtologinBtn} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.backtologinBtnText}>Back To Login</Text>
         </TouchableOpacity>
 
@@ -72,17 +72,18 @@ const styles = ScaledSheet.create({
   },
   logo: {
     width: '170@ms',
-    height: '170@ms',
+    height: '170@vs',
     marginBottom: '8@vs',
   },
   appName: {
     fontSize: '22@ms',
-    fontWeight: 'bold',
-    color: '#fff',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.white,
   },
   tagline: {
     fontSize: '11@ms',
     color: colors.white,
+    fontFamily: Secondaryfonts.medium,
     marginTop: '4@vs',
   },
   card: {
@@ -91,19 +92,19 @@ const styles = ScaledSheet.create({
     backgroundColor: colors.white,
     borderTopLeftRadius: '30@ms',
     borderTopRightRadius: '30@ms',
-    padding: '20@s',
+    padding: '20@ms',
     alignItems: 'center',
     justifyContent:'center'
   },
   title: {
     fontSize: '20@ms',
-    fontWeight: '600',
+    fontFamily: Secondaryfonts.semibold,
     color: colors.blue,
     marginBottom: '10@vs',
   },
   subtitle: {
     fontSize: '12@ms',
-    fontWeight: '600',
+    fontFamily: Secondaryfonts.medium,
     color: colors.hind,
     marginBottom: '20@vs',
     textAlign:'center'
@@ -111,11 +112,12 @@ const styles = ScaledSheet.create({
   input: {
     width: '100%',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.hind,
     borderRadius: '8@ms',
     paddingVertical: '10@vs',
     paddingHorizontal: '12@s',
     fontSize: '13@ms',
+    fontFamily: Secondaryfonts.medium,
     marginBottom: '12@vs',
   },
   checkboxRow: {
@@ -126,22 +128,23 @@ const styles = ScaledSheet.create({
   },
   checkbox: {
     width: '16@ms',
-    height: '16@ms',
+    height: '16@vs',
     borderWidth: 1,
-    borderColor: '#555',
+    borderColor: colors.hind,
     marginRight: '8@s',
   },
   checkboxText: {
     fontSize: '12@ms',
-    color: '#444',
+    color: colors.black,
+    fontFamily: Secondaryfonts.semibold,
   },
   link: {
-    color: '#2E2A85',
-    fontWeight: '600',
+    color: colors.blue,
+    fontFamily: Secondaryfonts.medium,
   },
   signupBtn: {
     width: '100%',
-    backgroundColor: '#2E2A85',
+    backgroundColor: colors.blue,
     borderRadius: '30@ms',
     paddingVertical: '12@vs',
     alignItems: 'center',
@@ -149,8 +152,8 @@ const styles = ScaledSheet.create({
   },
   signupText: {
     fontSize: '14@ms',
-    fontWeight: '600',
-    color: '#fff',
+    fontFamily: Secondaryfonts.medium,
+    color: colors.white,
   },
   backtologinBtn: {
     width: '100%',
@@ -164,7 +167,7 @@ const styles = ScaledSheet.create({
   },
   backtologinBtnText: {
     fontSize: '14@ms',
-    fontWeight: '600',
+    fontFamily: Secondaryfonts.medium,
     color: colors.black,
   },
   
