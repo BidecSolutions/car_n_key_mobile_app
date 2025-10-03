@@ -15,9 +15,9 @@ import {
   ms,
   verticalScale,
   scale,
+  moderateScale,
 } from 'react-native-size-matters';
 import {Dropdown} from 'react-native-element-dropdown';
-import {colors} from '../../constant/colors';
 import {Header} from '../../Components/Header/Header';
 import {useNavigation} from '@react-navigation/native';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
@@ -25,6 +25,10 @@ import {Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ScrollView} from 'react-native-gesture-handler';
+import {colors} from '../../constant/colors';
+import CarBody from '../DynamicSections/CarBody';
+import CarBodyDiagram from '../DynamicSections/CarBodyDiagram';
+import CarInteriorDiagram from '../DynamicSections/CarInteriorDiagram';
 
 const TradeInProcess = () => {
   const [selectedTab, setSelectedTab] = useState<'tab1' | 'tab2' | 'tab3'>(
@@ -42,7 +46,252 @@ const TradeInProcess = () => {
   const [selectedType, setSelectedType] = useState<
     'Exterior' | 'Interior' | null
   >(null);
-  const colors = [
+  const [carAccident, setCarAccident] = useState<string | null>(null);
+  const [cleanReport, setCleanReport] = useState<string | null>(null);
+  const [modifications, setModifications] = useState<string | null>(null);
+  const [selectedImpact, setSelectedImpact] = useState<string | null>(null);
+  const [selectedBodyPart, setSelectedBodyPart] = useState<string | null>(null);
+
+  const [damageDetails, setDamageDetails] = useState<Record<string, any>>({});
+  const [selectedInteriorPart, setSelectedInteriorPart] = useState<
+    string | null
+  >(null);
+  const [selectedDamageType, setSelectedDamageType] = useState<any>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<any>(null);
+
+  // Example damage options
+  const damageOptions = {
+  Hood: {
+    types: [
+      { name: "Overspray", cost: 50 },
+      { name: "Chipped", cost: 100 },
+      { name: "Dent", cost: 200 },
+      { name: "Hail Damage", cost: 300 },
+      { name: "Paintless Dent Repair", cost: 150 },
+      { name: "Previous Paint Work", cost: 75 },
+      { name: "Rust", cost: 250 },
+      { name: "Scratch", cost: 80 },
+    ],
+    description:
+      "Dents can be repaired if they are not cracked, have sharp indents, or are very large. If the body panel is made of aluminum, a dent cannot be repaired.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 500 },
+    ],
+  },
+  Trunk: {
+    types: [
+      { name: "Dent", cost: 180 },
+      { name: "Scratch", cost: 60 },
+      { name: "Rust", cost: 220 },
+    ],
+    description: "Trunk damage considerations.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 450 },
+    ],
+  },
+  "Front Bumper": {
+    types: [
+      { name: "Scratch", cost: 70 },
+      { name: "Crack", cost: 300 },
+      { name: "Dent", cost: 150 },
+    ],
+    description: "Front bumper damage details.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 350 },
+    ],
+  },
+  "Rear Bumper": {
+    types: [
+      { name: "Scratch", cost: 70 },
+      { name: "Crack", cost: 300 },
+      { name: "Dent", cost: 150 },
+    ],
+    description: "Rear bumper damage details.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 350 },
+    ],
+  },
+  "Front Left Light": {
+    types: [
+      { name: "Cracked", cost: 120 },
+      { name: "Non-functional", cost: 250 },
+    ],
+    description: "Front left light issues.",
+    subcategories: [{ name: "Replace", cost: 0 }],
+  },
+  "Front Right Light": {
+    types: [
+      { name: "Cracked", cost: 120 },
+      { name: "Non-functional", cost: 250 },
+    ],
+    description: "Front right light issues.",
+    subcategories: [{ name: "Replace", cost: 0 }],
+  },
+  "Rear Left Light": {
+    types: [
+      { name: "Cracked", cost: 100 },
+      { name: "Non-functional", cost: 200 },
+    ],
+    description: "Rear left light issues.",
+    subcategories: [{ name: "Replace", cost: 0 }],
+  },
+  "Rear Right Light": {
+    types: [
+      { name: "Cracked", cost: 100 },
+      { name: "Non-functional", cost: 200 },
+    ],
+    description: "Rear right light issues.",
+    subcategories: [{ name: "Replace", cost: 0 }],
+  },
+  "Front Left Fender": {
+    types: [
+      { name: "Dent", cost: 180 },
+      { name: "Scratch", cost: 90 },
+    ],
+    description: "Front left fender damage.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 400 },
+    ],
+  },
+  "Rear Left Fender": {
+    types: [
+      { name: "Dent", cost: 180 },
+      { name: "Scratch", cost: 90 },
+    ],
+    description: "Rear left fender damage.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 400 },
+    ],
+  },
+  "Front Right Fender": {
+    types: [
+      { name: "Dent", cost: 180 },
+      { name: "Scratch", cost: 90 },
+    ],
+    description: "Front right fender damage.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 400 },
+    ],
+  },
+  "Rear Right Fender": {
+    types: [
+      { name: "Dent", cost: 180 },
+      { name: "Scratch", cost: 90 },
+    ],
+    description: "Rear right fender damage.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 400 },
+    ],
+  },
+  "Front Left Doors": {
+    types: [
+      { name: "Dent", cost: 250 },
+      { name: "Scratch", cost: 120 },
+      { name: "Ding", cost: 80 },
+    ],
+    description: "Front left door issues.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 600 },
+    ],
+  },
+  "Back Left Door": {
+    types: [
+      { name: "Dent", cost: 250 },
+      { name: "Scratch", cost: 120 },
+      { name: "Ding", cost: 80 },
+    ],
+    description: "Back left door issues.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 600 },
+    ],
+  },
+  "Front Right Door": {
+    types: [
+      { name: "Dent", cost: 250 },
+      { name: "Scratch", cost: 120 },
+      { name: "Ding", cost: 80 },
+    ],
+    description: "Front right door issues.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 600 },
+    ],
+  },
+  "Back Right Door": {
+    types: [
+      { name: "Dent", cost: 250 },
+      { name: "Scratch", cost: 120 },
+      { name: "Ding", cost: 80 },
+    ],
+    description: "Back right door issues.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 600 },
+    ],
+  },
+  "Left Rocker": {
+    types: [
+      { name: "Scrape", cost: 100 },
+      { name: "Rust", cost: 200 },
+    ],
+    description: "Left rocker panel damage.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 300 },
+    ],
+  },
+  "Right Rocker": {
+    types: [
+      { name: "Scrape", cost: 100 },
+      { name: "Rust", cost: 200 },
+    ],
+    description: "Right rocker panel damage.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 300 },
+    ],
+  },
+  "Left Mirror": {
+    types: [
+      { name: "Cracked Glass", cost: 50 },
+      { name: "Broken Casing", cost: 150 },
+    ],
+    description: "Left mirror damage.",
+    subcategories: [{ name: "Replace", cost: 0 }],
+  },
+  "Right Mirror": {
+    types: [
+      { name: "Cracked Glass", cost: 50 },
+      { name: "Broken Casing", cost: 150 },
+    ],
+    description: "Right mirror damage.",
+    subcategories: [{ name: "Replace", cost: 0 }],
+  },
+  Roof: {
+    types: [
+      { name: "Hail Damage", cost: 400 },
+      { name: "Large Dent", cost: 350 },
+    ],
+    description: "Roof damage considerations.",
+    subcategories: [
+      { name: "Repair", cost: 0 },
+      { name: "Replace", cost: 800 },
+    ],
+  },
+};
+
+
+  const colorBox = [
     '#000000',
     '#FFFFFF',
     '#FF0000',
@@ -54,11 +303,11 @@ const TradeInProcess = () => {
     'purple',
   ];
 
-  const handleColorSelect = (color: string) => {
+  const handleColorSelect = (colorBox: string) => {
     if (selectedType) {
       setSelectedColors(prev => ({
         ...prev,
-        [selectedType]: color,
+        [selectedType]: colorBox,
       }));
       setModalVisible(false);
     }
@@ -104,7 +353,7 @@ const TradeInProcess = () => {
     switch (selectedTab) {
       case 'tab1':
         return (
-          <>
+          <View style = {{padding: moderateScale(16)}}>
             <Text style={styles.label}>
               Select your value impacting options
             </Text>
@@ -194,7 +443,7 @@ const TradeInProcess = () => {
                     Select {selectedType} Color
                   </Text>
                   <View style={styles.colorRow}>
-                    {colors.map((color, index) => (
+                    {colorBox.map((color, index) => (
                       <TouchableOpacity
                         key={index}
                         style={[styles.colorOption, {backgroundColor: color}]}
@@ -352,21 +601,287 @@ const TradeInProcess = () => {
                 </>
               )}
             </View>
-          </>
+          </View>
         );
 
       case 'tab2':
         return (
           <View>
-            <Text style={styles.placeholderText}>
-              Condition 2 screen content here
-            </Text>
+            <View style={styles.questionWrapper}>
+              <View
+                style={[
+                  styles.sideBar,
+                  {backgroundColor: carAccident ? colors.blue : '#D1D5DB'},
+                ]}
+              />
+              <View style={styles.secondContent}>
+                <Text style={styles.question}>
+                  Was your car ever in an accident? *
+                </Text>
+                <Text style={styles.questionExplanation}>
+                  Issues that may affect your car's history report include past
+                  insurance claims, outstanding liens, salvage or title issues
+                </Text>
+
+                <View style={styles.row}>
+                  <TouchableOpacity
+                    style={[
+                      styles.option,
+                      carAccident === 'yes' && styles.optionSelectedGreen,
+                    ]}
+                    onPress={() => setCarAccident('yes')}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        carAccident === 'yes' && styles.optionTextSelectedGreen,
+                      ]}>
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.option,
+                      carAccident === 'no' && styles.optionSelected,
+                    ]}
+                    onPress={() => setCarAccident('no')}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        carAccident === 'no' && styles.optionTextSelectedText,
+                      ]}>
+                      No
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                {carAccident === 'yes' && (
+                  <View style={styles.extraSection}>
+                    <TextInput
+                      placeholder="Select your value impacting options"
+                      placeholderTextColor="#666"
+                      style={styles.accidentInput}
+                    />
+
+                    {/* Frame Damage Radio */}
+                    <TouchableOpacity
+                      style={styles.radioRow}
+                      onPress={() =>
+                        setSelectedImpact(
+                          selectedImpact === 'frameDamage'
+                            ? null
+                            : 'frameDamage',
+                        )
+                      }>
+                      <View style={styles.radioOuter}>
+                        {selectedImpact === 'frameDamage' && (
+                          <View style={styles.radioInner} />
+                        )}
+                      </View>
+                      <Text style={styles.radioLabel}>Frame Damage</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+            </View>
+
+            <View style={styles.questionWrapper}>
+              <View
+                style={[
+                  styles.sideBar,
+                  {backgroundColor: cleanReport ? colors.blue : '#D1D5DB'},
+                ]}
+              />
+              <View style={styles.secondContent}>
+                <Text style={styles.question}>
+                  Does your car have a clean history report? *
+                </Text>
+                <Text style={styles.questionExplanation}>
+                  Issues that may affect your car's history report include past
+                  insurance claims, outstanding liens, salvage or title issues
+                </Text>
+                <View style={styles.row}>
+                  <TouchableOpacity
+                    style={[
+                      styles.option,
+                      cleanReport === 'yes' && styles.optionSelectedGreen,
+                    ]}
+                    onPress={() => setCleanReport('yes')}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        cleanReport === 'yes' && styles.optionTextSelectedGreen,
+                      ]}>
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.option,
+                      cleanReport === 'no' && styles.optionSelected,
+                    ]}
+                    onPress={() => setCleanReport('no')}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        cleanReport === 'no' && styles.optionTextSelectedText,
+                      ]}>
+                      No
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            <View style={styles.questionWrapper}>
+              <View
+                style={[
+                  styles.sideBar,
+                  {backgroundColor: modifications ? colors.blue : '#D1D5DB'},
+                ]}
+              />
+              <View style={styles.secondContent}>
+                <Text style={styles.question}>
+                  Does your car have any damage, mechanical issues, tire wear,
+                  or modifications?
+                </Text>
+                <View style={styles.row}>
+                  <TouchableOpacity
+                    style={[
+                      styles.option,
+                      modifications === 'yes' && styles.optionSelectedGreen,
+                    ]}
+                    onPress={() => setModifications('yes')}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        modifications === 'yes' &&
+                          styles.optionTextSelectedGreen,
+                      ]}>
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.option,
+                      modifications === 'no' && styles.optionSelected,
+                    ]}
+                    onPress={() => setModifications('no')}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        modifications === 'no' && styles.optionTextSelectedText,
+                      ]}>
+                      No
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            <View style = {{paddingHorizontal: moderateScale(16)}}>
+            <CarBody
+              onSelect={item => {
+                console.log('Selected:', item.label);
+                setSelectedBodyPart(item.label); // store selection
+              }}
+            />
+            </View>
+            {selectedBodyPart && (
+              <View style={{marginTop: verticalScale(20)}}>
+                <Text style={{marginBottom: verticalScale(16), fontFamily: Secondaryfonts.medium, fontSize: moderateScale(17), color: '#000', paddingHorizontal: scale(16)}}>
+                  {selectedBodyPart} Diagram
+                </Text>
+
+                {selectedBodyPart === 'Interior' && (
+                  <CarInteriorDiagram
+                    selectedPart={selectedInteriorPart}
+                    handlePartClick={setSelectedInteriorPart}
+                    damageOptions={damageOptions}
+                    selectedDamageType={selectedDamageType}
+                    handleDamageTypeSelect={setSelectedDamageType}
+                    selectedSubcategory={selectedSubcategory}
+                    handleSubcategorySelect={setSelectedSubcategory}
+                  />
+                )}
+
+                {selectedBodyPart === 'Tires' && (
+                  <CarBodyDiagram
+                    selectedPart={selectedBodyPart}
+                    handlePartClick={setSelectedBodyPart}
+                    setSelectedPart={setSelectedBodyPart}
+                    damageOptions={damageOptions}
+                    selectedDamageType={selectedDamageType}
+                    handleDamageTypeSelect={setSelectedDamageType}
+                    selectedSubcategory={selectedSubcategory}
+                    handleSubcategorySelect={setSelectedSubcategory}
+                  />
+                )}
+
+                {/* {selectedBodyPart === "Glass" && (
+      <CarGlassDiagram
+        selectedPart={selectedPart}
+        setSelectedPart={setSelectedPart}
+        damageOptions={damageOptions}
+        selectedDamageType={selectedDamageType}
+        setSelectedDamageType={setSelectedDamageType}
+        selectedSubcategory={selectedSubcategory}
+        setSelectedSubcategory={setSelectedSubcategory}
+      />
+    )} */}
+
+                {/* {selectedBodyPart === "Tires" && (
+      <CarTyreDiagram
+        selectedPart={selectedPart}
+        setSelectedPart={setSelectedPart}
+        damageOptions={damageOptions}
+        selectedDamageType={selectedDamageType}
+        setSelectedDamageType={setSelectedDamageType}
+        selectedSubcategory={selectedSubcategory}
+        setSelectedSubcategory={setSelectedSubcategory}
+      />
+    )} */}
+
+                {/* {selectedBodyPart === "Lights" && (
+      <IssueSelector
+        selectedIssues={selectedIssues}
+        setSelectedIssues={setSelectedIssues}
+        damageOptions={damageOptions}
+      />
+    )} */}
+
+                {/* {selectedBodyPart === "Mechanical" && (
+      <CarMechanicalDiagram
+        selectedPart={selectedPart}
+        setSelectedPart={setSelectedPart}
+        damageOptions={damageOptions}
+        selectedDamageType={selectedDamageType}
+        setSelectedDamageType={setSelectedDamageType}
+        selectedSubcategory={selectedSubcategory}
+        setSelectedSubcategory={setSelectedSubcategory}
+      />
+    )} */}
+
+                {/* {selectedBodyPart === "Aftermarket" && (
+      <CarAftermarketDiagram
+        damageOptions={damageOptions}
+        selectedIssues={selectedIssues}
+        setSelectedIssues={setSelectedIssues}
+      />
+    )} */}
+
+                {/* {selectedBodyPart === "Other" && (
+      <CarOther
+        damageOptions={damageOptions}
+        selectedIssues={otherIssues2}
+        setSelectedIssues={setOtherIssues2}
+      />
+    )} */}
+              </View>
+            )}
           </View>
         );
 
       case 'tab3':
         return (
-          <View>
+          <View style = {{padding: moderateScale(16)}}>
             <View style={styles.row}>
               <TextInput
                 placeholder="First Name"
@@ -481,7 +996,7 @@ const TradeInProcess = () => {
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    padding: '16@ms',
+    paddingVertical: '16@ms',
     backgroundColor: colors.white,
   },
   title: {
@@ -763,6 +1278,98 @@ const styles = ScaledSheet.create({
     color: colors.white,
     fontSize: '14@ms',
     fontFamily: Secondaryfonts.semibold,
+  },
+  questionWrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: verticalScale(15),
+    paddingHorizontal: '16@s',
+  },
+  sideBar: {
+    width: moderateScale(3),
+    borderRadius: ms(2),
+    marginRight: scale(10),
+    alignSelf: 'stretch',
+  },
+  secondContent: {flex: 1},
+  question: {
+    fontSize: ms(15),
+    fontFamily: Secondaryfonts.medium,
+    color: '#000',
+    marginBottom: verticalScale(8),
+  },
+  questionExplanation: {
+    fontSize: ms(12),
+    fontFamily: Secondaryfonts.medium,
+    color: '#000',
+    marginBottom: verticalScale(8),
+  },
+  bottomSectionRow: {flexDirection: 'row', alignItems: 'center'},
+  option: {
+    borderWidth: 1,
+    borderColor: '#9CA3AF',
+    borderRadius: ms(6),
+    paddingVertical: verticalScale(6),
+    paddingHorizontal: scale(15),
+    marginRight: scale(10),
+  },
+  optionSelectedGreen: {
+    backgroundColor: '#329205',
+    borderColor: '#329205',
+  },
+  optionSelected: {
+    backgroundColor: '#FF0000',
+  },
+  optionText: {
+    fontSize: ms(13),
+    fontFamily: Secondaryfonts.medium,
+    color: colors.black,
+  },
+  optionTextSelectedGreen: {
+    color: colors.white,
+    fontFamily: Secondaryfonts.medium,
+  },
+  optionTextSelectedText: {
+    color: colors.white,
+    fontFamily: Secondaryfonts.medium,
+  },
+  extraSection: {
+    marginTop: '10@vs',
+  },
+  accidentInput: {
+    backgroundColor: colors.cardsBackgroundColor,
+    borderRadius: '6@ms',
+    paddingHorizontal: '10@s',
+    paddingVertical: '10@vs',
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.medium,
+    marginBottom: '12@vs',
+    color: colors.black,
+  },
+  radioRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: '5@vs',
+  },
+  radioOuter: {
+    width: '18@ms',
+    height: '18@ms',
+    borderRadius: '9@ms',
+    borderWidth: 1,
+    borderColor: colors.black,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: '8@s',
+  },
+  radioInner: {
+    width: '12@ms',
+    height: '12@ms',
+    borderRadius: '6@ms',
+    backgroundColor: colors.black,
+  },
+  radioLabel: {
+    fontSize: '13@ms',
+    color: '#000',
   },
 });
 
