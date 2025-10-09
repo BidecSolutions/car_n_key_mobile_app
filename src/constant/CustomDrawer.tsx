@@ -194,6 +194,21 @@ const CustomDrawer = (props: any) => {
           }
           onPress={() => navigation.navigate('TradeInProcess')}
         />
+        <DrawerButton
+          label="Car X-Ray"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('CarXRay')}
+        />
+        <DrawerButton
+          label="Buy Report"
+          icon={
+            <MaterialIcon name="star" size={moderateScale(20)} color="#000" />
+          }
+          onPress={() => navigation.navigate('BuyReport')}
+        />
+        
         
         
 

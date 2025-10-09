@@ -216,7 +216,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '15@s',
   },
   sectionTitle: {
-    fontSize: '16@ms',
+    fontSize: '20@ms',
     fontFamily: Primaryfonts.semibold,
     textAlign: 'center',
     marginBottom: '15@vs',
@@ -316,7 +316,7 @@ const styles = ScaledSheet.create({
   itemTextStyle: {
     fontSize: '12@ms',
     fontFamily: Secondaryfonts.medium,
-    color: '#333',
+    color: colors.black,
     paddingVertical: '8@vs',
     paddingHorizontal: '10@s',
   },

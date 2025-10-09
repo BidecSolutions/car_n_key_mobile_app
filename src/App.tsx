@@ -74,6 +74,11 @@ import SignUp from './Screen/SignUpScreens/SignUp';
 import ForgetPassword from './Screen/SignUpScreens/ForgetPassword';
 import CarValuation from './Screen/TradeInScreens/CarValuation';
 import TradeInProcess from './Screen/TradeInScreens/TradeInProcess';
+import CarXRay from './Screen/CarX-Ray/CarXRay';
+import BuyReport from './Screen/CarX-Ray/BuyReport';
+import PaymentDetails from './Screen/CarX-Ray/PaymentDetails';
+import PaymentSuccessfull from './Screen/CarX-Ray/PaymentSuccessfull';
+import CarReport from './Screen/CarX-Ray/CarReport';
 
 
 export type RootStackParamList = {
@@ -101,6 +106,11 @@ export type RootStackParamList = {
   ForgetPassword:undefined;
   CarValuation: undefined;
   TradeInProcess: undefined;
+  CarXRay: undefined;
+  BuyReport: undefined;
+  PaymentDetails: undefined;
+  PaymentSuccessfull: undefined;
+  CarReport: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -374,7 +384,31 @@ const AppContent = () => {
           component={TradeInProcess}
           options={{headerShown: false}}
         />
-
+        <Stack.Screen
+          name="CarXRay"
+          component={CarXRay}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BuyReport"
+          component={BuyReport}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PaymentDetails"
+          component={PaymentDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PaymentSuccessfull"
+          component={PaymentSuccessfull}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CarReport"
+          component={CarReport}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
       
     </NavigationContainer>
