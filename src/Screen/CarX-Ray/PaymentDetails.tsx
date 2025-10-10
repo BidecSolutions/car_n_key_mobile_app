@@ -27,7 +27,7 @@ const PaymentDetails = () => {
       {/* Header */}
       <Header
         showBack={true}
-        title="Buy Report"
+        title="Payment Details"
         showDrawer={true}
         onDrawerPress={() => navigation.openDrawer()}
         backgroundColor={colors.backgroundColor}

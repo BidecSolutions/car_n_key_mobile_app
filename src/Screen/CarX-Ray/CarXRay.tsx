@@ -73,7 +73,7 @@ const CarXRay = () => {
               placeholderTextColor="#666"
             />
             {/* Button */}
-            <TouchableOpacity style={styles.reportButton}>
+            <TouchableOpacity style={styles.reportButton} onPress={() => navigation.navigate('BuyReport')}>
               <Text style={styles.reportButtonText}>Get Report</Text>
             </TouchableOpacity>
           </View>
@@ -241,7 +241,9 @@ const CarXRay = () => {
               <TouchableOpacity
                 style={[
                   styles.viewBtn,
-                ]}>
+                ]}
+                onPress={() => navigation.navigate('CarReport')}
+                >
                 <Text style={styles.viewText}>View Report</Text>
               </TouchableOpacity>
             </View>

@@ -47,7 +47,7 @@ export const Header = ({
         </TouchableOpacity>
       ) : showLogo ? (
         <Image
-          source={require('../../assets/Images/CarnKeyLogo.png')} // 👈 replace with your logo path
+          source={require('../../assets/Images/CarnKeyLogo.png')} 
           style={styles.logo}
           resizeMode="contain"
         />
@@ -108,8 +108,8 @@ const styles = ScaledSheet.create({
     marginHorizontal: scale(10),
   },
   logo: {
-    width: '80@ms',
-    height: '40@s',
+    width: '110@ms',
+    height: '40@vs',
   },
   rightContainer: {
     flexDirection: 'row',

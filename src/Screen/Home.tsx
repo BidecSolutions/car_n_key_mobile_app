@@ -1,6 +1,6 @@
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState, version} from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import {ScaledSheet, ms, s, vs} from 'react-native-size-matters';
+import {ScaledSheet, ms, s, verticalScale, vs} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Header} from '../Components/Header/Header';
 import {colors} from '../constant/colors';
@@ -19,10 +19,15 @@ import CarListSection from './DynamicSections/CarListSection';
 import {BlurView} from '@react-native-community/blur';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 import {DrawerParamList} from '../types';
+import SearchBox from '../Components/SearchBox/SearchBox';
 
 const topBrands = [
   {id: '1', name: 'Tesla', icon: require('../assets/Images/TeslaIcon.png')},
-  {id: '2', name: 'Mercedes', icon: require('../assets/Images/MercedesIcon.png')},
+  {
+    id: '2',
+    name: 'Mercedes',
+    icon: require('../assets/Images/MercedesIcon.png'),
+  },
   {id: '3', name: 'BMW', icon: require('../assets/Images/BMWIcon.png')},
   {id: '4', name: 'Audi', icon: require('../assets/Images/AudiIcon.png')},
   {id: '5', name: 'Nissan', icon: require('../assets/Images/NissanIcon.png')},
@@ -31,26 +36,39 @@ const topBrands = [
 ];
 
 const features = [
-  {id: '1', title: 'BUY A CAR', image: require('../assets/Images/Car.png')},
-  {id: '2', title: 'SELL YOUR CAR', image: require('../assets/Images/Car.png')},
+  {id: '1', title: 'BUY A CAR', image: require('../assets/Images/BuyACar.png')},
+  {
+    id: '2',
+    title: 'SELL YOUR CAR',
+    image: require('../assets/Images/SellYourCar.png'),
+  },
   {
     id: '3',
     title: 'CAR COMPARISONS',
-    image: require('../assets/Images/Car.png'),
+    image: require('../assets/Images/CarComparisons.png'),
   },
 ];
 
 const carCategories = [
-  {id: '1', name: 'Luxury', image: require('../assets/Images/Car.png')},
-  {id: '2', name: 'Pickup Truck', image: require('../assets/Images/Car.png')},
-  {id: '3', name: 'Electric', image: require('../assets/Images/Car.png')},
-  {id: '4', name: 'Luxury', image: require('../assets/Images/Car.png')},
-  {id: '5', name: 'Pickup Truck', image: require('../assets/Images/Car.png')},
-  {id: '6', name: 'Electric', image: require('../assets/Images/Car.png')},
+  {id: '1', name: 'Luxury', image: require('../assets/Images/Luxury.png')},
+  {
+    id: '2',
+    name: 'Pickup Truck',
+    image: require('../assets/Images/PickupTruck.png'),
+  },
+  {id: '3', name: 'Electric', image: require('../assets/Images/Electric.png')},
+  {id: '4', name: 'Luxury', image: require('../assets/Images/Luxury.png')},
+  {
+    id: '5',
+    name: 'Pickup Truck',
+    image: require('../assets/Images/PickupTruck.png'),
+  },
+  {id: '6', name: 'Electric', image: require('../assets/Images/Electric.png')},
 ];
 
 const Home = () => {
   const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
+  const [searchText, setSearchText] = useState('');
   return (
     <ScrollView style={styles.container}>
       {/* Header Banner */}
@@ -71,14 +89,12 @@ const Home = () => {
 
         {/* Search Box */}
         <View style={styles.searchContainer}>
-          <TextInput placeholder="search" style={styles.searchInput} />
-          <TouchableOpacity style={styles.searchIcon}>
-            <Image
-              source={require('../assets/Images/FilterIcon.png')} // 👈 put your filter image here
-              style={styles.filterIcon}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+          <SearchBox
+            placeholder="Find your car"
+            value={searchText}
+            onChangeText={setSearchText}
+            // onPressFilter={handleFilterPress}
+          />
         </View>
       </View>
 
@@ -118,10 +134,12 @@ const Home = () => {
         ))}
       </View>
 
-      <Text style={styles.sectionTitle}>
+      <Text style={[styles.sectionTitle, {alignSelf: 'center'}]}>
         Best Cars Deals & Services Near You
       </Text>
-      <Text style={styles.subTitle}>If GPS Off Show Trending Car Deal</Text>
+      <Text style={[styles.subTitle, {alignSelf: 'center'}]}>
+        If GPS Off Show Trending Car Deal
+      </Text>
       <FlatList
         data={carCategories}
         numColumns={3}
@@ -142,7 +160,9 @@ const Home = () => {
           <Text style={styles.valueDesc}>
             Real-time market insights to help you sell smarter.
           </Text>
-          <TouchableOpacity style={styles.valueButton}>
+          <TouchableOpacity
+            style={styles.valueButton}
+            onPress={() => navigation.navigate('SellYourCar')}>
             <Text style={styles.valueButtonText}>Get Your Cars Value</Text>
           </TouchableOpacity>
         </View>
@@ -154,8 +174,13 @@ const Home = () => {
       </View>
 
       <Image
-        source={require('../assets/Images/Car.png')}
+        source={require('../assets/Images/curve.png')}
         style={styles.bigCarImage}
+        resizeMode="cover"
+      />
+      <Image
+        source={require('../assets/Images/curveCar.png')}
+        style={styles.curveCarImage}
         resizeMode="contain"
       />
 
@@ -165,7 +190,7 @@ const Home = () => {
             id: '1',
             name: 'BMW 430d Coupe M Sport',
             price: '$20,000',
-            image: require('../assets/Images/Car.png'),
+            image: require('../assets/Images/blackCar.png'),
             transmission: 'Automatic',
             mileage: '2500.6',
             mpg: '53.0 Avg MPG',
@@ -177,7 +202,7 @@ const Home = () => {
             id: '2',
             name: 'Tesla Model 3',
             price: '$35,000',
-            image: require('../assets/Images/Car.png'),
+            image: require('../assets/Images/blackCar.png'),
             transmission: 'Automatic',
             mileage: '1200',
             mpg: 'Electric',
@@ -188,7 +213,7 @@ const Home = () => {
         ]}
         onSearch={text => console.log('Searching:', text)}
         onFilterPress={() => console.log('Filter pressed')}
-        onViewDeal={car => console.log('Viewing deal:', car)}
+        onViewDeal={() => navigation.navigate('CarDetail')}
         onLoadMore={() => console.log('Load more pressed')}
       />
 
@@ -210,7 +235,6 @@ const Home = () => {
             reducedTransparencyFallbackColor="white"
           />
           <View style={styles.cardContent}>
-            <Text style={styles.sellingPrice}>$ 390,000</Text>
             <Text style={styles.sellingTitle}>Selling Your Car?</Text>
             <Text style={styles.sellingSubtitle}>
               Let’s Make It Quick & Easy
@@ -220,7 +244,9 @@ const Home = () => {
               effortlessly
             </Text>
 
-            <TouchableOpacity style={styles.sellingBtn}>
+            <TouchableOpacity
+              style={styles.sellingBtn}
+              onPress={() => navigation.navigate('SellYourCar')}>
               <Text style={styles.sellingBtnText}>List Your Car Now</Text>
             </TouchableOpacity>
           </View>
@@ -230,7 +256,7 @@ const Home = () => {
       {/* --- Compare Cars Section --- */}
 
       <Text style={styles.compareTitle}>
-        Compare Cars & Make the Right Choice
+        Compare Cars & Make the Right {'\n'} Choice
       </Text>
 
       <View style={styles.compareContainer}>
@@ -239,13 +265,13 @@ const Home = () => {
           {/* Left Car */}
           <View style={styles.carBox}>
             <Image
-              source={require('../assets/Images/Car.png')}
+              source={require('../assets/Images/silver.png')}
               style={[styles.compareCarImage, {transform: [{scaleX: -1}]}]}
               resizeMode="contain"
             />
             <Text style={styles.carBrand}>Toyota</Text>
             <Text style={styles.carModel}>Camry</Text>
-            <Text style={styles.carPrice}>Rs. 10,000</Text>
+            <Text style={styles.carPrice}>$10,000</Text>
           </View>
 
           {/* VS Circle */}
@@ -256,18 +282,20 @@ const Home = () => {
           {/* Right Car */}
           <View style={styles.carBox}>
             <Image
-              source={require('../assets/Images/Car.png')}
+              source={require('../assets/Images/white.png')}
               style={styles.compareCarImage}
               resizeMode="contain"
             />
             <Text style={styles.carBrand}>Skoda</Text>
             <Text style={styles.carModel}>Kylad</Text>
-            <Text style={styles.carPrice}>Rs. 11,000</Text>
+            <Text style={styles.carPrice}>$11,000</Text>
           </View>
         </View>
 
         {/* Button inside same container */}
-        <TouchableOpacity style={styles.compareBtn}>
+        <TouchableOpacity
+          style={styles.compareBtn}
+          onPress={() => navigation.navigate('CarComparison')}>
           <Text style={styles.compareBtnText}>View Comparison</Text>
         </TouchableOpacity>
       </View>
@@ -291,19 +319,16 @@ const styles = ScaledSheet.create({
   },
   bannerTitle: {
     color: colors.white,
-    fontSize: '18@ms',
+    fontSize: '22@ms',
     marginBottom: '5@vs',
-    fontFamily: Primaryfonts.semibold,
+    fontFamily: Primaryfonts.medium,
+    bottom: '10@vs',
   },
 
   searchContainer: {
-    flexDirection: 'row',
-    backgroundColor: colors.white,
-    borderRadius: '25@s',
-    alignItems: 'center',
-    paddingHorizontal: '10@s',
-    width: '80%',
-    height: '35@vs',
+    paddingHorizontal: '16@ms',
+    marginBottom: '16@vs',
+    width: '100%',
   },
   searchInput: {
     flex: 1,
@@ -323,18 +348,19 @@ const styles = ScaledSheet.create({
   filterIcon: {
     width: '18@ms',
     height: '18@ms',
-    tintColor: colors.white, // 👈 keeps it white like your vector icon
+    tintColor: colors.white,
   },
   dealCard: {
-    marginTop: '-30@vs', // 👈 overlaps into banner background
+    marginTop: '-35@vs',
     marginHorizontal: '15@s',
     borderRadius: '12@s',
     overflow: 'hidden',
   },
   dealImage: {
-    width: '100%',
+    width: '115%',
     height: '150@vs',
     borderRadius: '18@s',
+    alignSelf: 'center',
   },
   dealTextContainer: {
     position: 'absolute',
@@ -353,7 +379,7 @@ const styles = ScaledSheet.create({
   },
 
   sectionTitle: {
-    fontSize: '14@ms',
+    fontSize: '17@ms',
     fontFamily: Secondaryfonts.semibold,
     marginTop: '16@vs',
     marginLeft: '16@s',
@@ -374,6 +400,7 @@ const styles = ScaledSheet.create({
   brandItem: {
     alignItems: 'center',
     marginRight: '16@s',
+    marginTop: '13@vs',
   },
   brandIcon: {
     width: '35@ms',
@@ -403,6 +430,7 @@ const styles = ScaledSheet.create({
   featureImage: {
     width: '100%',
     height: '100%',
+    resizeMode: 'contain',
   },
   featureText: {
     fontSize: '10@ms',
@@ -414,20 +442,21 @@ const styles = ScaledSheet.create({
   carCategoryCard: {
     flex: 1,
     alignItems: 'center',
-    margin: '5@s',
+    margin: '10@ms',
     borderRadius: '12@ms',
-    backgroundColor: colors.white,
-    padding: '10@s',
+    backgroundColor: colors.cardsBackgroundColor,
+    padding: '10@ms',
   },
   carCategoryImage: {
-    width: '80@ms',
-    height: '60@vs',
+    width: '105%',
+    height: '115@vs',
     resizeMode: 'contain',
   },
   carCategoryText: {
-    fontSize: '12@ms',
+    fontSize: '14@ms',
     fontFamily: Secondaryfonts.medium,
     marginTop: '5@vs',
+    color: colors.black,
   },
   carValueContainer: {
     flexDirection: 'row',
@@ -437,8 +466,9 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
   },
   valueTitle: {
-    fontSize: '16@ms',
-    fontFamily: Secondaryfonts.medium,
+    fontSize: '17@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
   },
   valueDesc: {
     fontSize: '12@ms',
@@ -458,10 +488,11 @@ const styles = ScaledSheet.create({
     color: colors.white,
     fontFamily: Secondaryfonts.medium,
     fontSize: '12@ms',
+    alignSelf: 'center',
   },
   valueBox: {
     backgroundColor: colors.white,
-    padding: '10@s',
+    padding: '9@ms',
     borderRadius: '10@ms',
     shadowColor: colors.black,
     shadowOpacity: 0.1,
@@ -475,19 +506,28 @@ const styles = ScaledSheet.create({
     color: colors.black,
   },
   valueRange: {
-    fontSize: '14@ms',
+    fontSize: '12.5@ms',
     fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
     marginVertical: '5@vs',
   },
   valueBoxSub: {
     fontSize: '10@ms',
     fontFamily: Secondaryfonts.medium,
-    color: colors.hind,
+    color: colors.black,
   },
   bigCarImage: {
-    width: '100%',
-    height: '160@vs',
+    width: '90%',
+    height: '200@vs',
     marginBottom: '20@vs',
+    alignSelf: 'center',
+  },
+  curveCarImage: {
+    width: '100%',
+    height: '120@vs',
+    marginBottom: '20@vs',
+    bottom: '1096@vs',
+    position: 'absolute',
   },
   sellingSection: {
     marginTop: '20@vs',
@@ -499,9 +539,7 @@ const styles = ScaledSheet.create({
   graphCarImage: {
     width: '100%',
     height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
+    right: '40@s',
   },
 
   sellingCard: {
@@ -510,7 +548,8 @@ const styles = ScaledSheet.create({
     top: '20@vs',
     borderRadius: '16@ms',
     overflow: 'hidden',
-    width: '65%',
+    width: '55%',
+    height: '150@vs',
   },
 
   blurBackground: {
@@ -530,18 +569,18 @@ const styles = ScaledSheet.create({
   sellingTitle: {
     fontSize: '15@ms',
     fontFamily: Secondaryfonts.semibold,
-    color: colors.hind,
+    color: colors.blue,
   },
   sellingSubtitle: {
     fontSize: '14@ms',
     fontFamily: Secondaryfonts.semibold,
-    color: colors.hind,
+    color: colors.black,
     marginBottom: '6@vs',
   },
   sellingDesc: {
     fontSize: '11@ms',
     fontFamily: Secondaryfonts.medium,
-    color: '#666',
+    color: colors.black,
     marginBottom: '10@vs',
   },
   sellingBtn: {
@@ -558,19 +597,20 @@ const styles = ScaledSheet.create({
   },
 
   compareTitle: {
-    fontSize: '15@ms',
+    fontSize: '17@ms',
     fontFamily: Secondaryfonts.semibold,
     textAlign: 'center',
-    marginBottom: '14@vs',
-    color: colors.hind,
+    marginBottom: '20@vs',
+    color: colors.black,
+    marginTop: '20@vs',
   },
   compareContainer: {
     borderWidth: 1,
     borderColor: colors.hind,
     borderRadius: '18@ms',
     backgroundColor: colors.white,
-    marginBottom:'16@vs',
-    padding:'16@ms',
+    marginBottom: '16@vs',
+    padding: '16@ms',
     marginHorizontal: '10@s',
   },
 
@@ -586,27 +626,27 @@ const styles = ScaledSheet.create({
   },
 
   compareCarImage: {
-    width: '140@ms',
-    height: '100@vs',
+    width: '161@ms',
+    height: '120@vs',
     marginBottom: '6@vs',
   },
 
   carBrand: {
-    fontSize: '11@ms',
-    color: '#888',
+    fontSize: '13@ms',
+    color: colors.hind,
     fontFamily: Secondaryfonts.medium,
   },
 
   carModel: {
-    fontSize: '15@ms',
+    fontSize: '16@ms',
     fontFamily: Secondaryfonts.semibold,
-    color: colors.hind,
+    color: colors.black,
   },
 
   carPrice: {
-    fontSize: '12@ms',
+    fontSize: '13@ms',
     fontFamily: Secondaryfonts.semibold,
-    color: colors.hind,
+    color: colors.black,
     marginTop: '3@vs',
   },
 
@@ -618,7 +658,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: '10@s',
-    marginTop: '100@vs', // push it a little lower
+    marginTop: '130@vs',
   },
 
   vsText: {
@@ -630,9 +670,9 @@ const styles = ScaledSheet.create({
   compareBtn: {
     borderWidth: 1,
     borderColor: colors.blue,
-    borderRadius: '22@ms',
-    paddingVertical: '10@vs',
-    paddingHorizontal: '80@s',
+    borderRadius: '12@ms',
+    paddingVertical: '8@vs',
+    paddingHorizontal: '90@s',
     alignSelf: 'center',
     marginTop: '15@vs',
   },

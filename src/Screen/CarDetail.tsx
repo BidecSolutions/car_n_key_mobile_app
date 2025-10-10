@@ -688,7 +688,7 @@ const styles = ScaledSheet.create({
     gap: '6@s',
   },
   gridItem: {
-    width: '22%',
+    width: '23%',
     padding: '10@ms',
     borderRadius: '8@ms',
     backgroundColor: '#f1f1f1',
@@ -702,7 +702,7 @@ const styles = ScaledSheet.create({
     marginTop: '4@vs',
   },
   gridValue: {
-    fontSize: '12@ms',
+    fontSize: '10@ms',
     fontFamily: Secondaryfonts.medium,
     color: colors.black,
     marginTop: '1@vs',

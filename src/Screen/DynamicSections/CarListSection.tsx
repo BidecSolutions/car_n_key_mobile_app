@@ -14,6 +14,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import FilterModal from './FilterModal';
 import { Primaryfonts, Secondaryfonts } from '../../constant/fonts';
 import { ScreenContainer } from 'react-native-screens';
+import SearchBox from '../../Components/SearchBox/SearchBox';
 
 type Car = {
   id: string;
@@ -45,7 +46,7 @@ type Props = {
 };
 
 const CarListSection: React.FC<Props> = ({
-  title = 'Find the Best Cars at the Best Prices the Right Choice',
+  title = "Find the Best Cars at the Best \n Prices the Right Choice",
   cars,
   showMoreBtn = true,
   onSearch,
@@ -60,6 +61,7 @@ const CarListSection: React.FC<Props> = ({
 }) => {
   const [priceFilter, setPriceFilter] = useState<string | null>(null);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+   const [searchText, setSearchText] = useState("");
 
   const priceOptions = [
     {label: 'Price: Low to High', value: 'low'},
@@ -67,7 +69,7 @@ const CarListSection: React.FC<Props> = ({
   ];
   const renderItem = ({item}: {item: Car}) => (
     <View style={styles.card}>
-      <Image source={item.image} style={styles.carImage} resizeMode="cover" />
+      <Image source={item.image} style={styles.carImage} resizeMode="contain" />
       <View style={styles.cardContent}>
         <Text style={styles.carName}>{item.name}</Text>
         <Text style={styles.carPrice}>Price : {item.price}</Text>
@@ -120,22 +122,12 @@ const CarListSection: React.FC<Props> = ({
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <Icon name="search-outline" size={moderateScale(18)} color="#555" />
-        <TextInput
-          placeholder="search"
-          placeholderTextColor="#777"
-          style={styles.searchInput}
-          onChangeText={onSearch}
+        <SearchBox
+          placeholder="Find your car"
+          value={searchText}
+          onChangeText={setSearchText}
+          // onPressFilter={handleFilterPress}
         />
-        <TouchableOpacity
-          style={styles.searchIcon}
-          onPress={() => setIsFilterVisible(true)}>
-          <Image
-            source={require('../../assets/Images/FilterIcon.png')} // 👈 put your filter image here
-            style={styles.filterIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
       </View>
 
       {/* Filters Row */}
@@ -156,6 +148,7 @@ const CarListSection: React.FC<Props> = ({
                 valueField="value"
                 placeholder="Sort"
                 value={priceFilter}
+                iconColor={colors.black}
                 onChange={item => {
                   setPriceFilter(item.value);
                   onPriceFilterChange?.(item.value);
@@ -223,14 +216,7 @@ const styles = ScaledSheet.create({
     color: colors.black,
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: '25@ms',
-    paddingHorizontal: '10@s',
-    marginBottom: '20@vs',
-    backgroundColor: colors.white,
+    marginBottom: "16@vs",
   },
   searchInput: {
     flex: 1,
@@ -283,7 +269,7 @@ const styles = ScaledSheet.create({
     borderRadius: '8@ms',
     paddingHorizontal: '10@s',
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: colors.black,
     backgroundColor: colors.white,
     justifyContent: 'center',
   },
@@ -306,7 +292,7 @@ const styles = ScaledSheet.create({
   placeholderStyle: {
     fontSize: '12@ms',
     fontFamily: Secondaryfonts.medium,
-    color: '#999',
+    color: colors.black,
   },
   selectedTextStyle: {
     fontSize: '12@ms',
@@ -342,13 +328,17 @@ const styles = ScaledSheet.create({
     marginBottom: '15@vs',
   },
   carImage: {
-    width: '100@ms',
-    height: '80@vs',
+    width: '125@ms',
+    height: '140@vs',
     borderRadius: '10@ms',
+    backgroundColor: colors.cardsBackgroundColor,
+    alignSelf: 'center',
+   
   },
   cardContent: {
-    flex: 1,
-    marginLeft: '10@s',
+  
+    left: '10@s',
+    width: '60%'
   },
   carName: {
     fontSize: '13@ms',
@@ -356,9 +346,9 @@ const styles = ScaledSheet.create({
     color: colors.black,
   },
   carPrice: {
-    fontSize: '12@ms',
-    fontFamily: Secondaryfonts.medium,
-    color: colors.hind,
+    fontSize: '15@ms',
+    fontFamily: Secondaryfonts.semibold,
+    color: colors.black,
     marginTop: '4@vs',
   },
   infoRow: {
@@ -369,12 +359,12 @@ const styles = ScaledSheet.create({
   },
   infoText: {
     fontSize: '10@ms',
-    color: '#555',
+    color: colors.black,
     fontFamily: Secondaryfonts.medium,
   },
   dot: {
     marginHorizontal: '4@s',
-    color: '#999',
+    color: colors.black,
   },
   starRow: {
     flexDirection: 'row',
@@ -388,7 +378,7 @@ const styles = ScaledSheet.create({
   },
   locationText: {
     fontSize: '10@ms',
-    color: '#444',
+    color: colors.black,
     marginRight: '10@s',
     fontFamily: Secondaryfonts.medium,
   },
@@ -402,19 +392,19 @@ const styles = ScaledSheet.create({
     borderColor: colors.blue,
     borderRadius: '20@ms',
     paddingVertical: '5@vs',
-    paddingHorizontal: '15@s',
+    paddingHorizontal: '17@s',
     alignSelf: 'flex-start',
     marginTop: '8@vs',
   },
   viewDealText: {
     fontSize: '11@ms',
-    color: colors.blue,
+    color: colors.black,
     fontFamily: Secondaryfonts.semibold,
   },
   resultsBtn: {
     backgroundColor: colors.blue,
     borderRadius: '20@ms',
-    paddingVertical: '10@vs',
+    paddingVertical: '7@vs',
     paddingHorizontal: '30@s',
     alignSelf: 'center',
     marginTop: '10@vs',

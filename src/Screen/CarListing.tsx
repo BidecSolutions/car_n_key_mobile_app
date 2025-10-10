@@ -61,7 +61,7 @@ const CarListing = () => {
         ]}
         onSearch={text => console.log('Searching:', text)}
         onFilterPress={() => console.log('Filter pressed')}
-        onViewDeal={car => console.log('Viewing deal:', car)}
+        onViewDeal={() => navigation.navigate('CarDetail')}
         onLoadMore={() => console.log('Load more pressed')}
         title="Your Next Car Awaits"
         showPriceFilter={true}
