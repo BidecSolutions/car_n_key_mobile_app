@@ -32,12 +32,13 @@ const ForgetPassword = () => {
       {/* White Card Section */}
       <View style={styles.card}>
         <Text style={styles.title}>Reset Your Password</Text>
-        <Text style={styles.subtitle}>Enter your registered email address or phone number, and we’ll send you a link to reset your password.</Text>
+        <Text style={styles.subtitle}>Enter your registered email address or phone number, {'\n'} and we’ll send you a link to reset your password.</Text>
         
         <TextInput
           placeholder="Enter Your Email"
           style={styles.input}
           secureTextEntry
+          placeholderTextColor={'#666'}
         />
 
 
@@ -97,7 +98,7 @@ const styles = ScaledSheet.create({
     justifyContent:'center'
   },
   title: {
-    fontSize: '20@ms',
+    fontSize: '25@ms',
     fontFamily: Secondaryfonts.semibold,
     color: colors.blue,
     marginBottom: '10@vs',
@@ -105,7 +106,7 @@ const styles = ScaledSheet.create({
   subtitle: {
     fontSize: '12@ms',
     fontFamily: Secondaryfonts.medium,
-    color: colors.hind,
+    color: colors.black,
     marginBottom: '20@vs',
     textAlign:'center'
   },
@@ -119,6 +120,7 @@ const styles = ScaledSheet.create({
     fontSize: '13@ms',
     fontFamily: Secondaryfonts.medium,
     marginBottom: '12@vs',
+    color: colors.black,
   },
   checkboxRow: {
     flexDirection: 'row',

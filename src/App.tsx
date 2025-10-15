@@ -79,6 +79,9 @@ import BuyReport from './Screen/CarX-Ray/BuyReport';
 import PaymentDetails from './Screen/CarX-Ray/PaymentDetails';
 import PaymentSuccessfull from './Screen/CarX-Ray/PaymentSuccessfull';
 import CarReport from './Screen/CarX-Ray/CarReport';
+import Splash from './Screen/Splash';
+import PersonalInfo from './Screen/PersonalInfo';
+import ChangePassword from './Screen/ChangePassword';
 
 
 export type RootStackParamList = {
@@ -111,6 +114,9 @@ export type RootStackParamList = {
   PaymentDetails: undefined;
   PaymentSuccessfull: undefined;
   CarReport: undefined;
+  Splash: undefined;
+  PersonalInfo: undefined;
+  ChangePassword: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -274,10 +280,15 @@ const AppContent = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={'SignUp'}
+        initialRouteName={'Home'}
         screenOptions={{
           animation: 'slide_from_right',
         }}>
+          <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Home"
           component={HomeDrawer}
@@ -407,6 +418,16 @@ const AppContent = () => {
         <Stack.Screen
           name="CarReport"
           component={CarReport}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PersonalInfo"
+          component={PersonalInfo}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

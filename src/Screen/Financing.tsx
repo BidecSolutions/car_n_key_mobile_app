@@ -474,7 +474,7 @@ const styles = ScaledSheet.create({
     borderWidth: 1,
     borderColor: colors.hind,
     borderRadius: scale(6),
-    paddingVertical: verticalScale(10),
+    paddingVertical: verticalScale(6),
     paddingHorizontal: scale(12),
     fontSize: moderateScale(12),
     fontFamily: Secondaryfonts.medium,

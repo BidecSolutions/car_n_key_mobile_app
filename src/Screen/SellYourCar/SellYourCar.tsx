@@ -30,132 +30,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {TriangleColorPicker} from 'react-native-color-picker';
 
-const NAMED_COLORS = [
-  'black',
-  'white',
-  'gray',
-  'silver',
-  'red',
-  'maroon',
-  'yellow',
-  'olive',
-  'lime',
-  'green',
-  'aqua',
-  'teal',
-  'blue',
-  'navy',
-  'fuchsia',
-  'purple',
+const colorBox = [
+  '#000000',
+  '#FFFFFF',
+  '#FF0000',
+  '#0000FF',
+  '#008000',
+  '#FFA500',
   'orange',
-  'gold',
-  'pink',
-  'indigo',
-  'violet',
-  'brown',
-  'chocolate',
-  'coral',
-  'crimson',
-  'cyan',
-  'darkblue',
-  'darkcyan',
-  'darkgoldenrod',
-  'darkgray',
-  'darkgreen',
-  'darkkhaki',
-  'darkmagenta',
-  'darkolivegreen',
-  'darkorange',
-  'darkorchid',
-  'darkred',
-  'darksalmon',
-  'darkseagreen',
-  'darkslateblue',
-  'darkslategray',
-  'darkturquoise',
-  'darkviolet',
-  'deeppink',
-  'deepskyblue',
-  'dimgray',
-  'dodgerblue',
-  'firebrick',
-  'forestgreen',
-  'gainsboro',
-  'ghostwhite',
-  'goldenrod',
-  'greenyellow',
-  'honeydew',
-  'hotpink',
-  'indianred',
-  'ivory',
-  'khaki',
-  'lavender',
-  'lavenderblush',
-  'lawngreen',
-  'lemonchiffon',
-  'lightblue',
-  'lightcoral',
-  'lightcyan',
-  'lightgoldenrodyellow',
-  'lightgray',
-  'lightgreen',
-  'lightpink',
-  'lightsalmon',
-  'lightseagreen',
-  'lightskyblue',
-  'lightslategray',
-  'lightsteelblue',
-  'lightyellow',
-  'limegreen',
-  'linen',
-  'mediumaquamarine',
-  'mediumblue',
-  'mediumorchid',
-  'mediumpurple',
-  'mediumseagreen',
-  'mediumslateblue',
-  'mediumspringgreen',
-  'mediumturquoise',
-  'mediumvioletred',
-  'midnightblue',
-  'mintcream',
-  'mistyrose',
-  'moccasin',
-  'navajowhite',
-  'oldlace',
-  'olivedrab',
-  'orangered',
-  'orchid',
-  'palegoldenrod',
-  'palegreen',
-  'paleturquoise',
-  'palevioletred',
-  'papayawhip',
-  'peachpuff',
-  'peru',
-  'plum',
-  'powderblue',
-  'rosybrown',
-  'royalblue',
-  'saddlebrown',
-  'salmon',
-  'sandybrown',
-  'seagreen',
-  'seashell',
-  'sienna',
-  'skyblue',
-  'slateblue',
-  'slategray',
-  'snow',
-  'springgreen',
-  'steelblue',
-  'tan',
-  'thistle',
-  'tomato',
-  'turquoise',
-  'wheat',
-  'whitesmoke',
-  'yellowgreen',
+  'yellow',
+  'purple',
 ];
 
 const {height} = Dimensions.get('window');
@@ -178,9 +62,14 @@ const SellYourCar: React.FC = () => {
   const [carAccident, setCarAccident] = useState<string | null>(null);
   const [cleanReport, setCleanReport] = useState<string | null>(null);
   const [modifications, setModifications] = useState<string | null>(null);
-  const [exteriorColor, setExteriorColor] = useState('#fff');
-  const [interiorColor, setInteriorColor] = useState('#fff');
-  const [showPicker, setShowPicker] = useState(false);
+  const [selectedColors, setSelectedColors] = useState<{
+    Exterior?: string;
+    Interior?: string;
+  }>({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedType, setSelectedType] = useState<
+    'Exterior' | 'Interior' | null
+  >(null);
   const [selectedImpact, setSelectedImpact] = useState<string | null>(null);
 
   const conditionOptions = [
@@ -192,10 +81,14 @@ const SellYourCar: React.FC = () => {
 
   const scrollRef = useRef<ScrollView>(null);
 
-  const handleColorSelect = (color: string) => {
-    if (selectedColor === 'exterior') setExteriorColor(color);
-    if (selectedColor === 'interior') setInteriorColor(color);
-    setShowPicker(false);
+  const handleColorSelect = (colorBox: string) => {
+    if (selectedType) {
+      setSelectedColors(prev => ({
+        ...prev,
+        [selectedType]: colorBox,
+      }));
+      setModalVisible(false);
+    }
   };
 
   const scroll = (direction: 'left' | 'right') => {
@@ -300,47 +193,75 @@ const SellYourCar: React.FC = () => {
 
           {/* Color Selection */}
           <Text style={styles.label}>What color is your car?</Text>
-          <View style={styles.row}>
+          <View style={styles.checkboxRow}>
+            {/* Exterior */}
             <TouchableOpacity
-              style={[styles.colorBox, {backgroundColor: exteriorColor}]}
+              style={styles.checkbox}
               onPress={() => {
-                setSelectedColor('exterior');
-                setShowPicker(true);
+                setSelectedType('Exterior');
+                setModalVisible(true);
               }}>
-              <Text style={styles.colorText}>Exterior</Text>
+              <View
+                style={[
+                  styles.colorBox,
+                  selectedColors.Exterior
+                    ? {backgroundColor: selectedColors.Exterior}
+                    : null,
+                ]}
+              />
+              <Text
+                style={[
+                  styles.checkboxText,
+                  {color: selectedColors.Exterior ? '#000' : '#999'},
+                ]}>
+                Exterior
+              </Text>
             </TouchableOpacity>
 
+            {/* Interior */}
             <TouchableOpacity
-              style={[styles.colorBox, {backgroundColor: interiorColor}]}
+              style={styles.checkbox}
               onPress={() => {
-                setSelectedColor('interior');
-                setShowPicker(true);
+                setSelectedType('Interior');
+                setModalVisible(true);
               }}>
-              <Text style={styles.colorText}>Interior</Text>
+              <View
+                style={[
+                  styles.colorBox,
+                  selectedColors.Interior
+                    ? {backgroundColor: selectedColors.Interior}
+                    : null,
+                ]}
+              />
+              <Text
+                style={[
+                  styles.checkboxText,
+                  {color: selectedColors.Interior ? '#000' : '#999'},
+                ]}>
+                Interior
+              </Text>
             </TouchableOpacity>
           </View>
 
-          {/* Color Picker Modal */}
-          <Modal visible={showPicker} animationType="slide" transparent>
+          <Modal visible={modalVisible} transparent animationType="fade">
             <View style={styles.modalOverlay}>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>Pick a color</Text>
-
-                {/* Vertical scroll instead of horizontal paging */}
-                <ScrollView
-                  contentContainerStyle={styles.page}
-                  showsVerticalScrollIndicator={false}>
-                  {NAMED_COLORS.map((color, i) => (
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>
+                  Select {selectedType} Color
+                </Text>
+                <View style={styles.colorRow}>
+                  {colorBox.map((color, index) => (
                     <TouchableOpacity
-                      key={i}
-                      style={[styles.swatch, {backgroundColor: color}]}
+                      key={index}
+                      style={[styles.colorOption, {backgroundColor: color}]}
                       onPress={() => handleColorSelect(color)}
                     />
                   ))}
-                </ScrollView>
-
-                <TouchableOpacity onPress={() => setShowPicker(false)}>
-                  <Text style={styles.closeBtn}>Close</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.closeBtn}
+                  onPress={() => setModalVisible(false)}>
+                  <Text style={styles.closeBtnText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -835,13 +756,6 @@ const styles = ScaledSheet.create({
     flex: 1,
     marginRight: '10@s',
   },
-  label: {
-    fontSize: '14@ms',
-    color: colors.black,
-    fontFamily: Secondaryfonts.medium,
-    marginBottom: '10@vs',
-    marginTop: '14@vs',
-  },
   input: {
     backgroundColor: colors.cardsBackgroundColor,
     borderRadius: '6@ms',
@@ -851,36 +765,79 @@ const styles = ScaledSheet.create({
     color: colors.black,
     fontFamily: Secondaryfonts.medium,
   },
-  colorBox: {
-    borderWidth: 1,
-    borderColor: '#666',
-    borderRadius: '8@s',
-    paddingVertical: '12@vs',
-    paddingHorizontal: '50@s',
-    marginRight: '10@s',
+  label: {
+    fontSize: '14@ms',
+    marginBottom: '10@vs',
+    marginTop: '20@vs',
+    color: colors.black,
+    fontFamily: Secondaryfonts.semibold,
+  },
+  checkboxRow: {
+    flexDirection: 'row',
+    marginBottom: '16@vs',
+  },
+  checkbox: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: '6@ms',
+    paddingVertical: '8@vs',
+    marginRight: '10@s',
+  },
+  colorBox: {
+    width: '23@ms',
+    height: '19@vs',
+    borderWidth: 1,
+    borderColor: colors.black,
+    marginRight: '8@s',
+    borderRadius: '6@ms',
+  },
+  checkboxText: {
+    fontSize: '13@ms',
+    fontFamily: Secondaryfonts.medium,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: '16@ms',
-    borderRadius: '12@s',
-    width: '90%',
-    maxHeight: '70%',
+  modalContainer: {
+    backgroundColor: colors.white,
+    borderRadius: '12@ms',
+    padding: '20@ms',
+    width: '80%',
+    alignItems: 'center',
   },
-
   modalTitle: {
-    fontSize: '16@ms',
-    fontFamily: Secondaryfonts.bold,
-    marginBottom: '10@vs',
-    textAlign: 'center',
+    fontSize: '15@ms',
+    fontFamily: Secondaryfonts.medium,
+    marginBottom: '12@vs',
     color: colors.black,
+  },
+  colorRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: '20@vs',
+  },
+  colorOption: {
+    width: '30@ms',
+    height: '30@vs',
+    borderRadius: '9@ms',
+    margin: '6@s',
+    borderWidth: 1,
+    borderColor: colors.hind,
+  },
+  closeBtn: {
+    paddingVertical: '10@vs',
+    paddingHorizontal: '20@s',
+    borderRadius: '8@ms',
+    backgroundColor: colors.cardsBackgroundColor,
+  },
+  closeBtnText: {
+    fontSize: '13@ms',
+    color: colors.black,
+    fontFamily: Secondaryfonts.medium,
   },
   page: {
     flexDirection: 'row',

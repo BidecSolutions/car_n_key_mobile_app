@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,14 +7,114 @@ import {
   StyleSheet,
   Image,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {ScaledSheet} from 'react-native-size-matters';
 import {colors} from '../../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
 import {useNavigation} from '@react-navigation/native';
+import api from '../../api';
+import {useUser} from '../../context/UserContext';
 
 const SignUp = () => {
   const navigation = useNavigation();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNo, setPhoneNo] = useState<string>('');
+  const {user, updateUser} = useUser();
+  const [selectedGender, setSelectedGender] = useState<{
+    label: string;
+    value: number;
+  } | null>(null);
+  const [secureText, setSecureText] = useState(true);
+  const [confirmPassword, setconfirmPasssword] = useState('');
+  const [password, setPassword] = useState('');
+  const [secureConfirmText, setSecureConfirmText] = useState(true);
+  const passwordsMatch = password === confirmPassword && password.length > 0;
+
+  const hasMinLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const [showAlert, setShowAlert] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const isFormValid =
+    hasMinLength &&
+    hasUppercase &&
+    hasLowercase &&
+    hasNumber &&
+    hasSpecialChar &&
+    passwordsMatch;
+
+  const handleRegister = async () => {
+    // mark that user tried to submit — used to show red borders
+    setSubmitted(true);
+
+    // 1) Required fields
+    if (
+      !name.trim() ||
+      !email.trim() ||
+      !phoneNo.trim() ||
+      !password ||
+      !confirmPassword
+    ) {
+      Alert.alert('Error', 'Please fill in all the fields.');
+      return;
+    }
+
+    // 2) Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      Alert.alert('Validation Error', 'Please enter a valid email address.');
+      return;
+    }
+
+    if (!isFormValid) {
+      Alert.alert(
+        'Password Error',
+        'Please make sure your password meets all requirements and that both passwords match.',
+      );
+      return;
+    }
+
+    const payload = {
+      name: name.trim(),
+      email: email.trim(),
+      password,
+      confirm_password: confirmPassword,
+      phone: phoneNo.trim(),
+    };
+
+    try {
+      const response = await api.public.post('/user/register', payload);
+
+      if (response.data.success === true) {
+        setShowAlert(true);
+        navigation.navigate('Login');
+      } else {
+        Alert.alert(
+          'Verification Failed',
+          response.data.message || 'Invalid credentials',
+        );
+      }
+    } catch (error: any) {
+      if (error.response) {
+        console.log('REGISTER ERROR RESPONSE:', error.response.data);
+        Alert.alert(
+          'Register Failed',
+          error.response.data?.message || 'Something went wrong.',
+        );
+      } else if (error.request) {
+        Alert.alert(
+          'Network Error',
+          'No response from server. Please check your internet connection.',
+        );
+      } else {
+        Alert.alert('Error', error.message);
+      }
+    }
+  };
   return (
     <ImageBackground
       source={require('../../assets/Images/LoginsBackground.jpg')}
@@ -34,26 +134,39 @@ const SignUp = () => {
         <Text style={styles.title}>Get Started</Text>
 
         {/* Input Fields */}
-        <TextInput placeholder="Your Name" style={styles.input} />
+        <TextInput
+          placeholder="Your Name"
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+        />
         <TextInput
           placeholder="Email"
           style={styles.input}
           keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder="Phone"
           style={styles.input}
           keyboardType="phone-pad"
+          value={phoneNo}
+          onChangeText={setPhoneNo}
         />
         <TextInput
           placeholder="Password"
           style={styles.input}
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
         <TextInput
           placeholder="Confirm Password"
           style={styles.input}
           secureTextEntry
+          value={confirmPassword}
+          onChangeText={setconfirmPasssword}
         />
 
         {/* Checkbox + Text */}
@@ -66,7 +179,7 @@ const SignUp = () => {
         </View>
 
         {/* Sign Up Button */}
-        <TouchableOpacity style={styles.signupBtn}>
+        <TouchableOpacity style={styles.signupBtn} onPress={handleRegister}>
           <Text style={styles.signupText}>Sign Up</Text>
         </TouchableOpacity>
 
@@ -161,7 +274,7 @@ const styles = ScaledSheet.create({
   link: {
     color: colors.blue,
     fontFamily: Secondaryfonts.medium,
-    top: '2@vs'
+    top: '2@vs',
   },
   signupBtn: {
     width: '100%',

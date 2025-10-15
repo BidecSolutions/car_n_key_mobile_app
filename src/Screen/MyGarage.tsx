@@ -7,7 +7,7 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {ScaledSheet, ms, s, verticalScale, vs} from 'react-native-size-matters';
 import {Header} from '../Components/Header/Header';
 import {colors} from '../constant/colors';
@@ -219,9 +219,9 @@ const MyGarage: React.FC<Props> = ({valuationCar}) => {
           {/* Features */}
           <View style={styles.featureCard}>
             <Icon
-              name="chart-line"
+              name="trending-up"
               size={ms(20)}
-              color="#4338CA"
+              color={colors.blue}
               style={styles.icon}
             />
             <Text style={styles.featureText}>
@@ -231,9 +231,9 @@ const MyGarage: React.FC<Props> = ({valuationCar}) => {
 
           <View style={styles.featureCard}>
             <Icon
-              name="car-search-outline"
+              name="car-outline"
               size={ms(20)}
-              color="#4338CA"
+              color={colors.blue}
               style={styles.icon}
             />
             <Text style={styles.featureText}>
@@ -243,9 +243,9 @@ const MyGarage: React.FC<Props> = ({valuationCar}) => {
 
           <View style={styles.featureCard}>
             <Icon
-              name="bell-outline"
+              name="notifications-outline"
               size={ms(20)}
-              color="#4338CA"
+              color={colors.blue}
               style={styles.icon}
             />
             <Text style={styles.featureText}>
@@ -285,7 +285,7 @@ const MyGarage: React.FC<Props> = ({valuationCar}) => {
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   dealerReviewingSection: {
     padding: '18@ms',

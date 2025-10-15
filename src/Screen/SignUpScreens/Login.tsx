@@ -7,16 +7,93 @@ import {
   StyleSheet,
   Image,
   ImageBackground,
+  Alert,
 } from 'react-native';
-import {ScaledSheet} from 'react-native-size-matters';
+import {ScaledSheet, verticalScale} from 'react-native-size-matters';
 import {colors} from '../../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {useNavigation} from '@react-navigation/native';
+import {setAccessToken} from '../../utils/storage';
+import {useUser} from '../../context/UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../api';
 
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigation = useNavigation();
+  const {user, updateUser} = useUser();
+  const [showAlert, setShowAlert] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password.');
+      return;
+    }
+
+    try {
+      const payload = {
+        email: email,
+        password: password,
+        fcm_token: fcmToken,
+      };
+
+      const response = await api.public.post('/user/login', payload);
+
+      if (response.data.success === true) {
+        setShowAlert(true);
+        const token = response.data.data.access_token;
+        await setAccessToken(token);
+        //@ts-ignore
+        navigation.navigate('Home');
+
+        const user = response.data.data.user;
+
+        // Prepare user data to be saved
+        const userData = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          address: user.address,
+          city: user.city,
+          image: user.image,
+          status: user.status
+        };
+
+         updateUser(userData);
+      } else {
+        Alert.alert(
+          'Verification Failed',
+          response.data.message || 'Invalid credentials',
+        );
+      }
+    } catch (error: any) {
+      if (error.response) {
+        // API responded with an error
+        const status = error.response.status;
+        const errorMessage =
+          error.response.data?.message || 'Login failed. Please try again.';
+
+        Alert.alert('Login Failed', errorMessage);
+        console.error('Login error response:', error.response.data);
+      } else if (error.request) {
+        // No response received
+        Alert.alert(
+          'Network Error',
+          'No response from server. Please check your internet connection.',
+        );
+        console.error('No response received:', error.request);
+      } else {
+        // Something else happened
+        Alert.alert('Error', error.message);
+        console.error('Unexpected login error:', error.message);
+      }
+    }
+  };
 
   return (
     <ImageBackground
@@ -42,21 +119,25 @@ const Login = () => {
           placeholder="Email"
           style={styles.input}
           keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
 
         <TextInput
           placeholder="Password"
           style={styles.input}
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
 
         {/* Checkbox + Text + Forgot Password */}
         <View style={styles.checkboxRow}>
           <BouncyCheckbox
             size={20}
-            fillColor="#2E2A85"
+            fillColor={colors.blue}
             text="Remember Me"
-            iconStyle={{borderColor: '#2E2A85'}}
+            iconStyle={{borderColor: colors.blue}}
             textStyle={styles.checkboxText}
             isChecked={rememberMe}
             onPress={isChecked => setRememberMe(isChecked)}
@@ -70,13 +151,16 @@ const Login = () => {
         </View>
 
         {/* Sign Up Button */}
-        <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.signupBtn} onPress={handleLogin}>
           <Text style={styles.signupText}>Login</Text>
         </TouchableOpacity>
 
         {/* Footer */}
         <Text style={styles.footerText}>
-          Don't have an account? <Text style={styles.link}>Sign Up</Text>
+          Don't have an account?{' '}
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.link}>Sign Up</Text>
+          </TouchableOpacity>
         </Text>
       </View>
     </ImageBackground>
@@ -105,7 +189,7 @@ const styles = ScaledSheet.create({
   },
   appName: {
     fontSize: '22@ms',
-   fontFamily: Secondaryfonts.semibold,
+    fontFamily: Secondaryfonts.semibold,
     color: colors.white,
   },
   tagline: {
@@ -155,9 +239,9 @@ const styles = ScaledSheet.create({
   checkboxText: {
     fontSize: '12@ms',
     color: colors.black,
-    textDecorationLine: 'none', 
+    textDecorationLine: 'none',
     fontFamily: Secondaryfonts.medium,
-    right: '7@s'
+    right: '7@s',
   },
 
   forgotText: {
@@ -169,6 +253,7 @@ const styles = ScaledSheet.create({
   link: {
     color: colors.blue,
     fontFamily: Secondaryfonts.medium,
+    top: '3@vs',
   },
   signupBtn: {
     width: '100%',

@@ -36,16 +36,23 @@ const topBrands = [
 ];
 
 const features = [
-  {id: '1', title: 'BUY A CAR', image: require('../assets/Images/BuyACar.png')},
+  {
+    id: '1',
+    title: 'BUY A CAR',
+    image: require('../assets/Images/BuyACar.png'),
+    screen: 'CarListing',
+  },
   {
     id: '2',
     title: 'SELL YOUR CAR',
     image: require('../assets/Images/SellYourCar.png'),
+    screen: 'SellYourCar',
   },
   {
     id: '3',
     title: 'CAR COMPARISONS',
     image: require('../assets/Images/CarComparisons.png'),
+    screen: 'CarComparison',
   },
 ];
 
@@ -127,7 +134,10 @@ const Home = () => {
       <Text style={styles.sectionTitle}>Browse Feature</Text>
       <View style={styles.featureRow}>
         {features.map(item => (
-          <TouchableOpacity key={item.id} style={styles.featureCard}>
+          <TouchableOpacity
+            key={item.id}
+            style={styles.featureCard}
+            onPress={() => navigation.navigate(item.screen)}>
             <Image source={item.image} style={styles.featureImage} />
             <Text style={styles.featureText}>{item.title}</Text>
           </TouchableOpacity>
@@ -406,6 +416,8 @@ const styles = ScaledSheet.create({
     width: '35@ms',
     height: '35@ms',
     resizeMode: 'contain',
+    backgroundColor: colors.cardsBackgroundColor,
+    borderRadius: '17.5@ms',
   },
   brandName: {
     fontSize: '10@ms',
