@@ -14,10 +14,11 @@ import {colors} from '../../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {useNavigation} from '@react-navigation/native';
-import {setAccessToken} from '../../utils/storage';
+import {removeAccessToken, removeUserData, setAccessToken, setUserData} from '../../utils/storage';
 import {useUser} from '../../context/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../api';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
@@ -27,73 +28,84 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    const fcmToken = await AsyncStorage.getItem('fcmToken');
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password.');
-      return;
-    }
+  const hideAlert = () => {
+    setShowAlert(false);
+    navigation.navigate('Home');
+  };
 
-    try {
-      const payload = {
-        email: email,
-        password: password,
-        fcm_token: fcmToken,
+  const handleLogin = async () => {
+  const fcmToken = await AsyncStorage.getItem('fcmToken');
+
+  if (!email || !password) {
+    Alert.alert('Error', 'Please enter both email and password.');
+    return;
+  }
+
+  try {
+    const payload = {
+      email: email.trim(),
+      password: password,
+      // fcm_token: fcmToken, 
+    };
+
+    const response = await api.public.post('auth/user/login', payload);
+
+    if (response.data.success === true) {
+      setShowAlert(true);
+
+      
+      const token = response.data.data.token;
+      await setAccessToken(token);
+
+      
+      const user = response.data.data.user;
+
+      const userData = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        status: user.status,
+        guard: user.guard,
+        userType: user.userType,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       };
 
-      const response = await api.public.post('/user/login', payload);
+      updateUser(userData);
 
-      if (response.data.success === true) {
-        setShowAlert(true);
-        const token = response.data.data.access_token;
+      if (rememberMe) {
+        await AsyncStorage.setItem('rememberMe', 'true');
         await setAccessToken(token);
-        //@ts-ignore
-        navigation.navigate('Home');
-
-        const user = response.data.data.user;
-
-        // Prepare user data to be saved
-        const userData = {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          address: user.address,
-          city: user.city,
-          image: user.image,
-          status: user.status
-        };
-
-         updateUser(userData);
+        await setUserData(userData);
       } else {
-        Alert.alert(
-          'Verification Failed',
-          response.data.message || 'Invalid credentials',
-        );
+        await AsyncStorage.setItem('rememberMe', 'false');
+        await removeAccessToken();
+        await removeUserData();
       }
-    } catch (error: any) {
-      if (error.response) {
-        // API responded with an error
-        const status = error.response.status;
-        const errorMessage =
-          error.response.data?.message || 'Login failed. Please try again.';
-
-        Alert.alert('Login Failed', errorMessage);
-        console.error('Login error response:', error.response.data);
-      } else if (error.request) {
-        // No response received
-        Alert.alert(
-          'Network Error',
-          'No response from server. Please check your internet connection.',
-        );
-        console.error('No response received:', error.request);
-      } else {
-        // Something else happened
-        Alert.alert('Error', error.message);
-        console.error('Unexpected login error:', error.message);
-      }
+      //@ts-ignore
+      navigation.navigate('Home');
+    } else {
+      Alert.alert(
+        'Verification Failed',
+        response.data.message || 'Invalid credentials.'
+      );
     }
-  };
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Login error response:', error.response.data);
+      Alert.alert('Login Failed', error.response.data?.message || 'Something went wrong.');
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+      Alert.alert('Network Error', 'No response from server. Please check your internet connection.');
+    } else {
+      console.error('Unexpected login error:', error.message);
+      Alert.alert('Error', error.message);
+    }
+  }
+};
+
 
   return (
     <ImageBackground
@@ -154,6 +166,17 @@ const Login = () => {
         <TouchableOpacity style={styles.signupBtn} onPress={handleLogin}>
           <Text style={styles.signupText}>Login</Text>
         </TouchableOpacity>
+
+        <AwesomeAlert
+        show={showAlert}
+        title="Success"
+        message="Login successfully"
+        closeOnTouchOutside
+        showConfirmButton
+        confirmButtonColor="#000"
+        confirmText="Done"
+        onConfirmPressed={hideAlert}
+      />
 
         {/* Footer */}
         <Text style={styles.footerText}>

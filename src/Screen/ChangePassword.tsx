@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {
   ScaledSheet,
@@ -16,13 +17,76 @@ import {colors} from '../constant/colors';
 import {Secondaryfonts} from '../constant/fonts';
 import Icon from 'react-native-vector-icons/Feather';
 import CountryPicker from 'react-native-country-picker-modal';
+import api from '../api';
 
 const ChangePassword = () => {
   const [editing, setEditing] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
-  
+
+  const validatePassword = () => {
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return false;
+    }
+
+    if (newPassword === currentPassword) {
+      Alert.alert(
+        'Error',
+        'New password cannot be the same as current password.',
+      );
+      return false;
+    }
+
+    if (newPassword.length < 8) {
+      Alert.alert('Error', 'Password must be at least 8 characters long.');
+      return false;
+    }
+
+    // const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
+    // if (!passwordRegex.test(newPassword)) {
+    //   Alert.alert(
+    //     'Error',
+    //     'Password must include at least one number and one special character.'
+    //   );
+    //   return false;
+    // }
+
+    if (newPassword !== confirmNewPassword) {
+      Alert.alert('Error', 'Passwords do not match.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleChangePassword = async () => {
+    if (!validatePassword()) return;
+
+    const payload = {currentPassword, newPassword, confirmNewPassword};
+
+    try {
+      const response = await api.protected.post('user/changePassword', payload);
+      if (response.data.success) {
+        Alert.alert('Success', 'Password changed successfully');
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmNewPassword('');
+      } else {
+        Alert.alert('Error', response.data.message);
+      }
+    } catch (error: any) {
+      console.log(
+        'Password change error:',
+        error.response?.data?.message || error.message,
+      );
+      Alert.alert(
+        'Error',
+        error.response?.data?.message || 'Something went wrong.',
+      );
+    }
+  };
 
   return (
     <ImageBackground
@@ -40,10 +104,7 @@ const ChangePassword = () => {
 
       {/* White Card Section */}
       <View style={styles.card}>
-        
-
         <Text style={styles.title}>Change Your Password</Text>
-
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Current Password</Text>
@@ -73,21 +134,21 @@ const ChangePassword = () => {
             style={styles.input}
             value={confirmNewPassword}
             onChangeText={setConfirmNewPassword}
-            placeholder="Email"
+            placeholder="Confirm New Password"
             placeholderTextColor="#666"
             secureTextEntry
           />
         </View>
-    
 
         {/* Save Button */}
-        
-          <TouchableOpacity
-            style={styles.saveBtn}
-            onPress={() => setEditing(false)}>
-            <Text style={styles.saveText}>Save</Text>
-          </TouchableOpacity>
-        
+
+        <TouchableOpacity
+          style={styles.saveBtn}
+          onPress={() => {
+            setEditing(false), handleChangePassword;
+          }}>
+          <Text style={styles.saveText}>Save</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );

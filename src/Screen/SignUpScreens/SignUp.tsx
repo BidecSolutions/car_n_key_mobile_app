@@ -9,12 +9,18 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
-import {ScaledSheet} from 'react-native-size-matters';
+import {
+  moderateScale,
+  ScaledSheet,
+  verticalScale,
+} from 'react-native-size-matters';
 import {colors} from '../../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
-import {useNavigation} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import api from '../../api';
 import {useUser} from '../../context/UserContext';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const SignUp = () => {
   const navigation = useNavigation();
@@ -28,7 +34,9 @@ const SignUp = () => {
   } | null>(null);
   const [secureText, setSecureText] = useState(true);
   const [confirmPassword, setconfirmPasssword] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
   const [secureConfirmText, setSecureConfirmText] = useState(true);
   const passwordsMatch = password === confirmPassword && password.length > 0;
 
@@ -39,13 +47,16 @@ const SignUp = () => {
   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
   const [showAlert, setShowAlert] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const isFormValid =
-    hasMinLength &&
-    hasUppercase &&
-    hasLowercase &&
-    hasNumber &&
-    hasSpecialChar &&
-    passwordsMatch;
+  // const isFormValid = passwordsMatch;
+
+  const hideAlert = () => {
+    setShowAlert(false);
+    navigation.dispatch(
+      CommonActions.navigate({
+        name: 'Login',
+      }),
+    );
+  };
 
   const handleRegister = async () => {
     // mark that user tried to submit — used to show red borders
@@ -62,36 +73,51 @@ const SignUp = () => {
       Alert.alert('Error', 'Please fill in all the fields.');
       return;
     }
+    if (password !== confirmPassword) {
+      Alert.alert('Password Mismatch', 'Passwords do not match.');
+      return;
+    }
 
-    // 2) Email format validation
+    if (phoneNo.length < 10) {
+      Alert.alert('Error', 'Phone number should contain atleast 10-15 digits');
+      return;
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
       Alert.alert('Validation Error', 'Please enter a valid email address.');
       return;
     }
 
-    if (!isFormValid) {
+    if (!isChecked) {
       Alert.alert(
-        'Password Error',
-        'Please make sure your password meets all requirements and that both passwords match.',
+        'Terms Required',
+        'Please agree to the processing of personal data before signing up.',
       );
       return;
     }
 
+    // if (!isFormValid) {
+    //   Alert.alert(
+    //     'Password Error',
+    //     'Please make sure your password meets all requirements and that both passwords match.',
+    //   );
+    //   return;
+    // }
+
     const payload = {
-      name: name.trim(),
+      firstName: name.trim(),
+      lastName: lastName.trim(),
       email: email.trim(),
       password,
-      confirm_password: confirmPassword,
       phone: phoneNo.trim(),
     };
 
     try {
-      const response = await api.public.post('/user/register', payload);
+      const response = await api.public.post('auth/user/register', payload);
 
       if (response.data.success === true) {
         setShowAlert(true);
-        navigation.navigate('Login');
       } else {
         Alert.alert(
           'Verification Failed',
@@ -135,10 +161,16 @@ const SignUp = () => {
 
         {/* Input Fields */}
         <TextInput
-          placeholder="Your Name"
+          placeholder="First Name"
           style={styles.input}
           value={name}
           onChangeText={setName}
+        />
+        <TextInput
+          placeholder="Last Name"
+          style={styles.input}
+          value={lastName}
+          onChangeText={setLastName}
         />
         <TextInput
           placeholder="Email"
@@ -171,7 +203,26 @@ const SignUp = () => {
 
         {/* Checkbox + Text */}
         <View style={styles.checkboxRow}>
-          <View style={styles.checkbox} />
+          <TouchableOpacity
+            onPress={() => setIsChecked(!isChecked)}
+            activeOpacity={0.7}
+            style={[
+              styles.checkbox,
+              isChecked && {
+                backgroundColor: colors.blue,
+                borderColor: colors.black,
+              }, // blue background
+            ]}>
+            {isChecked && (
+              <Icon
+                name="checkmark"
+                size={moderateScale(10)}
+                color="#fff"
+                style={{alignSelf: 'center'}}
+              />
+            )}
+          </TouchableOpacity>
+
           <Text style={styles.checkboxText}>
             I agree to processing of{' '}
             <Text style={styles.link}>Personal Data</Text>
@@ -182,6 +233,17 @@ const SignUp = () => {
         <TouchableOpacity style={styles.signupBtn} onPress={handleRegister}>
           <Text style={styles.signupText}>Sign Up</Text>
         </TouchableOpacity>
+
+        <AwesomeAlert
+          show={showAlert}
+          title="Success"
+          message="Registered successfully"
+          closeOnTouchOutside
+          showConfirmButton
+          confirmButtonColor="#000"
+          confirmText="Done"
+          onConfirmPressed={hideAlert}
+        />
 
         {/* Footer */}
         <Text style={styles.footerText}>
@@ -212,7 +274,7 @@ const styles = ScaledSheet.create({
   },
   logo: {
     width: '170@ms',
-    height: '170@ms',
+    height: '170@vs',
     marginBottom: '8@vs',
   },
   appName: {
@@ -247,7 +309,7 @@ const styles = ScaledSheet.create({
     borderColor: colors.hind,
     fontFamily: Secondaryfonts.medium,
     borderRadius: '8@ms',
-    paddingVertical: '10@vs',
+    paddingVertical: '8@vs',
     paddingHorizontal: '12@s',
     fontSize: '13@ms',
     marginBottom: '12@vs',
@@ -256,15 +318,18 @@ const styles = ScaledSheet.create({
   checkboxRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: '12@vs',
+    marginVertical: '4@vs',
     alignSelf: 'flex-start',
   },
   checkbox: {
-    width: '16@ms',
-    height: '14@vs',
+    width: moderateScale(16),
+    height: verticalScale(15),
     borderWidth: 1,
     borderColor: colors.black,
-    marginRight: '8@s',
+    marginRight: moderateScale(8),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3,
   },
   checkboxText: {
     fontSize: '12@ms',
@@ -280,7 +345,7 @@ const styles = ScaledSheet.create({
     width: '100%',
     backgroundColor: colors.blue,
     borderRadius: '30@ms',
-    paddingVertical: '12@vs',
+    paddingVertical: '9@vs',
     alignItems: 'center',
     marginTop: '10@vs',
   },
@@ -290,7 +355,7 @@ const styles = ScaledSheet.create({
     color: colors.white,
   },
   footerText: {
-    marginTop: '15@vs',
+    marginTop: '10@vs',
     fontSize: '12@ms',
     color: colors.black,
     fontFamily: Secondaryfonts.medium,

@@ -4,13 +4,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 type AccessToken = string | null;
 export type User = {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
-  address: string;
-  city: string;
-  image: string;
   status: number; 
+  guard: string;
+  userType: string;
+  createdAt: string;
+  updatedAt: string;
 } | null;
 
 const TOKEN_KEY = 'access_token';

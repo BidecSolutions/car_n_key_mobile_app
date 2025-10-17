@@ -83,7 +83,6 @@ import Splash from './Screen/Splash';
 import PersonalInfo from './Screen/PersonalInfo';
 import ChangePassword from './Screen/ChangePassword';
 
-
 export type RootStackParamList = {
   BottomTabs: undefined;
   Home: undefined;
@@ -103,10 +102,10 @@ export type RootStackParamList = {
   FindADealer: undefined;
   DealersInventory: undefined;
   DealersDetail: undefined;
-  TradeInToday:undefined;
-  Login:undefined;
-  SignUp:undefined;
-  ForgetPassword:undefined;
+  TradeInToday: undefined;
+  Login: undefined;
+  SignUp: undefined;
+  ForgetPassword: undefined;
   CarValuation: undefined;
   TradeInProcess: undefined;
   CarXRay: undefined;
@@ -280,11 +279,11 @@ const AppContent = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={'Home'}
+        initialRouteName={user ? 'Home' : 'Login'}
         screenOptions={{
           animation: 'slide_from_right',
         }}>
-          <Stack.Screen
+        <Stack.Screen
           name="Splash"
           component={Splash}
           options={{headerShown: false}}
@@ -319,7 +318,7 @@ const AppContent = () => {
           component={VehicleInspection}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Financing"
           component={Financing}
           options={{headerShown: false}}
@@ -329,12 +328,12 @@ const AppContent = () => {
           component={SellYourCar}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="SellYourCar2"
           component={SellYourCar2}
           options={{headerShown: false}}
         />
-        
+
         <Stack.Screen
           name="ListedSuccess"
           component={ListedSuccess}
@@ -431,7 +430,6 @@ const AppContent = () => {
           options={{headerShown: false}}
         />
       </Stack.Navigator>
-      
     </NavigationContainer>
   );
 };

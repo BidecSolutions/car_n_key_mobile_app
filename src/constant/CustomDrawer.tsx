@@ -25,7 +25,7 @@ import api from '../api';
 import {ASSET_URL} from '.';
 import {UserProfile} from '../types';
 import {Loader} from '../Components/loader/Loader';
-import { Secondaryfonts } from './fonts';
+import {Secondaryfonts} from './fonts';
 
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
@@ -33,6 +33,40 @@ const CustomDrawer = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleLogout = async () => {
+    try {
+      const response = await api.protected.post('auth/user/logout');
+
+      if (response?.data?.success) {
+        logout();
+        Alert.alert('Logout Successful');
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'Login'}],
+          }),
+        );
+      } else {
+        console.warn('⚠️ Logout failed:', response?.data);
+        Alert.alert(
+          'Logout Failed',
+          response?.data?.message ||
+            'An error occurred during logout. Please try again.',
+        );
+      }
+    } catch (error) {
+      console.error(
+        '❌ Logout Error:',
+        error?.response?.data || error?.message || error,
+      );
+      Alert.alert(
+        'Error',
+        error?.response?.data?.message ||
+          'An unexpected error occurred. Check logs for details.',
+      );
+    }
+  };
 
   if (loading) {
     return <Loader />;
@@ -52,7 +86,11 @@ const CustomDrawer = (props: any) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{padding: scale(16)}}>
         <View style={styles.headerContainer}>
-          <Image source={require('../assets/Images/CarnKeyLogo.png')} style={styles.logoContainer} resizeMode='contain'/>
+          <Image
+            source={require('../assets/Images/CarnKeyLogo.png')}
+            style={styles.logoContainer}
+            resizeMode="contain"
+          />
 
           {/* Right arrow button */}
           <TouchableOpacity
@@ -62,7 +100,7 @@ const CustomDrawer = (props: any) => {
               name="chevron-back-outline"
               size={moderateScale(16)}
               color={colors.black}
-              style= {{alignSelf: 'center', right: scale(1)}}
+              style={{alignSelf: 'center', right: scale(1)}}
             />
           </TouchableOpacity>
 
@@ -184,7 +222,7 @@ const CustomDrawer = (props: any) => {
           }
           onPress={() => navigation.navigate('TradeInProcess')}
         />
-          <DrawerButton
+        <DrawerButton
           label="Personal Information"
           icon={
             <Icon name="person-outline" size={moderateScale(20)} color="#000" />
@@ -194,7 +232,11 @@ const CustomDrawer = (props: any) => {
         <DrawerButton
           label="Change Password"
           icon={
-            <Icon name="lock-closed-outline" size={moderateScale(20)} color="#000" />
+            <Icon
+              name="lock-closed-outline"
+              size={moderateScale(20)}
+              color="#000"
+            />
           }
           onPress={() => navigation.navigate('ChangePassword')}
         />
@@ -209,7 +251,7 @@ const CustomDrawer = (props: any) => {
 
         {/* Logout Button */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.logoutButton}>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -247,7 +289,7 @@ const styles = ScaledSheet.create({
     width: moderateScale(110),
     height: verticalScale(40),
     justifyContent: 'flex-start',
-    alignSelf:'flex-start'
+    alignSelf: 'flex-start',
   },
 
   arrowButton: {
@@ -270,7 +312,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     marginBottom: verticalScale(8),
     overflow: 'hidden',
-    top: verticalScale(25)
+    top: verticalScale(25),
   },
 
   avatar: {
