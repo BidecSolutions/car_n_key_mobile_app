@@ -84,7 +84,7 @@ const CustomDrawer = (props: any) => {
       <DrawerContentScrollView
         {...props}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{padding: scale(16)}}>
+        contentContainerStyle={{padding: moderateScale(16)}}>
         <View style={styles.headerContainer}>
           <Image
             source={require('../assets/Images/CarnKeyLogo.png')}
@@ -123,13 +123,13 @@ const CustomDrawer = (props: any) => {
         </View>
 
         {/* Menu Items */}
-        <DrawerButton
+        {/* <DrawerButton
           label="Profile"
           icon={
             <Icon name="person-outline" size={moderateScale(20)} color="#000" />
           }
           onPress={() => navigation.navigate('BottomTabs', {screen: 'Profile'})}
-        />
+        /> */}
 
         <DrawerButton
           label="My Garage"

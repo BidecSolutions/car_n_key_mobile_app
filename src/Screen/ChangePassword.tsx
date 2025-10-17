@@ -8,22 +8,19 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
-import {
-  ScaledSheet,
-  moderateScale,
-  verticalScale,
-} from 'react-native-size-matters';
+import {ScaledSheet, moderateScale, verticalScale} from 'react-native-size-matters';
 import {colors} from '../constant/colors';
 import {Secondaryfonts} from '../constant/fonts';
-import Icon from 'react-native-vector-icons/Feather';
-import CountryPicker from 'react-native-country-picker-modal';
+import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../api';
 
 const ChangePassword = () => {
-  const [editing, setEditing] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const validatePassword = () => {
     if (!currentPassword || !newPassword || !confirmNewPassword) {
@@ -32,10 +29,7 @@ const ChangePassword = () => {
     }
 
     if (newPassword === currentPassword) {
-      Alert.alert(
-        'Error',
-        'New password cannot be the same as current password.',
-      );
+      Alert.alert('Error', 'New password cannot be the same as current password.');
       return false;
     }
 
@@ -64,10 +58,10 @@ const ChangePassword = () => {
   const handleChangePassword = async () => {
     if (!validatePassword()) return;
 
-    const payload = {currentPassword, newPassword, confirmNewPassword};
+    const payload = { currentPassword, newPassword, confirmNewPassword };
 
     try {
-      const response = await api.protected.post('user/changePassword', payload);
+      const response = await api.protected.post('auth/user/changePassword', payload);
       if (response.data.success) {
         Alert.alert('Success', 'Password changed successfully');
         setCurrentPassword('');
@@ -77,14 +71,8 @@ const ChangePassword = () => {
         Alert.alert('Error', response.data.message);
       }
     } catch (error: any) {
-      console.log(
-        'Password change error:',
-        error.response?.data?.message || error.message,
-      );
-      Alert.alert(
-        'Error',
-        error.response?.data?.message || 'Something went wrong.',
-      );
+      console.log('Password change error:', error.response?.data?.message || error.message);
+      Alert.alert('Error', error.response?.data?.message || 'Something went wrong.');
     }
   };
 
@@ -93,7 +81,8 @@ const ChangePassword = () => {
       source={require('../assets/Images/LoginsBackground.jpg')}
       style={styles.container}
       resizeMode="cover">
-      {/* Top Blue Section */}
+      
+      {/* Top Section */}
       <View style={styles.topSection}>
         <Image
           source={require('../assets/Images/LoginsIcon.png')}
@@ -106,47 +95,74 @@ const ChangePassword = () => {
       <View style={styles.card}>
         <Text style={styles.title}>Change Your Password</Text>
 
+        {/* Current Password */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Current Password</Text>
-          <TextInput
-            style={styles.input}
-            value={currentPassword}
-            onChangeText={setCurrentPassword}
-            placeholder="Enter Current Password"
-            placeholderTextColor="#666"
-            secureTextEntry
-          />
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              value={currentPassword}
+              onChangeText={setCurrentPassword}
+              placeholder="Enter Current Password"
+              placeholderTextColor="#666"
+              secureTextEntry={!showCurrent}
+            />
+            <TouchableOpacity onPress={() => setShowCurrent(!showCurrent)}>
+              <Icon
+                name={showCurrent ? 'eye' : 'eye-off'}
+                size={20}
+                color="#000"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
+
+        {/* New Password */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>New Password</Text>
-          <TextInput
-            style={styles.input}
-            value={newPassword}
-            onChangeText={setNewPassword}
-            placeholder="Enter New Password"
-            placeholderTextColor="#666"
-            secureTextEntry
-          />
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              value={newPassword}
+              onChangeText={setNewPassword}
+              placeholder="Enter New Password"
+              placeholderTextColor="#666"
+              secureTextEntry={!showNew}
+            />
+            <TouchableOpacity onPress={() => setShowNew(!showNew)}>
+              <Icon
+                name={showNew ? 'eye' : 'eye-off'}
+                size={20}
+                color="#000"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
+
+        {/* Confirm Password */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Confirm New Password</Text>
-          <TextInput
-            style={styles.input}
-            value={confirmNewPassword}
-            onChangeText={setConfirmNewPassword}
-            placeholder="Confirm New Password"
-            placeholderTextColor="#666"
-            secureTextEntry
-          />
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              value={confirmNewPassword}
+              onChangeText={setConfirmNewPassword}
+              placeholder="Confirm New Password"
+              placeholderTextColor="#666"
+              secureTextEntry={!showConfirm}
+            />
+            <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)}>
+              <Icon
+                name={showConfirm ? 'eye' : 'eye-off'}
+                size={20}
+                color="#000"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Save Button */}
-
-        <TouchableOpacity
-          style={styles.saveBtn}
-          onPress={() => {
-            setEditing(false), handleChangePassword;
-          }}>
+        <TouchableOpacity style={styles.saveBtn} onPress={handleChangePassword}>
           <Text style={styles.saveText}>Save</Text>
         </TouchableOpacity>
       </View>
@@ -214,15 +230,19 @@ const styles = ScaledSheet.create({
     marginBottom: '4@vs',
     fontFamily: Secondaryfonts.medium,
   },
-  input: {
+   inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#00000033',
-    borderRadius: '8@ms',
-    paddingVertical: '8@vs',
-    paddingHorizontal: '12@ms',
-    fontSize: '13@ms',
+    borderColor: '#ccc',
+    borderRadius: '8@s',
+    paddingHorizontal: '10@s',
+  },
+  input: {
+    flex: 1,
+    height: '40@vs',
     color: colors.black,
-    fontFamily: Secondaryfonts.regular,
+    fontFamily:  Secondaryfonts.medium,
   },
   inputHalf: {
     borderWidth: 1,
