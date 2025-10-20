@@ -266,12 +266,12 @@ const styles = ScaledSheet.create({
     borderRadius: '8@ms',
     paddingHorizontal: '8@ms',
     paddingVertical: '8@vs',
-    marginRight: '8@ms',
+    marginRight: '8@s',
   },
   countryCode: {
     fontSize: '13@ms',
     color: '#000',
-    marginLeft: '4@ms',
+    marginLeft: '4@s',
   },
   phoneInput: {
     flex: 1,
@@ -279,7 +279,7 @@ const styles = ScaledSheet.create({
     borderColor: '#00000033',
     borderRadius: '8@ms',
     paddingVertical: '8@vs',
-    paddingHorizontal: '10@ms',
+    paddingHorizontal: '10@s',
     fontSize: '13@ms',
     color: colors.black,
     fontFamily: Secondaryfonts.regular,
