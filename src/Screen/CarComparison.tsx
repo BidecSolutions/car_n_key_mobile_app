@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
-import {ScaledSheet} from 'react-native-size-matters';
+import {moderateScale, ScaledSheet} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../constant/colors'; // adjust import path to your project
 import {Header} from '../Components/Header/Header';
@@ -58,6 +58,7 @@ const CarComparison: React.FC = () => {
         iconColor={colors.black}
         titleColor={colors.black}
       />
+      <Text style= {styles.title}>Car Comparison</Text>
       <Text style={styles.subtitle}>
         Make smarter choices by comparing features, specs, and prices of your
         favorite cars — all in one place.
@@ -103,6 +104,8 @@ const CarComparison: React.FC = () => {
               placeholder="Choose a Make"
               value={make}
               onChange={item => setMake(item.value)}
+              placeholderStyle= {{fontSize: moderateScale(13), fontFamily: Secondaryfonts.medium, color: '#666'}}
+              itemTextStyle= {{fontSize: moderateScale(13), fontFamily: Secondaryfonts.medium, color: colors.black}}
             />
 
             <Dropdown
@@ -114,6 +117,8 @@ const CarComparison: React.FC = () => {
               placeholder="Choose a Model"
               value={model}
               onChange={item => setModel(item.value)}
+              placeholderStyle= {{fontSize: moderateScale(13), fontFamily: Secondaryfonts.medium, color: '#666'}}
+              itemTextStyle= {{fontSize: moderateScale(13), fontFamily: Secondaryfonts.medium, color: colors.black}}
             />
 
             <Dropdown
@@ -125,6 +130,8 @@ const CarComparison: React.FC = () => {
               placeholder="Choose a Year"
               value={year}
               onChange={item => setYear(item.value)}
+              placeholderStyle= {{fontSize: moderateScale(13), fontFamily: Secondaryfonts.medium, color: '#666'}}
+              itemTextStyle= {{fontSize: moderateScale(13), fontFamily: Secondaryfonts.medium, color: colors.black}}
             />
 
             {selectedCar === 1 ? (
@@ -202,10 +209,10 @@ const CarComparison: React.FC = () => {
       {/* small pager / arrows (like screenshot) */}
       <View style={styles.pagerRow}>
         <TouchableOpacity style={styles.pagerBtn}>
-          <Icon name="chevron-left" size={14} color={colors.backgroundColor} />
+          <Icon name="arrow-left" size={16} color={colors.backgroundColor} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.pagerBtn}>
-          <Icon name="chevron-right" size={14} color={colors.white} />
+        <TouchableOpacity style={styles.pagerWhiteBtn}>
+          <Icon name="arrow-right" size={16} color={colors.black} />
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -233,7 +240,7 @@ const styles = ScaledSheet.create({
   },
   subtitle: {
     fontSize: '12@ms',
-    fontFamily: Primaryfonts.medium,
+    fontFamily: Secondaryfonts.medium,
     textAlign: 'center',
     marginTop: '8@vs',
     marginBottom: '14@vs',
@@ -269,7 +276,8 @@ const styles = ScaledSheet.create({
     fontFamily: Secondaryfonts.medium,
   },
   bgWrapper: {
-    marginHorizontal: -18, // cancels padding so image can stretch full width
+    marginHorizontal: -18, 
+    bottom: '60@vs',
   },
 
   dropdownWrapper: {
@@ -362,15 +370,17 @@ const styles = ScaledSheet.create({
 
   bgImageStyle: {
     resizeMode: 'cover',
-    marginTop: '170@vs',
+    marginTop: '130@vs',
   },
 
   sectionTitle: {
     marginTop: '16@vs',
     fontSize: '30@ms',
     fontFamily: Primaryfonts.medium,
-    textAlign: 'left',
+    alignSelf: 'flex-start',
     color: colors.black,
+    marginLeft: '15@s',
+    top: '70@vs'
   },
   sectionDesc: {
     fontSize: '14@ms',
@@ -379,6 +389,7 @@ const styles = ScaledSheet.create({
     color: colors.black,
     marginTop: '8@vs',
     paddingHorizontal: '10@s',
+    top: '70@vs'
   },
 
   cardContainer: {
@@ -432,6 +443,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: '10@s',
+    marginTop: '90@vs',
   },
   vsText: {
     color: colors.white,
@@ -442,8 +454,8 @@ const styles = ScaledSheet.create({
   viewBtn: {
     borderWidth: '1@s',
     borderColor: colors.blue,
-    borderRadius: '22@ms',
-    paddingVertical: '7@vs',
+    borderRadius: '12@ms',
+    paddingVertical: '5@vs',
     paddingHorizontal: '74@s',
   },
   viewText: {
@@ -458,12 +470,23 @@ const styles = ScaledSheet.create({
     marginTop: '12@vs',
   },
   pagerBtn: {
-    width: '86@ms',
+    width: '70@ms',
     height: '26@ms',
     borderRadius: '18@ms',
     backgroundColor: colors.blue,
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: '8@s',
+  },
+  pagerWhiteBtn: {
+    width: '70@ms',
+    height: '26@ms',
+    borderRadius: '18@ms',
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: '8@s',
+    borderWidth: 1,
+    borderColor: colors.black
   },
 });

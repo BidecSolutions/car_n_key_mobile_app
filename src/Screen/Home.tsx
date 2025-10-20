@@ -292,7 +292,7 @@ const Home = () => {
           {/* Right Car */}
           <View style={styles.carBox}>
             <Image
-              source={require('../assets/Images/white.png')}
+              source={require('../assets/Images/right_car.png')}
               style={styles.compareCarImage}
               resizeMode="contain"
             />
