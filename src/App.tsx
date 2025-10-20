@@ -463,7 +463,8 @@ const App = () => {
           barStyle={barStyle}
         />
         <SafeAreaView
-          style={{flex: 1, backgroundColor: colors.backgroundColor}}>
+          style={{flex: 1, backgroundColor: colors.backgroundColor}}
+          edges={[ 'left', 'right', 'bottom']}>
           <UserProvider>
             <AppContent />
             {/* <NotificationHandler/> */}

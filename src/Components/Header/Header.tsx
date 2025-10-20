@@ -89,6 +89,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: scale(10),
     paddingVertical: verticalScale(8),
+    paddingTop: verticalScale(35),
   },
   backButton: {
     flexDirection: 'row',
