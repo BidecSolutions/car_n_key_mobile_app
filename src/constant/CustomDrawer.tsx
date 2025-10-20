@@ -295,7 +295,7 @@ const styles = ScaledSheet.create({
   arrowButton: {
     position: 'absolute',
     top: verticalScale(20),
-    right: scale(25),
+    right: scale(15),
     backgroundColor: colors.white,
     borderRadius: moderateScale(12.5),
     padding: moderateScale(5),
