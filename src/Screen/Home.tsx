@@ -1,6 +1,6 @@
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
-import React, {useState, version} from 'react';
+import React, {useEffect, useState, version} from 'react';
 import {
   View,
   Text,
@@ -18,22 +18,11 @@ import {colors} from '../constant/colors';
 import CarListSection from './DynamicSections/CarListSection';
 import {BlurView} from '@react-native-community/blur';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
-import {DrawerParamList} from '../types';
+import {Brand, DrawerParamList} from '../types';
 import SearchBox from '../Components/SearchBox/SearchBox';
+import {Loader} from '../Components/loader/Loader';
+import { fetchBrands } from '../api/HomeApis/brands';
 
-const topBrands = [
-  {id: '1', name: 'Tesla', icon: require('../assets/Images/TeslaIcon.png')},
-  {
-    id: '2',
-    name: 'Mercedes',
-    icon: require('../assets/Images/MercedesIcon.png'),
-  },
-  {id: '3', name: 'BMW', icon: require('../assets/Images/BMWIcon.png')},
-  {id: '4', name: 'Audi', icon: require('../assets/Images/AudiIcon.png')},
-  {id: '5', name: 'Nissan', icon: require('../assets/Images/NissanIcon.png')},
-  {id: '6', name: 'Nissan', icon: require('../assets/Images/NissanIcon.png')},
-  {id: '7', name: 'Nissan', icon: require('../assets/Images/NissanIcon.png')},
-];
 
 const features = [
   {
@@ -76,6 +65,28 @@ const carCategories = [
 const Home = () => {
   const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
   const [searchText, setSearchText] = useState('');
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getBrands = async () => {
+      try {
+        const data = await fetchBrands();
+        setBrands(data);
+      } catch (error) {
+        console.log('Error fetching brands:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getBrands();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <ScrollView style={styles.container}>
       {/* Header Banner */}
@@ -118,12 +129,19 @@ const Home = () => {
       <Text style={styles.sectionTitle}>Top Brands</Text>
       <FlatList
         horizontal
-        data={topBrands}
-        keyExtractor={item => item.id}
+        data={brands}
+        keyExtractor={item => item.id.toString()}
         contentContainerStyle={styles.brandList}
         renderItem={({item}) => (
           <View style={styles.brandItem}>
-            <Image source={item.icon} style={styles.brandIcon} />
+            <Image
+              source={
+                item.logoUrl
+                  ? {uri: item.logoUrl}
+                  : require('../assets/Images/MercedesIcon.png') // fallback local image
+              }
+              style={styles.brandIcon}
+            />
             <Text style={styles.brandName}>{item.name}</Text>
           </View>
         )}

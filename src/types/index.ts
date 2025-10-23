@@ -59,3 +59,21 @@ export type Dealer = {
   inspection: string;
   pickup: string;
 };
+
+export interface Brand {
+  id: number;
+  name: string;
+  slug: string;
+  country: string;
+  logoUrl: string | null;
+  foundedYear: number | null;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BrandResponse {
+  success: boolean;
+  message: string;
+  data: Brand[];
+}

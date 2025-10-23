@@ -51,8 +51,7 @@ const CustomDrawer = (props: any) => {
         console.warn('⚠️ Logout failed:', response?.data);
         Alert.alert(
           'Logout Failed',
-          response?.data?.message ||
-            'An error occurred during logout. Please try again.',
+          'An error occurred during logout. Please try again.',
         );
       }
     } catch (error) {
