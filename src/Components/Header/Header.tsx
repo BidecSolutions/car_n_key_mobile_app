@@ -1,9 +1,14 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { moderateScale, scale, ScaledSheet, verticalScale } from 'react-native-size-matters';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  moderateScale,
+  scale,
+  ScaledSheet,
+  verticalScale,
+} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { colors } from '../../constant/colors';
-import { Primaryfonts } from '../../constant/fonts';
+import {colors} from '../../constant/colors';
+import {Primaryfonts} from '../../constant/fonts';
 
 type HeaderProps = {
   onBackPress?: () => void;
@@ -39,15 +44,19 @@ export const Header = ({
   titleColor = colors.black,
 }: HeaderProps) => {
   return (
-    <View style={[styles.headerContainer, { backgroundColor }]}>
+    <View style={[styles.headerContainer, {backgroundColor}]}>
       {/* Left side: Back OR Logo */}
       {showBack ? (
         <TouchableOpacity style={styles.backButton} onPress={onBackPress}>
-          <Icon name="chevron-left" size={moderateScale(28)} color={iconColor} />
+          <Icon
+            name="chevron-left"
+            size={moderateScale(28)}
+            color={iconColor}
+          />
         </TouchableOpacity>
       ) : showLogo ? (
         <Image
-          source={require('../../assets/Images/CarnKeyLogo.png')} 
+          source={require('../../assets/Images/CarnKeyLogo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -56,7 +65,9 @@ export const Header = ({
       )}
 
       {/* Title */}
-      {showTitle && <Text style={[styles.title, { color: titleColor }]}>{title}</Text>}
+      {showTitle && (
+        <Text style={[styles.title, {color: titleColor}]}>{title}</Text>
+      )}
 
       {/* Right side: Drawer + Notification/Profile */}
       <View style={styles.rightContainer}>
@@ -67,12 +78,22 @@ export const Header = ({
         )}
 
         {showNotification ? (
-          <TouchableOpacity style={styles.iconButton} onPress={onNotificationPress}>
-            <Icon name="bell-outline" size={moderateScale(24)} color={iconColor} />
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={onNotificationPress}>
+            <Icon
+              name="bell-outline"
+              size={moderateScale(24)}
+              color={iconColor}
+            />
           </TouchableOpacity>
         ) : showProfile ? (
           <TouchableOpacity style={styles.iconButton} onPress={onProfilePress}>
-            <Icon name="account-circle" size={moderateScale(26)} color={iconColor} />
+            <Icon
+              name="account-circle"
+              size={moderateScale(26)}
+              color={iconColor}
+            />
           </TouchableOpacity>
         ) : (
           <View style={styles.iconButton} />

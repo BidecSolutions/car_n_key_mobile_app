@@ -1,4 +1,4 @@
-import { ImageSourcePropType } from "react-native";
+import {ImageSourcePropType} from 'react-native';
 
 export type DrawerParamList = {
   Tabs: undefined;
@@ -26,7 +26,6 @@ export interface UserProfile {
   created_at: string;
   updated_at: string;
 }
-
 
 export type VehicleInfoItem = {
   id: string;
@@ -76,4 +75,13 @@ export interface BrandResponse {
   success: boolean;
   message: string;
   data: Brand[];
+}
+
+export interface BodyType {
+  id: number;
+  name: string;
+  image: string | null;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

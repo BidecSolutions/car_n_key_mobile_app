@@ -18,11 +18,11 @@ import {colors} from '../constant/colors';
 import CarListSection from './DynamicSections/CarListSection';
 import {BlurView} from '@react-native-community/blur';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
-import {Brand, DrawerParamList} from '../types';
+import {BodyType, Brand, DrawerParamList} from '../types';
 import SearchBox from '../Components/SearchBox/SearchBox';
 import {Loader} from '../Components/loader/Loader';
-import { fetchBrands } from '../api/HomeApis/brands';
-
+import {fetchBrands} from '../api/HomeApis/brands';
+import {fetchBodyTypes} from '../api/HomeApis/bodyTypes';
 
 const features = [
   {
@@ -67,21 +67,34 @@ const Home = () => {
   const [searchText, setSearchText] = useState('');
   const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState(true);
+  const [bodyTypes, setBodyTypes] = useState<BodyType[]>([]);
 
   useEffect(() => {
-    const getBrands = async () => {
+    const fetchData = async () => {
       try {
         const data = await fetchBrands();
         setBrands(data);
+        const bodyTypesData = await fetchBodyTypes();
+        setBodyTypes(bodyTypesData);
       } catch (error) {
-        console.log('Error fetching brands:', error);
+        console.log('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    getBrands();
+    fetchData();
   }, []);
+
+  const groupIntoColumns = (data: any[]) => {
+    const columns = [];
+    for (let i = 0; i < data.length; i += 2) {
+      columns.push(data.slice(i, i + 2)); // each column = 2 items (2 rows)
+    }
+    return columns;
+  };
+
+  const groupedData = groupIntoColumns(bodyTypes);
 
   if (loading) {
     return <Loader />;
@@ -119,7 +132,7 @@ const Home = () => {
       {/* Deals Image */}
       <View style={styles.dealCard}>
         <Image
-          source={require('../assets/Images/CarBanner.png')} // 👈 replace with your car image
+          source={require('../assets/Images/CarBanner.png')}
           style={styles.dealImage}
           resizeMode="cover"
         />
@@ -138,7 +151,7 @@ const Home = () => {
               source={
                 item.logoUrl
                   ? {uri: item.logoUrl}
-                  : require('../assets/Images/MercedesIcon.png') // fallback local image
+                  : require('../assets/Images/MercedesIcon.png')
               }
               style={styles.brandIcon}
             />
@@ -169,18 +182,30 @@ const Home = () => {
         If GPS Off Show Trending Car Deal
       </Text>
       <FlatList
-        data={carCategories}
-        numColumns={3}
-        keyExtractor={item => item.id}
+        horizontal
+        data={groupedData}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({item}) => (
-          <View style={styles.carCategoryCard}>
-            <Image source={item.image} style={styles.carCategoryImage} />
-            <Text style={styles.carCategoryText}>{item.name}</Text>
+          <View style={styles.column}>
+            {item.map((car: any) => (
+              <TouchableOpacity key={car.id.toString()} style={{flex: 1}}>
+                <View style={styles.carCategoryCard}>
+                  <Image
+                    source={
+                      car.image
+                        ? {uri: car.image}
+                        : require('../assets/Images/Electric.png')
+                    }
+                    style={styles.carCategoryImage}
+                  />
+                </View>
+                <Text style={styles.carCategoryText}>{car.name}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
         )}
-        scrollEnabled={false}
+        showsHorizontalScrollIndicator={false}
       />
-
       {/* --- New Section: Car Value --- */}
       <View style={styles.carValueContainer}>
         <View style={{flex: 1}}>
@@ -469,24 +494,31 @@ const styles = ScaledSheet.create({
     fontFamily: Secondaryfonts.semibold,
     color: colors.hind,
   },
-  carCategoryCard: {
-    flex: 1,
+  column: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    margin: '10@ms',
+    marginHorizontal: '8@ms',
+  },
+  carCategoryCard: {
+    alignItems: 'center',
     borderRadius: '12@ms',
     backgroundColor: colors.cardsBackgroundColor,
     padding: '10@ms',
+    width: '110@ms', 
   },
   carCategoryImage: {
-    width: '105%',
+    width: '100%',
     height: '115@vs',
     resizeMode: 'contain',
   },
   carCategoryText: {
-    fontSize: '14@ms',
+    fontSize: '13@ms',
     fontFamily: Secondaryfonts.medium,
-    marginTop: '5@vs',
     color: colors.black,
+    textAlign: 'left',
+    marginTop: '3@vs',
+    marginBottom: '7@vs',
   },
   carValueContainer: {
     flexDirection: 'row',

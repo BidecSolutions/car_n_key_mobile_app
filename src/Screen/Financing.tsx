@@ -31,6 +31,7 @@ const Financing: React.FC = () => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
+      <View style= {{padding: moderateScale(16)}}>
       <Header
         showBack={true}
         showDrawer={true}
@@ -39,6 +40,7 @@ const Financing: React.FC = () => {
         iconColor={colors.black}
         titleColor={colors.black}
       />
+      </View>
 
       {/* Title & Subtitle */}
       <Text style={styles.title}>Know Your Buying Power</Text>

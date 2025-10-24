@@ -16,13 +16,15 @@ import {colors} from '../constant/colors';
 import {Secondaryfonts} from '../constant/fonts';
 import Icon from 'react-native-vector-icons/Feather';
 import CountryPicker from 'react-native-country-picker-modal';
+import { useUser } from '../context/UserContext';
 
 const PersonalInfo = () => {
   const [editing, setEditing] = useState(false);
-  const [firstName, setFirstName] = useState('Jack');
-  const [lastName, setLastName] = useState('Warner');
-  const [email, setEmail] = useState('jackwarner@gmail.com');
-  const [phone, setPhone] = useState('(234) 7669 821');
+  const {user} = useUser();
+  const [firstName, setFirstName] = useState(user?.firstName);
+  const [lastName, setLastName] = useState(user?.lastName);
+  const [email, setEmail] = useState(user?.email);
+  const [phone, setPhone] = useState(user?.phone);
   const [countryCode, setCountryCode] = useState('US');
   const [callingCode, setCallingCode] = useState('+1');
   const [countryName, setCountryName] = useState('United States');
@@ -69,7 +71,7 @@ const PersonalInfo = () => {
               editable={editing}
               onChangeText={setFirstName}
               placeholder="First Name"
-              placeholderTextColor="#999"
+              placeholderTextColor="#666"
             />
           </View>
           <View style={[styles.inputContainer, {marginLeft: moderateScale(6)}]}>
@@ -80,7 +82,7 @@ const PersonalInfo = () => {
               editable={editing}
               onChangeText={setLastName}
               placeholder="Last Name"
-              placeholderTextColor="#999"
+              placeholderTextColor="#666"
             />
           </View>
         </View>
@@ -94,7 +96,7 @@ const PersonalInfo = () => {
             onChangeText={setEmail}
             placeholder="Email"
             keyboardType="email-address"
-            placeholderTextColor="#999"
+            placeholderTextColor="#666"
           />
         </View>
 
@@ -145,7 +147,7 @@ const PersonalInfo = () => {
               editable={editing}
               onChangeText={setPhone}
               placeholder="(234) 7669 821"
-              placeholderTextColor="#999"
+              placeholderTextColor="#666"
               keyboardType="phone-pad"
             />
           </View>

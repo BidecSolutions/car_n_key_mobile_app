@@ -1,9 +1,9 @@
 import api from '..';
-import { Brand, BrandResponse } from '../../types';
+import { BodyType } from '../../types';
 
-export const fetchBrands = async (): Promise<Brand[]> => {
+export const fetchBodyTypes = async (): Promise<BodyType[]> => {
   try {
-    const response = await api.public.get<BrandResponse>('brands');
+    const response = await api.public.get('body-types');
     if (response.data.success) {
       return response.data.data;
     } else {
