@@ -6,9 +6,10 @@ import {colors} from '../../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
 import {moderateScale, ms, ScaledSheet, verticalScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const PaymentSuccessfull = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   return (
     <View style={styles.container}>
       <ScrollView

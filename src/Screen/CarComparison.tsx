@@ -57,6 +57,7 @@ const CarComparison: React.FC = () => {
         backgroundColor={colors.backgroundColor}
         iconColor={colors.black}
         titleColor={colors.black}
+        onBackPress={() => navigation.goBack()}
       />
       <Text style= {styles.title}>Car Comparison</Text>
       <Text style={styles.subtitle}>

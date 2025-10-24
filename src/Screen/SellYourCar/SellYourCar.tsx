@@ -29,6 +29,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {TriangleColorPicker} from 'react-native-color-picker';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const colorBox = [
   '#000000',
@@ -45,7 +46,7 @@ const colorBox = [
 const {height} = Dimensions.get('window');
 
 const SellYourCar: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [zipCode, setZipCode] = useState('');
   const [vin, setVin] = useState('');
   const [price, setPrice] = useState('');
@@ -828,12 +829,12 @@ const styles = ScaledSheet.create({
     borderWidth: 1,
     borderColor: colors.hind,
   },
-  closeBtn: {
-    paddingVertical: '10@vs',
-    paddingHorizontal: '20@s',
-    borderRadius: '8@ms',
-    backgroundColor: colors.cardsBackgroundColor,
-  },
+  // closeBtn: {
+  //   paddingVertical: '10@vs',
+  //   paddingHorizontal: '20@s',
+  //   borderRadius: '8@ms',
+  //   backgroundColor: colors.cardsBackgroundColor,
+  // },
   closeBtnText: {
     fontSize: '13@ms',
     color: colors.black,

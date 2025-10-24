@@ -22,9 +22,10 @@ import {colors} from '../constant/colors';
 import {useNavigation} from '@react-navigation/native';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 import {TextInput} from 'react-native-gesture-handler';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const Financing: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState<"info" | "form" | "result">("info");
   return (

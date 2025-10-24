@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import {DrawerContentScrollView} from '@react-navigation/drawer';
+import {DrawerContentScrollView, DrawerNavigationProp} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -28,11 +28,12 @@ import {Loader} from '../Components/loader/Loader';
 import {Secondaryfonts} from './fonts';
 
 const CustomDrawer = (props: any) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const {logout} = useUser();
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const {user} = useUser();
 
   const handleLogout = async () => {
     try {
@@ -54,7 +55,7 @@ const CustomDrawer = (props: any) => {
           'An error occurred during logout. Please try again.',
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(
         '❌ Logout Error:',
         error?.response?.data || error?.message || error,
@@ -117,7 +118,7 @@ const CustomDrawer = (props: any) => {
 
           {/* Username */}
           <Text style={styles.usernameText}>
-            {profile?.name || 'Jack Warner'}
+            {`${user?.firstName}${' '}${user?.lastName}` || 'Jack Warner'}
           </Text>
         </View>
 

@@ -6,9 +6,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Header} from '../../Components/Header/Header';
 import {colors} from '../../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const ListedSuccess: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   return (
     <View style={styles.container}>

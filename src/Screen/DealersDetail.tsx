@@ -13,16 +13,17 @@ import {Header} from '../Components/Header/Header';
 import {colors} from '../constant/colors';
 import {useNavigation} from '@react-navigation/native';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const DealersDetail = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const cars = [
     {id: 1, title: 'BMW 430d', subtitle: 'Coupe M Sport', price: '$ 20,000', image: require('../assets/Images/FinanceCar.png')},
     {id: 2, title: 'BMW 430d', subtitle: 'Coupe M Sport', price: '$ 20,000', image: require('../assets/Images/FinanceCar.png')},
     {id: 3, title: 'BMW 430d', subtitle: 'Coupe M Sport', price: '$ 20,000', image: require('../assets/Images/FinanceCar.png')},
   ];
 
-  const renderCarCard = ({item}) => (
+  const renderCarCard = ({item}: {item: any}) => (
     <View style={styles.card}>
       {/* Car Image Placeholder */}
       <Image source={item.image} style={styles.carImage} />

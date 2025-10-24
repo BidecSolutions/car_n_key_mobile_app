@@ -29,13 +29,14 @@ import {colors} from '../../constant/colors';
 import CarBody from '../DynamicSections/CarBody';
 import CarBodyDiagram from '../DynamicSections/CarBodyDiagram';
 import CarInteriorDiagram from '../DynamicSections/CarInteriorDiagram';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const TradeInProcess = () => {
   const [selectedTab, setSelectedTab] = useState<'tab1' | 'tab2' | 'tab3'>(
     'tab1',
   );
   const [dropdownValue, setDropdownValue] = useState(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [loanType, setLoanType] = useState<'loan' | 'lease' | null>(null);
   const [payment, setPayment] = useState<'Yes' | 'No' | null>(null);
   const [selectedColors, setSelectedColors] = useState<{

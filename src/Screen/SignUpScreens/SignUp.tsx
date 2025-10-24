@@ -21,9 +21,10 @@ import api from '../../api';
 import {useUser} from '../../context/UserContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const SignUp = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNo, setPhoneNo] = useState<string>('');

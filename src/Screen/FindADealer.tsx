@@ -17,6 +17,7 @@ import {Image} from 'react-native-animatable';
 import FindDealersFilter from '../Components/modals/FindDealersFilter';
 import {Header} from '../Components/Header/Header';
 import {useNavigation} from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const dealers = [
   {
@@ -44,7 +45,7 @@ const dealers = [
 const FindADealer: React.FC = () => {
   const [search, setSearch] = useState('');
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   const renderDealerCard = (item: (typeof dealers)[0]) => (
     <TouchableOpacity onPress={() => navigation.navigate('DealersDetail')}>

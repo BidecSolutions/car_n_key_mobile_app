@@ -13,10 +13,11 @@ import {colors} from '../../constant/colors';
 import {Header} from '../../Components/Header/Header';
 import {useNavigation} from '@react-navigation/native';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const SellYourCar2: React.FC = () => {
   const [selected, setSelected] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   return (
     <View style={styles.container}>

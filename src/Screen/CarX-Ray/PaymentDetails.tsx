@@ -15,10 +15,11 @@ import {useNavigation} from '@react-navigation/native';
 import {colors} from '../../constant/colors';
 import {Secondaryfonts} from '../../constant/fonts';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const PaymentDetails = () => {
   const [saveCard, setSaveCard] = useState(true);
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   return (
     <ScrollView

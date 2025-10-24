@@ -25,6 +25,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Secondaryfonts, Primaryfonts} from '../../constant/fonts';
 import Svg, {Circle, Path} from 'react-native-svg';
 import {LineChart} from 'react-native-chart-kit';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const recallInfo = [
   {
@@ -170,7 +171,7 @@ const equipment = [
 const screenWidth = Dimensions.get('window').width - scale(80);
 
 const CarReport = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [form, setForm] = useState({
     vin: '',
     carClass: '',
@@ -714,7 +715,7 @@ const CarReport = () => {
 
           {/* --- Filter Buttons --- */}
           <View style={styles.filterContainer}>
-            {['Forecast', 'All', '1yr', '6mo', '3mo'].map(item => (
+            {['Forecast', 'All', '1yr', '6mo', '3mo'].map((item: any) => (
               <TouchableOpacity
                 key={item}
                 onPress={() => setSelectedRange(item)}

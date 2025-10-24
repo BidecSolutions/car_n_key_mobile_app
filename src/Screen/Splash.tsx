@@ -13,9 +13,10 @@ import {ScaledSheet, verticalScale} from 'react-native-size-matters';
 import {colors} from '../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 import {useNavigation} from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const Splash = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   
   useEffect(() => {
     const timer = setTimeout(() => {

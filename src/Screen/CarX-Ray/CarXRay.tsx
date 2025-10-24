@@ -20,9 +20,10 @@ import {
 import {Secondaryfonts} from '../../constant/fonts';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Animated} from 'react-native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const CarXRay = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [activeTab, setActiveTab] = useState<'recent' | 'all' >(
     'recent',
   );

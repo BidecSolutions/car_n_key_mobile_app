@@ -23,6 +23,7 @@ import {Review, Salesperson, VehicleInfoItem} from '../types';
 import CustomizePayment from '../Components/modals/CustomizePayment';
 import ContactDealer from '../Components/modals/ContactDealer';
 import { Primaryfonts, Secondaryfonts } from '../constant/fonts';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const {width} = Dimensions.get('window');
 
@@ -117,7 +118,7 @@ const reviews: Review[] = [
 
 
 const CarDetail = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [activeIndex, setActiveIndex] = useState(0);
   const [showVehicleInfo, setShowVehicleInfo] = useState(false);
   const [showCarFeatures, setShowCarFeatures] = useState(false);

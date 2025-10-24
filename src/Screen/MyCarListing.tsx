@@ -12,9 +12,10 @@ import {colors} from '../constant/colors';
 import {Header} from '../Components/Header/Header';
 import {useNavigation} from '@react-navigation/native';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const MyCarListing: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   // Dummy data for now, later you’ll replace with API response
   const carListings = [

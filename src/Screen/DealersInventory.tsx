@@ -14,6 +14,7 @@ import { Header } from "../Components/Header/Header";
 import { colors } from "../constant/colors";
 import { Primaryfonts, Secondaryfonts } from "../constant/fonts";
 import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 
 interface CarData {
   id: string;
@@ -31,7 +32,7 @@ interface CarData {
 const DealersInventory = () => {
   const [searchText, setSearchText] = useState("");
   const [sortOrder, setSortOrder] = useState<"highest" | "lowest">("highest");
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const data: CarData[] = [
     {
       id: "1",

@@ -19,6 +19,7 @@ import {colors} from '../constant/colors';
 import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {PermissionsAndroid, Platform} from 'react-native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const VehicleInspection = () => {
   const [activeTab, setActiveTab] = useState<'inspection' | 'confirm'>(
@@ -34,7 +35,7 @@ const VehicleInspection = () => {
   const [termsMarked, setTermsMarked] = useState(false);
   const [atMyHomeSelected, setAtMyHomeSelected] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   const dropdownData = [
     {label: 'Select Date', value: '1'},

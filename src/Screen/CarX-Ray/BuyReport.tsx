@@ -12,10 +12,11 @@ import {Header} from '../../Components/Header/Header';
 import {useNavigation} from '@react-navigation/native';
 import {colors} from '../../constant/colors';
 import { Primaryfonts, Secondaryfonts } from '../../constant/fonts';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const BuyReport = () => {
   const [selectedPayment, setSelectedPayment] = useState('credit');
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   const renderPaymentOption = (id: string, label: string, iconName: string) => (
     <TouchableOpacity

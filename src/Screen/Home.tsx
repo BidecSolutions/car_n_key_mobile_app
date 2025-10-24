@@ -151,7 +151,7 @@ const Home = () => {
       {/* Browse Feature */}
       <Text style={styles.sectionTitle}>Browse Feature</Text>
       <View style={styles.featureRow}>
-        {features.map(item => (
+        {features.map((item: any) => (
           <TouchableOpacity
             key={item.id}
             style={styles.featureCard}
@@ -382,7 +382,7 @@ const styles = ScaledSheet.create({
     marginTop: '-35@vs',
     marginHorizontal: '15@s',
     borderRadius: '12@s',
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
   dealImage: {
     width: '115%',

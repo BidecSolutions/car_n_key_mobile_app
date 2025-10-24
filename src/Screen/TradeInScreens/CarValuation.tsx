@@ -14,6 +14,7 @@ import {Header} from '../../Components/Header/Header';
 import {useNavigation} from '@react-navigation/native';
 import {Primaryfonts, Secondaryfonts} from '../../constant/fonts';
 import SearchBox from '../../Components/SearchBox/SearchBox';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const cars = [
   {
@@ -43,7 +44,7 @@ const cars = [
 ];
 
 const CarValuation = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [searchText, setSearchText] = useState('');
 
   const renderItem = ({item}: {item: (typeof cars)[0]}) => (
@@ -93,6 +94,7 @@ const CarValuation = () => {
         backgroundColor={colors.backgroundColor}
         iconColor={colors.black}
         titleColor={colors.black}
+        onBackPress={() => navigation.goBack()}
       />
 
       <Text style={styles.title}>Ask For Valuation</Text>

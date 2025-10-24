@@ -6,9 +6,10 @@ import {Primaryfonts, Secondaryfonts} from '../constant/fonts';
 import {colors} from '../constant/colors';
 import {Header} from '../Components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const CarListingDetail: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [isEnabled, setIsEnabled] = useState(true);
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
